@@ -8,5 +8,6 @@ namespace Client
 {
     public class Class1
     {
+        private String s = "hest";
     }
 }
