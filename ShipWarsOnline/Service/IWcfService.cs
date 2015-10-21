@@ -4,10 +4,10 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.IdentityModel.Tokens;
 
 namespace Service
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IWcfService" in both code and config file together.
     [ServiceContract]
     public interface IWcfService
     {
@@ -15,9 +15,10 @@ namespace Service
         string GetData(int value);
 
         [OperationContract]
-        int DoMath(int a, int b);
+        int DoMath(String tokenID, int a, int b);
 
-        // TODO: Add your service operations here
+        [OperationContract]
+        String Login(String username, String password);
     }
 
 

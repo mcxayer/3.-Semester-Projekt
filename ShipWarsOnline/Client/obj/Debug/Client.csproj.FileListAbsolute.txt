@@ -9,3 +9,11 @@ c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Client\obj\D
 C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe.config
 C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
 C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe.config
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.pdb
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Service.dll
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Service.pdb
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache

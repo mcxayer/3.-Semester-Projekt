@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using Service;
+using System.IdentityModel.Tokens;
 
 namespace Client
 {
@@ -13,7 +14,26 @@ namespace Client
             IWcfService proxy = channelfactory.CreateChannel();
 
             Console.WriteLine("Dette er Clienten");
-            Console.WriteLine(proxy.DoMath(4, 8));
+
+            String tokenID = null;
+            try
+            {
+                tokenID = proxy.Login("username", "password");
+                if (String.IsNullOrEmpty(tokenID))
+                {
+                    Console.WriteLine("Kunne ikke logge ind!");
+                    return;
+                }
+
+                Console.WriteLine("Logget ind med token id: " + tokenID);
+            }
+            catch (CommunicationException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            int math = proxy.DoMath(tokenID, 4, 8);
+            Console.WriteLine("4 + 8 = " + math);
             Console.ReadLine();
         }
     }
