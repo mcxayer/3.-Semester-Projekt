@@ -1,0 +1,11 @@
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Server\bin\Debug\Server.exe.config
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Server\bin\Debug\Server.exe
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Server\bin\Debug\Server.pdb
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Server\bin\Debug\Service.dll
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Server\bin\Debug\Service.pdb
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Server\obj\Debug\Server.exe
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Server\obj\Debug\Server.pdb
+C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\Server.exe.config
+C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Server\obj\Debug\Server.exe
+C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Server\obj\Debug\Server.pdb

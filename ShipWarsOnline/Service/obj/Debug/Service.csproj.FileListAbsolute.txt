@@ -1,0 +1,6 @@
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Service\bin\Debug\Service.dll.config
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Service\bin\Debug\Service.dll
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Service\bin\Debug\Service.pdb
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Service\obj\Debug\Service.dll
+c:\users\klaus\documents\visual studio 2015\Projects\ShipWarsOnline\Service\obj\Debug\Service.pdb
