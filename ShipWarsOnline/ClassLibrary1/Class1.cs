@@ -4,15 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Client
+namespace ClassLibrary1
 {
     public class Class1
     {
-        private String s = "hest";
-
-        static void Main(string[] args)
-        {
-
-        }
     }
 }
