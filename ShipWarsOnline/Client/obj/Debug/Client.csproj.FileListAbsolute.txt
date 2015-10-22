@@ -17,3 +17,5 @@ C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projek
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Service.dll
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Service.pdb
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Npgsql.dll
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Npgsql.xml

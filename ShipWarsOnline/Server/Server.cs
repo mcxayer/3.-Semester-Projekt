@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using Service;
+using System.Security.Cryptography;
 
 namespace Server
 {
@@ -14,6 +15,10 @@ namespace Server
             server.Open();
 
             Console.WriteLine("Dette er Serveren");
+
+            SHA256 sha256Encryption = SHA256.Create();
+            DatabaseFacade.Instance.AddUser(DatabaseFacade.GetHashedString(sha256Encryption, "TestUser"), DatabaseFacade.GetHashedString(sha256Encryption, "MySecretPassword"));
+
             Console.ReadLine();
         }
 

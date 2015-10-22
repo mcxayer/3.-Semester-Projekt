@@ -12,14 +12,11 @@ namespace Service
 {
     public class WcfService : IWcfService
     {
-        private static Dictionary<String, SecurityToken> tokens;
+        private static Dictionary<String, UserNameSecurityToken> tokens;
 
         static WcfService()
         {
-            tokens = new Dictionary<String, SecurityToken>();
-
-            //SHA256 sha256Encryption = SHA256.Create();
-            //DatabaseFacade.Instance.AddUser(GetHashedString(sha256Encryption, "TestUser"), GetHashedString(sha256Encryption, "MySecretPassword"));
+            tokens = new Dictionary<String, UserNameSecurityToken>();
         }
 
         public string GetData(int value)
@@ -36,31 +33,18 @@ namespace Service
         {
             SHA256 sha256Encryption = SHA256.Create();
 
-            string usernameHash = GetHashedString(sha256Encryption, username);
-            string passwordHash = GetHashedString(sha256Encryption, password);
+            string usernameHash = DatabaseFacade.GetHashedString(sha256Encryption, username);
+            string passwordHash = DatabaseFacade.GetHashedString(sha256Encryption, password);
 
-            //if (!DatabaseFacade.Instance.Verify(usernameHash, passwordHash))
-            //{
-            //    return null;
-            //}
+            if (!DatabaseFacade.Instance.Verify(usernameHash, passwordHash))
+            {
+                return null;
+            }
 
-            SecurityToken token = new UserNameSecurityToken(usernameHash, passwordHash);
+            UserNameSecurityToken token = new UserNameSecurityToken(usernameHash, passwordHash);
             tokens.Add(token.Id, token);
 
             return token.Id;
-        }
-
-        private String GetHashedString(HashAlgorithm hashAlgorithm, String s)
-        {
-            byte[] sHash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(s));
-
-            StringBuilder hashSB = new StringBuilder();
-            for (int i = 0; i < sHash.Length; i++)
-            {
-                hashSB.Append(sHash[i]);
-            }
-
-            return hashSB.ToString();
         }
 
         private bool VerifyToken(String tokenId)
@@ -76,6 +60,8 @@ namespace Service
             }
 
             // Check time here
+
+            // Check against username
 
             return true;
         }

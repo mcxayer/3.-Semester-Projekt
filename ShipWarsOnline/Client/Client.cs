@@ -11,6 +11,8 @@ namespace Client
         static void Main(string[] args)
         {
             ChannelFactory<IWcfService> channelfactory = new ChannelFactory<IWcfService>("WcfServiceEndpoint");
+            //channelfactory.Credentials.UserName.UserName = "username";
+            //channelfactory.Credentials.UserName.Password = "password";
             IWcfService proxy = channelfactory.CreateChannel();
 
             Console.WriteLine("Dette er Clienten");
@@ -32,8 +34,8 @@ namespace Client
                 Console.WriteLine(ex.ToString());
             }
 
-            int math = proxy.DoMath(tokenID, 4, 8);
-            Console.WriteLine("4 + 8 = " + math);
+            //int math = proxy.DoMath(tokenID, 4, 8);
+            //Console.WriteLine("4 + 8 = " + math);
             Console.ReadLine();
         }
     }

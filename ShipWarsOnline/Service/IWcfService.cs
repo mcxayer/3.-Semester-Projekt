@@ -20,6 +20,4 @@ namespace Service
         [OperationContract]
         String Login(String username, String password);
     }
-
-
 }

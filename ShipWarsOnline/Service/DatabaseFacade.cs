@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 
 namespace Service
@@ -11,10 +14,16 @@ namespace Service
         public static readonly DatabaseFacade Instance = new DatabaseFacade();
 
         private static String connectionString = "user id=group_4;" +
-                                       "password=EC2yRDFn;server=tek-mmmi-db0a.tek.c.sdu.dk:5432;" +
+                                       "password=EC2yRDFn;" +
+                                       "server=tek-mmmi-db0a.tek.c.sdu.dk:5432;" +
                                        "Trusted_Connection=yes;" +
                                        "database=group_4_db; " +
                                        "connection timeout=30";
+
+        private static String testConnectionString = "user id=postgres;" +
+                                                     "password=test1234;" +
+                                                     "server=localhost;" +
+                                                     "database=ShipWarsOnlineTestDatabase; ";
 
         private DatabaseFacade()
         {
@@ -23,29 +32,24 @@ namespace Service
         // Kun oprettet for at teste systemet. Vil formentlig fjernes i fremtiden.
         public void AddUser(String usernameHash, String passwordHash)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
+
+                    //Parametre tilføjes for at undgå SQL-injection!
+                    using (NpgsqlCommand insertCommand = new NpgsqlCommand())
+                    {
+                        insertCommand.CommandText = "INSERT INTO users VALUES (@username,@password)";
+                        insertCommand.Connection = connection;
+                        insertCommand.Parameters.Add(new NpgsqlParameter("@username", usernameHash));
+                        insertCommand.Parameters.Add(new NpgsqlParameter("@password", passwordHash));
+                    }
                 }
                 catch (SqlException ex)
                 {
                     Console.WriteLine(ex.ToString());
-                }
-
-                if (connection.State != System.Data.ConnectionState.Open)
-                {
-                    return;
-                }
-
-                // Parametre tilføjes for at undgå SQL-injection!
-                using (SqlCommand insertCommand = connection.CreateCommand())
-                {
-                    insertCommand.CommandText = "INSERT INTO users VALUES (@username,@password)";
-                    insertCommand.Parameters.Add(new SqlParameter("@username", usernameHash));
-                    insertCommand.Parameters.Add(new SqlParameter("@password", passwordHash));
-                    insertCommand.ExecuteNonQuery();
                 }
             }
         }
@@ -60,43 +64,47 @@ namespace Service
                 return false;
             }
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             {
                 try
                 {
                     connection.Open();
+
+                    // http://www.codeproject.com/Articles/4416/Beginners-guide-to-accessing-SQL-Server-through-C
+
+                    using (NpgsqlCommand fetchCommand = new NpgsqlCommand())
+                    {
+                        fetchCommand.CommandText = "SELECT password FROM users WHERE @username = username";
+                        fetchCommand.Connection = connection;
+                        fetchCommand.Parameters.Add(new NpgsqlParameter("@username", usernameHash));
+                        NpgsqlDataReader reader = fetchCommand.ExecuteReader();
+
+                        if (reader.HasRows && !reader.GetString(0).Equals(passwordHash))
+                        {
+                            return false;
+                        }
+                    }
                 }
                 catch(SqlException ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
-
-                if(connection.State != System.Data.ConnectionState.Open)
-                {
-                    return false;
-                }
-
-                // http://www.codeproject.com/Articles/4416/Beginners-guide-to-accessing-SQL-Server-through-C
-
-                using (SqlCommand fetchCommand = connection.CreateCommand())
-                {
-                    fetchCommand.CommandText = "SELECT password FROM users WHERE @username = username";
-                    fetchCommand.Parameters.Add(new SqlParameter("@username", usernameHash));
-                    SqlDataReader reader = fetchCommand.ExecuteReader();
-
-                    if (!reader.GetString(0).Equals(usernameHash))
-                    {
-                        return false;
-                    }
-
-                    if (!reader.GetString(1).Equals(passwordHash))
-                    {
-                        return false;
-                    }
-                }
             }
 
             return true;
+        }
+
+        public static String GetHashedString(HashAlgorithm hashAlgorithm, String s)
+        {
+            byte[] sHash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(s));
+
+            StringBuilder hashSB = new StringBuilder();
+            for (int i = 0; i < sHash.Length; i++)
+            {
+                hashSB.Append(sHash[i]);
+            }
+
+            return hashSB.ToString();
         }
     }
 }
