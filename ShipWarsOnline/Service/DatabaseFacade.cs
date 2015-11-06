@@ -11,27 +11,38 @@ namespace Service
 {
     public class DatabaseFacade
     {
-        public static readonly DatabaseFacade Instance = new DatabaseFacade();
+        //private static String connectionString = "user id=group_4;" +
+        //                               "password=EC2yRDFn;" +
+        //                               "server=tek-mmmi-db0a.tek.c.sdu.dk;" +
+        //                               "database=group_4_db; ";
 
-        private static String connectionString = "user id=group_4;" +
-                                       "password=EC2yRDFn;" +
-                                       "server=tek-mmmi-db0a.tek.c.sdu.dk:5432;" +
-                                       "Trusted_Connection=yes;" +
-                                       "database=group_4_db; " +
-                                       "connection timeout=30";
+        //private static String testConnectionString = "user id=postgres;" +
+        //                                             "password=test1234;" +
+        //                                             "server=localhost;" +
+        //                                             "database=ShipWarsOnlineTestDatabase;" +
+        //                                             "ssl=true;" +
+        //                                             "sslmode=require";
 
-        private static String testConnectionString = "user id=postgres;" +
-                                                     "password=test1234;" +
-                                                     "server=localhost;" +
-                                                     "database=ShipWarsOnlineTestDatabase; ";
+        private RNGCryptoServiceProvider rngCSP;
+        private String connectionString;
 
-        private DatabaseFacade()
+        public DatabaseFacade(String connectionString)
         {
+            this.connectionString = connectionString;
         }
 
-        // Kun oprettet for at teste systemet. Vil formentlig fjernes i fremtiden.
-        public void AddUser(String usernameHash, String passwordHash)
+        public void AddUser(String usernameHash, String passwordHash, String saltString)
         {
+            if(String.IsNullOrEmpty(usernameHash))
+            {
+                throw new ArgumentException("usernameHash is null or empty!");
+            }
+
+            if (String.IsNullOrEmpty(passwordHash))
+            {
+                throw new ArgumentException("passwordHash is null or empty!");
+            }
+
             using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             {
                 try
@@ -41,10 +52,12 @@ namespace Service
                     //Parametre tilføjes for at undgå SQL-injection!
                     using (NpgsqlCommand insertCommand = new NpgsqlCommand())
                     {
-                        insertCommand.CommandText = "INSERT INTO users VALUES (@username,@password)";
+                        insertCommand.CommandText = "INSERT INTO users VALUES (@username,@password,@salt)";
                         insertCommand.Connection = connection;
                         insertCommand.Parameters.Add(new NpgsqlParameter("@username", usernameHash));
                         insertCommand.Parameters.Add(new NpgsqlParameter("@password", passwordHash));
+                        insertCommand.Parameters.Add(new NpgsqlParameter("@salt", saltString));
+                        insertCommand.ExecuteNonQuery();
                     }
                 }
                 catch (SqlException ex)
@@ -92,19 +105,6 @@ namespace Service
             }
 
             return true;
-        }
-
-        public static String GetHashedString(HashAlgorithm hashAlgorithm, String s)
-        {
-            byte[] sHash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(s));
-
-            StringBuilder hashSB = new StringBuilder();
-            for (int i = 0; i < sHash.Length; i++)
-            {
-                hashSB.Append(sHash[i]);
-            }
-
-            return hashSB.ToString();
         }
     }
 }

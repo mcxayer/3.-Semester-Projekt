@@ -2,6 +2,8 @@
 using System.ServiceModel;
 using Service;
 using System.IdentityModel.Tokens;
+using System.Net.Sockets;
+using System.Text;
 
 namespace Client
 {
@@ -34,8 +36,11 @@ namespace Client
                 Console.WriteLine(ex.ToString());
             }
 
-            //int math = proxy.DoMath(tokenID, 4, 8);
-            //Console.WriteLine("4 + 8 = " + math);
+            if(proxy.Logout(tokenID))
+            {
+                Console.WriteLine("Logget ud!");
+            }
+
             Console.ReadLine();
         }
     }

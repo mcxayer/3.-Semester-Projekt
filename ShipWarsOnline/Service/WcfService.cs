@@ -8,15 +8,19 @@ using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 
+// http://www.codeproject.com/KB/WCF/WCFWPFChat.aspx?msg=3513805
+// http://gamedev.stackexchange.com/questions/46575/how-should-multiplayer-games-handle-authentication
 namespace Service
 {
     public class WcfService : IWcfService
     {
         private static Dictionary<String, UserNameSecurityToken> tokens;
+        private static RNGCryptoServiceProvider rngCSP;
 
         static WcfService()
         {
             tokens = new Dictionary<String, UserNameSecurityToken>();
+            rngCSP = new RNGCryptoServiceProvider();
         }
 
         public string GetData(int value)
@@ -29,22 +33,28 @@ namespace Service
             return VerifyToken(tokenId) ? a + b : -1;
         }
 
+        // En bruger identificeres ud fra salted usernameHash, salted passwordHash og salted tokenId
+        // http://www.codeproject.com/Articles/704865/Salted-Password-Hashing-Doing-it-Right
         public String Login(string username, string password)
         {
             SHA256 sha256Encryption = SHA256.Create();
+            String saltString = SecurityTokenService.Instance.GenerateSaltString();
 
-            string usernameHash = DatabaseFacade.GetHashedString(sha256Encryption, username);
-            string passwordHash = DatabaseFacade.GetHashedString(sha256Encryption, password);
+            string usernameHash = SecurityTokenService.GetHashedString(sha256Encryption, username + saltString);
+            string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, password + saltString);
 
-            if (!DatabaseFacade.Instance.Verify(usernameHash, passwordHash))
+            if (!DomainFacade.Instance.DatabaseAccess.Verify(usernameHash, passwordHash))
             {
                 return null;
             }
 
-            UserNameSecurityToken token = new UserNameSecurityToken(usernameHash, passwordHash);
-            tokens.Add(token.Id, token);
+            return SecurityTokenService.Instance.GenerateToken(usernameHash, passwordHash);
+        }
 
-            return token.Id;
+        public bool Logout(string tokenId)
+        {
+            SecurityTokenService.Instance.ExpireToken(tokenId);
+            return true;
         }
 
         private bool VerifyToken(String tokenId)

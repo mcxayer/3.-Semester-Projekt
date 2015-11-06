@@ -2,10 +2,12 @@
 using System.ServiceModel;
 using Service;
 using System.Security.Cryptography;
+using System.Net.Sockets;
+using System.Net;
+using System.IO;
 
 namespace Server
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Server" in both code and config file together.
     public class Server
     {
 
@@ -17,7 +19,14 @@ namespace Server
             Console.WriteLine("Dette er Serveren");
 
             SHA256 sha256Encryption = SHA256.Create();
-            DatabaseFacade.Instance.AddUser(DatabaseFacade.GetHashedString(sha256Encryption, "TestUser"), DatabaseFacade.GetHashedString(sha256Encryption, "MySecretPassword"));
+            String saltString = SecurityTokenService.Instance.GenerateSaltString();
+
+            string usernameHash = SecurityTokenService.GetHashedString(sha256Encryption, "TestUser" + saltString);
+            string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, "MySecretPassword" + saltString);
+            DomainFacade.Instance.DatabaseAccess.AddUser(usernameHash, passwordHash, saltString);
+
+            // http://www.codeproject.com/Articles/37496/TCP-IP-Protocol-Design-Message-Framing
+            // http://blogs.msdn.com/b/joncole/archive/2006/03/20/simple-message-framing-sample-for-tcp-socket.aspx
 
             Console.ReadLine();
         }
