@@ -10,16 +10,15 @@ C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\C
 C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
 C:\Users\Klaus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe.config
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.pdb
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Service.dll
-C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Types.dll
-C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\EntityFramework.dll
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Service.pdb
-C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Types.pdb
-C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\EntityFramework.xml
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
-C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
-C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
-C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Database.mdf
-C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Database_log.ldf
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Npgsql.dll
+C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Npgsql.xml
+C:\Users\Rasmus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe.config
+C:\Users\Rasmus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
+C:\Users\Rasmus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
