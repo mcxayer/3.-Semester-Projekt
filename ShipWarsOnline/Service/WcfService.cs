@@ -14,41 +14,20 @@ namespace Service
 {
     public class WcfService : IWcfService
     {
-        private static Dictionary<String, UserNameSecurityToken> tokens;
+        private static Dictionary<string, UserNameSecurityToken> tokens;
         private static RNGCryptoServiceProvider rngCSP;
 
         static WcfService()
         {
-            tokens = new Dictionary<String, UserNameSecurityToken>();
+            tokens = new Dictionary<string, UserNameSecurityToken>();
             rngCSP = new RNGCryptoServiceProvider();
-        }
-
-        public string GetData(int value)
-        {
-            return string.Format("You entered: {0}", value);
-        }
-
-        public int DoMath(String tokenId, int a, int b)
-        {
-            return VerifyToken(tokenId) ? a + b : -1;
         }
 
         // En bruger identificeres ud fra salted usernameHash, salted passwordHash og salted tokenId
         // http://www.codeproject.com/Articles/704865/Salted-Password-Hashing-Doing-it-Right
-        public String Login(string username, string password)
+        public string Login(string username, string password, string email)
         {
-            SHA256 sha256Encryption = SHA256.Create();
-            String saltString = SecurityTokenService.Instance.GenerateSaltString();
-
-            string usernameHash = SecurityTokenService.GetHashedString(sha256Encryption, username + saltString);
-            string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, password + saltString);
-
-            if (!DomainFacade.Instance.DatabaseAccess.Verify(usernameHash, passwordHash))
-            {
-                return null;
-            }
-
-            return SecurityTokenService.Instance.GenerateToken(usernameHash, passwordHash);
+            return DomainFacade.Instance.Login(username, password, email);
         }
 
         public bool Logout(string tokenId)
@@ -57,21 +36,25 @@ namespace Service
             return true;
         }
 
-        private bool VerifyToken(String tokenId)
+        public bool CreateAccount(string username, string password, string email)
         {
-            if(String.IsNullOrEmpty(tokenId))
+            if (string.IsNullOrEmpty(username))
             {
-                return false;
+                throw new ArgumentException("username is null or empty!");
             }
 
-            if(!tokens.ContainsKey(tokenId))
+            if (string.IsNullOrEmpty(password))
             {
-                return false;
+                throw new ArgumentException("password is null or empty!");
             }
 
-            // Check time here
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentException("email is null or empty!");
+            }
 
-            // Check against username
+
+            DomainFacade.Instance.CreateAccount(username, password, email);
 
             return true;
         }

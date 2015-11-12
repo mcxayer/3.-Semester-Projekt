@@ -18,13 +18,6 @@ namespace Server
 
             Console.WriteLine("Dette er Serveren");
 
-            SHA256 sha256Encryption = SHA256.Create();
-            String saltString = SecurityTokenService.Instance.GenerateSaltString();
-
-            string usernameHash = SecurityTokenService.GetHashedString(sha256Encryption, "TestUser" + saltString);
-            string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, "MySecretPassword" + saltString);
-            DomainFacade.Instance.DatabaseAccess.AddUser(usernameHash, passwordHash, saltString);
-
             // http://www.codeproject.com/Articles/37496/TCP-IP-Protocol-Design-Message-Framing
             // http://blogs.msdn.com/b/joncole/archive/2006/03/20/simple-message-framing-sample-for-tcp-socket.aspx
 

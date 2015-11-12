@@ -19,13 +19,19 @@ namespace Client
 
             Console.WriteLine("Dette er Clienten");
 
+            if (proxy.CreateAccount("hej", "med", "dig"))
+            {
+                Console.WriteLine("Ny bruger skabt!");
+            }
+
             String tokenID = null;
             try
             {
-                tokenID = proxy.Login("username", "password");
+                tokenID = proxy.Login("hej", "med","dig");
                 if (String.IsNullOrEmpty(tokenID))
                 {
                     Console.WriteLine("Kunne ikke logge ind!");
+                    Console.Read();
                     return;
                 }
 
@@ -41,7 +47,7 @@ namespace Client
                 Console.WriteLine("Logget ud!");
             }
 
-            Console.ReadLine();
+            Console.Read();
         }
     }
 

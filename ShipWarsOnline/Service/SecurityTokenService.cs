@@ -108,5 +108,24 @@ namespace Service
 
             return hashSB.ToString();
         }
+
+        private bool VerifyToken(String tokenId)
+        {
+            if (String.IsNullOrEmpty(tokenId))
+            {
+                return false;
+            }
+
+            if (!issuedTokens.ContainsKey(tokenId))
+            {
+                return false;
+            }
+
+            // Check time here
+
+            // Check against username
+
+            return true;
+        }
     }
 }

@@ -6,64 +6,43 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using Types;
 
 namespace Service
 {
     public class DatabaseFacade
     {
-        //private static String connectionString = "user id=group_4;" +
-        //                               "password=EC2yRDFn;" +
-        //                               "server=tek-mmmi-db0a.tek.c.sdu.dk;" +
-        //                               "database=group_4_db; ";
-
-        //private static String testConnectionString = "user id=postgres;" +
-        //                                             "password=test1234;" +
-        //                                             "server=localhost;" +
-        //                                             "database=ShipWarsOnlineTestDatabase;" +
-        //                                             "ssl=true;" +
-        //                                             "sslmode=require";
-
         private RNGCryptoServiceProvider rngCSP;
-        private String connectionString;
 
-        public DatabaseFacade(String connectionString)
+        public void CreateAccount(string usernameHash, string passwordHash, string email, string salt)
         {
-            this.connectionString = connectionString;
-        }
-
-        public void AddUser(String usernameHash, String passwordHash, String saltString)
-        {
-            if(String.IsNullOrEmpty(usernameHash))
+            if(string.IsNullOrEmpty(usernameHash))
             {
-                throw new ArgumentException("usernameHash is null or empty!");
+                throw new ArgumentException("usernameHash can not be null or empty!");
             }
 
-            if (String.IsNullOrEmpty(passwordHash))
+            if (string.IsNullOrEmpty(passwordHash))
             {
-                throw new ArgumentException("passwordHash is null or empty!");
+                throw new ArgumentException("passwordHash can not be null or empty!");
             }
 
-            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            if (string.IsNullOrEmpty(email))
             {
-                try
-                {
-                    connection.Open();
+                throw new ArgumentException("email can not be null or empty!");
+            }
 
-                    //Parametre tilføjes for at undgå SQL-injection!
-                    using (NpgsqlCommand insertCommand = new NpgsqlCommand())
-                    {
-                        insertCommand.CommandText = "INSERT INTO users VALUES (@username,@password,@salt)";
-                        insertCommand.Connection = connection;
-                        insertCommand.Parameters.Add(new NpgsqlParameter("@username", usernameHash));
-                        insertCommand.Parameters.Add(new NpgsqlParameter("@password", passwordHash));
-                        insertCommand.Parameters.Add(new NpgsqlParameter("@salt", saltString));
-                        insertCommand.ExecuteNonQuery();
-                    }
-                }
-                catch (SqlException ex)
+            using (DataModelContainer db = new DataModelContainer())
+            {
+                Account account = new Account()
                 {
-                    Console.WriteLine(ex.ToString());
-                }
+                    Username = usernameHash,
+                    Password = passwordHash,
+                    Email = email,
+                    Salt = salt
+                };
+
+                db.AccountSet.Add(account);
+                db.SaveChanges();
             }
         }
 
@@ -77,34 +56,41 @@ namespace Service
                 return false;
             }
 
-            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            using (DataModelContainer db = new DataModelContainer())
             {
-                try
+                var accounts = from a in db.AccountSet
+                               where a.Username.Equals(usernameHash) && a.Password.Equals(passwordHash)
+                               select a;
+
+                if(accounts.Count() == 0)
                 {
-                    connection.Open();
-
-                    // http://www.codeproject.com/Articles/4416/Beginners-guide-to-accessing-SQL-Server-through-C
-
-                    using (NpgsqlCommand fetchCommand = new NpgsqlCommand())
-                    {
-                        fetchCommand.CommandText = "SELECT password FROM users WHERE @username = username";
-                        fetchCommand.Connection = connection;
-                        fetchCommand.Parameters.Add(new NpgsqlParameter("@username", usernameHash));
-                        NpgsqlDataReader reader = fetchCommand.ExecuteReader();
-
-                        if (reader.HasRows && !reader.GetString(0).Equals(passwordHash))
-                        {
-                            return false;
-                        }
-                    }
-                }
-                catch(SqlException ex)
-                {
-                    Console.WriteLine(ex.ToString());
+                    return false;
                 }
             }
 
             return true;
+        }
+
+        public string GetSalt(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentException("email can not be null or empty!");
+            }
+
+            using (DataModelContainer db = new DataModelContainer())
+            {
+                Account account = (from a in db.AccountSet
+                               where a.Email.Equals(email)
+                               select a).FirstOrDefault();
+
+                if (account == null)
+                {
+                    throw new NullReferenceException("email not valid!");
+                }
+
+                return account.Salt;
+            }
         }
     }
 }

@@ -12,9 +12,12 @@ namespace Service
     public interface IWcfService
     {
         [OperationContract]
-        String Login(String username, String password);
+        string Login(string username, string password, string email);
 
         [OperationContract]
-        bool Logout(String tokenId);
+        bool Logout(string tokenId);
+
+        [OperationContract]
+        bool CreateAccount(string username, string password, string email);
     }
 }
