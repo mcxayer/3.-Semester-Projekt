@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektrapport", "Projektrapport", "{B0D58931-84AE-4372-A537-416F12DBA377}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Desktop\Projektrapport 3. semester.tex = ..\..\..\..\Desktop\Projektrapport 3. semester.tex
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
