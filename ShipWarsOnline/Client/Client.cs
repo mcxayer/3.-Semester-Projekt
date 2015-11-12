@@ -7,7 +7,6 @@ using System.Text;
 
 namespace Client
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Client" in both code and config file together.
     public class Client
     {
         static void Main(string[] args)
@@ -17,34 +16,41 @@ namespace Client
             //channelfactory.Credentials.UserName.Password = "password";
             IWcfService proxy = channelfactory.CreateChannel();
 
-            Console.WriteLine("Dette er Clienten");
+            Console.WriteLine("Dette er Klienten");
 
-            if (proxy.CreateAccount("hej", "med", "dig"))
+            try
             {
+                proxy.CreateAccount("hej", "med", "dig");
                 Console.WriteLine("Ny bruger skabt!");
+            }
+            catch
+            {
+                Console.WriteLine("Kunne ikke skabe ny bruger!");
             }
 
             String tokenID = null;
             try
             {
-                tokenID = proxy.Login("hej", "med","dig");
-                if (String.IsNullOrEmpty(tokenID))
-                {
-                    Console.WriteLine("Kunne ikke logge ind!");
-                    Console.Read();
-                    return;
-                }
-
+                tokenID = proxy.Login("hej", "med");
                 Console.WriteLine("Logget ind med token id: " + tokenID);
+            }
+            catch (FaultException)
+            {
+                Console.WriteLine("Kunne ikke logge ind!");
             }
             catch (CommunicationException ex)
             {
                 Console.WriteLine(ex.ToString());
             }
 
-            if(proxy.Logout(tokenID))
+            try
             {
+                proxy.Logout(tokenID);
                 Console.WriteLine("Logget ud!");
+            }
+            catch
+            {
+                Console.WriteLine("Kunne ikke logge ud!");
             }
 
             Console.Read();

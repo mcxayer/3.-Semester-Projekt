@@ -12,18 +12,16 @@ namespace Service
 {
     public class DatabaseFacade
     {
-        private RNGCryptoServiceProvider rngCSP;
-
-        public void CreateAccount(string usernameHash, string passwordHash, string email, string salt)
+        public void CreateAccount(string username, byte[] passwordHash, string email, byte[] salt)
         {
-            if(string.IsNullOrEmpty(usernameHash))
+            if(string.IsNullOrEmpty(username))
             {
-                throw new ArgumentException("usernameHash can not be null or empty!");
+                throw new ArgumentException("username can not be null or empty!");
             }
 
-            if (string.IsNullOrEmpty(passwordHash))
+            if (passwordHash == null)
             {
-                throw new ArgumentException("passwordHash can not be null or empty!");
+                throw new ArgumentNullException("passwordHash");
             }
 
             if (string.IsNullOrEmpty(email))
@@ -31,11 +29,13 @@ namespace Service
                 throw new ArgumentException("email can not be null or empty!");
             }
 
+            // Tjek længden af byte arrays, hvis begrænsning sættes på i databasen.
+
             using (DataModelContainer db = new DataModelContainer())
             {
                 Account account = new Account()
                 {
-                    Username = usernameHash,
+                    Username = username,
                     Password = passwordHash,
                     Email = email,
                     Salt = salt
@@ -46,12 +46,12 @@ namespace Service
             }
         }
 
-        public bool Verify(String usernameHash, String passwordHash)
+        public bool Verify(string username, byte[] passwordHash)
         {
             // https://rmanimaran.wordpress.com/2010/06/24/creating-and-using-c-web-service-over-https-%E2%80%93-ssl-2/
             // https://msdn.microsoft.com/en-us/library/vstudio/bfsktky3(v=vs.100).aspx
 
-            if(String.IsNullOrEmpty(usernameHash) || String.IsNullOrEmpty(passwordHash))
+            if(string.IsNullOrEmpty(username) || passwordHash == null)
             {
                 return false;
             }
@@ -59,7 +59,7 @@ namespace Service
             using (DataModelContainer db = new DataModelContainer())
             {
                 var accounts = from a in db.AccountSet
-                               where a.Username.Equals(usernameHash) && a.Password.Equals(passwordHash)
+                               where a.Username.Equals(username) && a.Password.Equals(passwordHash)
                                select a;
 
                 if(accounts.Count() == 0)
@@ -71,25 +71,25 @@ namespace Service
             return true;
         }
 
-        public string GetSalt(string email)
+        public string GetSalt(string username)
         {
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(username))
             {
-                throw new ArgumentException("email can not be null or empty!");
+                throw new ArgumentException("username can not be null or empty!");
             }
 
             using (DataModelContainer db = new DataModelContainer())
             {
                 Account account = (from a in db.AccountSet
-                               where a.Email.Equals(email)
+                               where a.Username.Equals(username)
                                select a).FirstOrDefault();
 
                 if (account == null)
                 {
-                    throw new NullReferenceException("email not valid!");
+                    throw new NullReferenceException("username not valid!");
                 }
 
-                return account.Salt;
+                return Encoding.UTF8.GetString(account.Salt);
             }
         }
     }

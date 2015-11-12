@@ -12,12 +12,15 @@ namespace Service
     public interface IWcfService
     {
         [OperationContract]
-        string Login(string username, string password, string email);
+        [FaultContract(typeof(FaultException))]
+        string Login(string username, string password);
 
         [OperationContract]
-        bool Logout(string tokenId);
+        [FaultContract(typeof(FaultException))]
+        void Logout(string tokenId);
 
         [OperationContract]
-        bool CreateAccount(string username, string password, string email);
+        [FaultContract(typeof(FaultException))]
+        void CreateAccount(string username, string password, string email);
     }
 }

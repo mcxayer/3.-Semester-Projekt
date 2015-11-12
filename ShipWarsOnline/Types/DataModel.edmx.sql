@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/06/2015 17:46:09
+-- Date Created: 11/12/2015 23:07:26
 -- Generated from EDMX file: C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Types\DataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [Database];
+USE [ShipWarsOnlineDatabase];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -22,6 +22,9 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[AccountSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AccountSet];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -31,9 +34,9 @@ GO
 CREATE TABLE [dbo].[AccountSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Username] nvarchar(max)  NOT NULL,
-    [Password] nvarchar(max)  NOT NULL,
+    [Password] varbinary(max)  NOT NULL,
     [Email] nvarchar(max)  NOT NULL,
-    [Salt] nvarchar(max)  NOT NULL
+    [Salt] varbinary(max)  NOT NULL
 );
 GO
 

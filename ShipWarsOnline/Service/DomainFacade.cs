@@ -9,96 +9,93 @@ namespace Service
 {
     public class DomainFacade
     {
-        public static readonly DomainFacade Instance = new DomainFacade();
+        private static readonly DomainFacade instance = new DomainFacade();
+        public static DomainFacade Instance { get { return instance; } }
 
         private DatabaseFacade databaseFacade;
+        private SecurityTokenService tokenService;
 
         private DomainFacade()
         {
             databaseFacade = new DatabaseFacade();
+            tokenService = new SecurityTokenService();
         }
 
-        public string Login(string username, string password, string email)
+        public string Login(string username, string password)
         {
-            if (String.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username))
             {
                 throw new ArgumentException("username can not be null or empty!");
             }
 
-            if (String.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(password))
             {
                 throw new ArgumentException("password can not be null or empty!");
             }
 
-            if (String.IsNullOrEmpty(email))
-            {
-                throw new ArgumentException("email can not be null or empty!");
-            }
-
             SHA256 sha256Encryption = SHA256.Create();
-            string saltString = SecurityTokenService.Instance.GenerateSaltString();
+            string saltString = databaseFacade.GetSalt(username);
 
             string usernameHash = SecurityTokenService.GetHashedString(sha256Encryption, username + saltString);
             string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, password + saltString);
 
-            if (!Verify(usernameHash, passwordHash, email))
+            if (!Verify(username, passwordHash))
             {
-                return null;
+                throw new ArgumentException("Could not login!");
             }
 
-            return SecurityTokenService.Instance.GenerateToken(usernameHash, passwordHash);
+            // Check if already logged in
+
+            return tokenService.GenerateToken(usernameHash, passwordHash);
+        }
+
+        public void Logout(string tokenId)
+        {
+            tokenService.ExpireToken(tokenId);
         }
 
         public void CreateAccount(string username, string password, string email)
         {
-            if (String.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username))
             {
                 throw new ArgumentException("username can not be null or empty!");
             }
 
-            if (String.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(password))
             {
                 throw new ArgumentException("password can not be null or empty!");
             }
 
-            if (String.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(email))
             {
                 throw new ArgumentException("email can not be null or empty!");
             }
 
             SHA256 sha256Encryption = SHA256.Create();
-            string saltString = SecurityTokenService.Instance.GenerateSaltString();
-
-            string usernameHash = SecurityTokenService.GetHashedString(sha256Encryption, username + saltString);
+            string saltString = tokenService.GenerateSaltString();
             string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, password + saltString);
 
-            databaseFacade.CreateAccount(usernameHash, passwordHash, email, saltString);
+            if(Verify(username,passwordHash))
+            {
+                throw new Exception("Username already taken!");
+            }
+
+            databaseFacade.CreateAccount(username, Encoding.UTF8.GetBytes(passwordHash), email, Encoding.UTF8.GetBytes(saltString));
         }
 
-        public bool Verify(string username, string password, string email)
+        bool Verify(string username, string passwordHash)
         {
-            if (String.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username))
             {
                 throw new ArgumentException("username can not be null or empty!");
             }
 
-            if (String.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(passwordHash))
             {
-                throw new ArgumentException("password can not be null or empty!");
+                throw new ArgumentException("password hash can not be null or empty!");
             }
 
-            if (String.IsNullOrEmpty(email))
-            {
-                throw new ArgumentException("email can not be null or empty!");
-            }
-
-            SHA256 sha256Encryption = SHA256.Create();
-            string saltString = databaseFacade.GetSalt(email);
-
-            string usernameHash = SecurityTokenService.GetHashedString(sha256Encryption, username + saltString);
-            string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, password + saltString);
-
-            return databaseFacade.Verify(usernameHash, passwordHash);
+            return databaseFacade.Verify(username, Encoding.UTF8.GetBytes(passwordHash));
         }
     }
 }

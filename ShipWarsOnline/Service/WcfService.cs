@@ -14,49 +14,42 @@ namespace Service
 {
     public class WcfService : IWcfService
     {
-        private static Dictionary<string, UserNameSecurityToken> tokens;
-        private static RNGCryptoServiceProvider rngCSP;
-
-        static WcfService()
-        {
-            tokens = new Dictionary<string, UserNameSecurityToken>();
-            rngCSP = new RNGCryptoServiceProvider();
-        }
-
-        // En bruger identificeres ud fra salted usernameHash, salted passwordHash og salted tokenId
         // http://www.codeproject.com/Articles/704865/Salted-Password-Hashing-Doing-it-Right
-        public string Login(string username, string password, string email)
+        // http://stackoverflow.com/questions/647172/what-are-the-pros-and-cons-of-using-an-email-address-as-a-user-id
+        public string Login(string username, string password)
         {
-            return DomainFacade.Instance.Login(username, password, email);
+            try
+            {
+                return DomainFacade.Instance.Login(username, password);
+            }
+            catch
+            {
+                throw new FaultException("Credentials are invalid or a connection could not be established!");
+            }
         }
 
-        public bool Logout(string tokenId)
+        public void Logout(string tokenId)
         {
-            SecurityTokenService.Instance.ExpireToken(tokenId);
-            return true;
+            try
+            {
+                DomainFacade.Instance.Logout(tokenId);
+            }
+            catch
+            {
+                throw new FaultException("Token is not valid!");
+            }
         }
 
-        public bool CreateAccount(string username, string password, string email)
+        public void CreateAccount(string username, string password, string email)
         {
-            if (string.IsNullOrEmpty(username))
+            try
             {
-                throw new ArgumentException("username is null or empty!");
+                DomainFacade.Instance.CreateAccount(username, password, email);
             }
-
-            if (string.IsNullOrEmpty(password))
+            catch
             {
-                throw new ArgumentException("password is null or empty!");
+                throw new FaultException("Credentials are either invalid, username is already taken or a connection could not be established!");
             }
-
-            if (string.IsNullOrEmpty(email))
-            {
-                throw new ArgumentException("email is null or empty!");
-            }
-
-
-            DomainFacade.Instance.CreateAccount(username, password, email);
-
-            return true;
         }
     }
 }
