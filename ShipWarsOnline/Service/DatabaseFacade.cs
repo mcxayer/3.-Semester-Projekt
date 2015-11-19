@@ -8,7 +8,7 @@ using System.Text;
 using System.Web;
 using Types;
 
-namespace Service
+namespace GeneralService
 {
     public class DatabaseFacade
     {

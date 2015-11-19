@@ -61,9 +61,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Service\Service.csproj">
+    <ProjectReference Include="..\Service\GeneralService.csproj">
       <Project>{c818b8b8-2c44-4c6b-941c-b697fe8fff31}</Project>
-      <Name>Service</Name>
+      <Name>GeneralService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

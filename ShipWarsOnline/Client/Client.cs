@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
-using Service;
+using GeneralService;
 using System.IdentityModel.Tokens;
 using System.Net.Sockets;
 using System.Text;
@@ -11,10 +11,10 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            ChannelFactory<IWcfService> channelfactory = new ChannelFactory<IWcfService>("WcfServiceEndpoint");
+            ChannelFactory<IService> channelfactory = new ChannelFactory<IService>("GeneralServiceEndpoint");
             //channelfactory.Credentials.UserName.UserName = "username";
             //channelfactory.Credentials.UserName.Password = "password";
-            IWcfService proxy = channelfactory.CreateChannel();
+            IService proxy = channelfactory.CreateChannel();
 
             Console.WriteLine("Dette er Klienten");
 

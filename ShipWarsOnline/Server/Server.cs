@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
-using Service;
+using GeneralService;
 using System.Security.Cryptography;
 using System.Net.Sockets;
 using System.Net;
@@ -13,7 +13,7 @@ namespace Server
 
         static void Main(string[] args)
         {
-            ServiceHost server = new ServiceHost(typeof(WcfService));
+            ServiceHost server = new ServiceHost(typeof(GeneralService.Service));
             server.Open();
 
             Console.WriteLine("Dette er Serveren");
