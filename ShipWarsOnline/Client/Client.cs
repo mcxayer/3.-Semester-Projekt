@@ -32,6 +32,9 @@ namespace Client
             try
             {
                 tokenID = proxy.Login("hej", "med");
+
+                //proxyGame.AddToLobby(tokenID); <-- placeholder, since I need the new proxy to GameServices
+
                 Console.WriteLine("Logget ind med token id: " + tokenID);
             }
             catch (FaultException)
@@ -46,6 +49,9 @@ namespace Client
             try
             {
                 proxy.Logout(tokenID);
+
+                // proxyGame.RemoveFromLobby(tokenID); <-- placeholder, since I need the new proxy to GameServices
+
                 Console.WriteLine("Logget ud!");
             }
             catch
