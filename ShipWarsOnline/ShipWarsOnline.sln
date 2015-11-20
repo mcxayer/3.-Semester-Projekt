@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralService", "Service\GeneralService.csproj", "{C818B8B8-2C44-4C6B-941C-B697FE8FFF31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralService", "GeneralService\GeneralService.csproj", "{C818B8B8-2C44-4C6B-941C-B697FE8FFF31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{4C87BFDF-5BAF-45AB-8802-CADBFBDBF184}"
 EndProject

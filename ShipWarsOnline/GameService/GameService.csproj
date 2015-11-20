@@ -52,7 +52,7 @@
     <Compile Include="Service.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Service\GeneralService.csproj">
+    <ProjectReference Include="..\GeneralService\GeneralService.csproj">
       <Project>{c818b8b8-2c44-4c6b-941c-b697fe8fff31}</Project>
       <Name>GeneralService</Name>
     </ProjectReference>
