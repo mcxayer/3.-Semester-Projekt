@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameService
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(ICallback),SessionMode = SessionMode.Required)]
     public interface IService
     {
         [OperationContract]
@@ -25,5 +25,11 @@ namespace GameService
         [OperationContract]
         [FaultContract(typeof(FaultException))]
         void RemoveFromLobby(string tokenID);
+    }
+
+    public interface ICallback
+    {
+        [OperationContract(IsOneWay = true)]
+        void OnPlayerConnected(string username);
     }
 }

@@ -12,40 +12,75 @@ namespace GameService
         private static readonly DomainFacade instance = new DomainFacade();
         public static DomainFacade Instance { get { return instance; } }
 
-        private Dictionary<OperationContext, string> activeClients;
+        private Dictionary<IContextChannel, Session> activeClients;
 
         private DomainFacade()
         {
-            activeClients = new Dictionary<OperationContext, string>();
+            activeClients = new Dictionary<IContextChannel, Session>();
         }
 
         public bool Connect(string tokenID)
         {
-            if(activeClients.ContainsKey(OperationContext.Current))
+            if(activeClients.ContainsKey(OperationContext.Current.Channel))
             {
                 return false;
             }
 
             string username = GeneralService.DomainFacade.Instance.UseToken(tokenID);
-
             if (string.IsNullOrEmpty(username))
             {
                 return false;
             }
 
-            activeClients.Add(OperationContext.Current, username);
+            Session session = new Session(OperationContext.Current.Channel,
+                OperationContext.Current.GetCallbackChannel<ICallback>(),
+                username);
+
+            activeClients.Add(OperationContext.Current.Channel, session);
+
+            OnPlayerConnected();
+
             return true;
         }
 
         public bool Disconnect()
         {
-            if (!activeClients.ContainsKey(OperationContext.Current))
+            if (!activeClients.ContainsKey(OperationContext.Current.Channel))
             {
                 return false;
             }
 
-            activeClients.Remove(OperationContext.Current);
+            activeClients.Remove(OperationContext.Current.Channel);
             return true;
+        }
+
+        private void OnPlayerConnected()
+        {
+            string username = activeClients[OperationContext.Current.Channel].Username;
+
+            foreach(Session session in activeClients.Values)
+            {
+                if(session.Channel.Equals(OperationContext.Current.Channel))
+                {
+                    continue;
+                }
+
+                session.Callback.OnPlayerConnected(username);
+            }
+        }
+
+        private class Session
+        {
+            public IContextChannel Channel { get; private set; }
+            public ICallback Callback { get; private set; }
+            public string Username { get; private set; }
+
+            public Session(IContextChannel channel, ICallback callback, string username)
+            {
+                Channel = channel;
+                Callback = callback;
+                Username = username;
+            }
         }
     }
 }

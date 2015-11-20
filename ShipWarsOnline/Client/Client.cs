@@ -10,13 +10,13 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            ChannelFactory<GeneralService.IService> generalFactory = new ChannelFactory<GeneralService.IService>("GeneralServiceEndpoint");
+            var generalFactory = new ChannelFactory<GeneralService.IService>("GeneralServiceEndpoint");
             //channelfactory.Credentials.UserName.UserName = "username";
             //channelfactory.Credentials.UserName.Password = "password";
-            GeneralService.IService generalProxy = generalFactory.CreateChannel();
+            var generalProxy = generalFactory.CreateChannel();
 
-            ChannelFactory<GameService.IService> gameFactory = new ChannelFactory<GameService.IService>("GameServiceEndpoint");
-            GameService.IService gameProxy = gameFactory.CreateChannel();
+            var gameFactory = new DuplexChannelFactory<GameService.IService>(new DuplexedClass(),"GameServiceEndpoint");
+            var gameProxy = gameFactory.CreateChannel();
 
             Console.WriteLine("Dette er Klienten");
 
@@ -52,18 +52,24 @@ namespace Client
                 Console.WriteLine(ex.ToString());
             }
 
+            Console.WriteLine("\nTryk Enter for at afslutte session...");
+            Console.ReadLine();
+
             try
             {
-                generalProxy.Logout(tokenID);
-
-                // proxyGame.RemoveFromLobby(tokenID); <-- placeholder, since I need the new proxy to GameServices
-
-                Console.WriteLine("Logget ud!");
-
                 if (gameProxy.Disconnect())
                 {
                     Console.WriteLine("Afsluttet forbindelse til spilserver!");
                 }
+                else
+                {
+                    Console.WriteLine("Kunne ikke afslutte forbindelse til spilserver!");
+                }
+
+                // proxyGame.RemoveFromLobby(tokenID); <-- placeholder, since I need the new proxy to GameServices
+
+                generalProxy.Logout(tokenID);
+                Console.WriteLine("Logget ud!");
             }
             catch
             {
@@ -71,6 +77,14 @@ namespace Client
             }
 
             Console.Read();
+        }
+
+        private class DuplexedClass : GameService.ICallback
+        {
+            public void OnPlayerConnected(string username)
+            {
+                Console.WriteLine(string.Format("Player {0} connected to the game server!",username));
+            }
         }
     }
 
