@@ -10,14 +10,12 @@ namespace GeneralService
 {
     public class SecurityTokenService
     {
-        private Dictionary<string, UserNameSecurityToken> issuedTokens;
-        private Dictionary<string, string> tokenSalts;
+        private Dictionary<string, Token> issuedTokens;
         private RNGCryptoServiceProvider rngCSP;
 
         public SecurityTokenService()
         {
-            issuedTokens = new Dictionary<string, UserNameSecurityToken>();
-            tokenSalts = new Dictionary<string, string>();
+            issuedTokens = new Dictionary<string, Token>();
             rngCSP = new RNGCryptoServiceProvider();
         }
 
@@ -26,63 +24,50 @@ namespace GeneralService
         // https://msdn.microsoft.com/en-us/library/vstudio/aa702565(v=vs.100).aspx
         // https://msdn.microsoft.com/en-us/library/system.security.cryptography.rngcryptoserviceprovider.aspx
         // http://www.codeproject.com/Articles/704865/Salted-Password-Hashing-Doing-it-Right
-        public string GenerateToken(string saltedUsername, string saltedPassword)
+        public string GenerateToken(string username, string saltedUsername, string saltedPassword)
         {
-            string saltString = GenerateSaltString();
+            string salt = GenerateSaltString();
 
-            UserNameSecurityToken token = new UserNameSecurityToken(saltedUsername, saltedPassword);
+            UserNameSecurityToken usernameToken = new UserNameSecurityToken(saltedUsername, saltedPassword);
 
-            string saltedToken = GetHashedString(SHA256.Create(), token.Id + saltString);
+            string saltedTokenID = GetHashedString(SHA256.Create(), usernameToken.Id + salt);
 
-            issuedTokens.Add(saltedToken, token);
-            tokenSalts.Add(saltedToken, saltString);
-
-            return saltedToken;
-        }
-
-        public void ExpireToken(string saltedTokenID)
-        {
-            if (string.IsNullOrEmpty(saltedTokenID))
+            if(issuedTokens.ContainsKey(saltedTokenID))
             {
-                throw new ArgumentException("saltedTokenID can not be null or empty!");
+                throw new Exception("Token already exists!");
             }
 
-            issuedTokens.Remove(saltedTokenID);
-            tokenSalts.Remove(saltedTokenID);
+            issuedTokens.Add(saltedTokenID, new Token(saltedTokenID,usernameToken,salt,username));
+
+            return saltedTokenID;
         }
 
-        public bool VerifyToken(string saltedTokenID, string tokenID)
+        public void ExpireToken(string tokenID)
         {
-            if(string.IsNullOrEmpty(saltedTokenID))
-            {
-                throw new ArgumentException("saltedTokenID can not be null or empty!");
-            }
-
             if (string.IsNullOrEmpty(tokenID))
             {
                 throw new ArgumentException("tokenID can not be null or empty!");
             }
 
-            UserNameSecurityToken issuedToken;
-            if(issuedTokens.TryGetValue(saltedTokenID,out issuedToken))
+            issuedTokens.Remove(tokenID);
+        }
+
+        public string UseToken(string tokenID)
+        {
+            if (string.IsNullOrEmpty(tokenID))
             {
-                if(!issuedToken.Id.Equals(tokenID))
-                {
-                    return false;
-                }
+                throw new ArgumentException("tokenID can not be null or empty!");
             }
 
-            string salt;
-            if(tokenSalts.TryGetValue(saltedTokenID,out salt))
+            Token token;
+            if(!issuedTokens.TryGetValue(tokenID,out token))
             {
-
-                if(!GetHashedString(SHA256.Create(),tokenID + salt).Equals(saltedTokenID))
-                {
-                    return false;
-                }
+                throw new Exception("token does not exist!");
             }
 
-            return true;
+            string username = token.Username;
+            ExpireToken(tokenID);
+            return username;
         }
 
         public string GenerateSaltString()
@@ -103,6 +88,22 @@ namespace GeneralService
             }
 
             return hashSB.ToString();
+        }
+
+        private class Token
+        {
+            public string TokenID { get; private set; }
+            public string Salt { get; private set; }
+            public string Username { get; private set; }
+            public UserNameSecurityToken UsernameToken { get; private set; }
+
+            public Token(string tokenID, UserNameSecurityToken usernameToken, string salt, string username)
+            {
+                TokenID = tokenID;
+                Salt = salt;
+                Username = username;
+                UsernameToken = usernameToken;
+            }
         }
     }
 }

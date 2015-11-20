@@ -11,9 +11,14 @@ namespace GameService
     {
         private List<string> lobby = new List<string>();
 
-        public void DoStuff()
+        public bool Connect(string tokenID)
         {
-            throw new NotImplementedException();
+            return DomainFacade.Instance.Connect(tokenID);
+        }
+
+        public bool Disconnect()
+        {
+            return DomainFacade.Instance.Disconnect();
         }
 
         public void AddToLobby(string tokenID)

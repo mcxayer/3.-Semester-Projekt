@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using GeneralService;
 using System.Security.Cryptography;
 using System.Net.Sockets;
 using System.Net;
@@ -13,10 +12,13 @@ namespace Server
 
         static void Main(string[] args)
         {
-            ServiceHost server = new ServiceHost(typeof(GeneralService.Service));
-            server.Open();
+            ServiceHost generalHost = new ServiceHost(typeof(GeneralService.Service));
+            generalHost.Open();
+            Console.WriteLine("General Services open!");
 
-            Console.WriteLine("Dette er Serveren");
+            ServiceHost gameHost = new ServiceHost(typeof(GameService.Service));
+            gameHost.Open();
+            Console.WriteLine("Game Services open!");
 
             // http://www.codeproject.com/Articles/37496/TCP-IP-Protocol-Design-Message-Framing
             // http://blogs.msdn.com/b/joncole/archive/2006/03/20/simple-message-framing-sample-for-tcp-socket.aspx
