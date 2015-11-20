@@ -12,7 +12,11 @@ namespace GameService
     {
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        void DoStuff();
+        bool Connect(string tokenID);
+
+        [OperationContract]
+        [FaultContract(typeof(FaultException))]
+        bool Disconnect();
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]

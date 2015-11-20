@@ -46,7 +46,7 @@ namespace GeneralService
 
             // Check if already logged in
 
-            return tokenService.GenerateToken(usernameHash, passwordHash);
+            return tokenService.GenerateToken(username,usernameHash, passwordHash);
         }
 
         public void Logout(string tokenId)
@@ -96,6 +96,11 @@ namespace GeneralService
             }
 
             return databaseFacade.Verify(username, Encoding.UTF8.GetBytes(passwordHash));
+        }
+
+        public string UseToken(string tokenID)
+        {
+            return tokenService.UseToken(tokenID);
         }
     }
 }

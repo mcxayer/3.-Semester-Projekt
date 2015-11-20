@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using GeneralService;
 using System.IdentityModel.Tokens;
 using System.Net.Sockets;
 using System.Text;
@@ -11,16 +10,19 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            ChannelFactory<IService> channelfactory = new ChannelFactory<IService>("GeneralServiceEndpoint");
+            ChannelFactory<GeneralService.IService> generalFactory = new ChannelFactory<GeneralService.IService>("GeneralServiceEndpoint");
             //channelfactory.Credentials.UserName.UserName = "username";
             //channelfactory.Credentials.UserName.Password = "password";
-            IService proxy = channelfactory.CreateChannel();
+            GeneralService.IService generalProxy = generalFactory.CreateChannel();
+
+            ChannelFactory<GameService.IService> gameFactory = new ChannelFactory<GameService.IService>("GameServiceEndpoint");
+            GameService.IService gameProxy = gameFactory.CreateChannel();
 
             Console.WriteLine("Dette er Klienten");
 
             try
             {
-                proxy.CreateAccount("hej", "med", "dig");
+                generalProxy.CreateAccount("hej", "med", "dig");
                 Console.WriteLine("Ny bruger skabt!");
             }
             catch
@@ -31,11 +33,15 @@ namespace Client
             String tokenID = null;
             try
             {
-                tokenID = proxy.Login("hej", "med");
+                tokenID = generalProxy.Login("hej", "med");
+                Console.WriteLine("Logget ind med token id: " + tokenID);
+
+                if (gameProxy.Connect(tokenID))
+                {
+                    Console.WriteLine("Forbundet til spilserver!");
+                }
 
                 //proxyGame.AddToLobby(tokenID); <-- placeholder, since I need the new proxy to GameServices
-
-                Console.WriteLine("Logget ind med token id: " + tokenID);
             }
             catch (FaultException)
             {
@@ -48,11 +54,16 @@ namespace Client
 
             try
             {
-                proxy.Logout(tokenID);
+                generalProxy.Logout(tokenID);
 
                 // proxyGame.RemoveFromLobby(tokenID); <-- placeholder, since I need the new proxy to GameServices
 
                 Console.WriteLine("Logget ud!");
+
+                if (gameProxy.Disconnect())
+                {
+                    Console.WriteLine("Afsluttet forbindelse til spilserver!");
+                }
             }
             catch
             {
