@@ -27,3 +27,6 @@ C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projek
 C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe.config
 C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
 C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
+C:\Users\Hivemaster\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe.config
+C:\Users\Hivemaster\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
+C:\Users\Hivemaster\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
