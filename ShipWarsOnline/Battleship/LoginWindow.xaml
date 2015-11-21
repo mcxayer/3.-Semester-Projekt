@@ -1,0 +1,26 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Battleship"
+             xmlns:Game="clr-namespace:Battleship.Game" x:Class="Battleship.LoginWindow"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="49*"/>
+            <RowDefinition Height="101*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="150*"/>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="tbUsername" HorizontalAlignment="Left" Height="23" Margin="10,9,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="109" Grid.Column="1" Grid.Row="1"/>
+        <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Height="23" Margin="10,37,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="109" Grid.Column="1" Grid.Row="1"/>
+        <Button x:Name="btnLogin" Content="Login" Grid.Column="2" HorizontalAlignment="Left" Margin="0,170,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="OnLoginButtonClicked"/>
+        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,170,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="OnBackButtonClicked"/>
+        <Label x:Name="lblInfo" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="0,106,0,0" Grid.Row="1" VerticalAlignment="Top" Width="129"/>
+    </Grid>
+</UserControl>

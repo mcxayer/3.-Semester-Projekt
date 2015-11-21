@@ -10,6 +10,17 @@
         <CommandBinding Command="{x:Static local:Commands.Exit}"
                     Executed="ExecutedExit" />
     </Window.CommandBindings>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:MainMenuWindow}">
+            <local:MainMenuWindow/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:LoginWindow}">
+            <local:LoginWindow/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:GameWindow}">
+            <local:GameWindow/>
+        </DataTemplate>
+    </Window.Resources>
     <DockPanel>
         <Menu HorizontalAlignment="Stretch" DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -19,8 +30,7 @@
             </MenuItem>
         </Menu>
         <DockPanel>
-            <view:SeaGrid x:Name="myGrid" DockPanel.Dock="Left"/>
-            <view:SeaGrid x:Name="enermyGrid" />
+            <ContentControl Content="{Binding}"/>
         </DockPanel>
     </DockPanel>
 </Window>

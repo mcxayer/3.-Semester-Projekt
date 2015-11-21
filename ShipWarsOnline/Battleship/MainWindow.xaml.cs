@@ -15,34 +15,53 @@ namespace Battleship
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
-        Player _player1;
-        Player _player2;
+    { 
+        MainMenuWindow mainMenuWindow;
+        LoginWindow loginWindow;
+        GameWindow gameWindow;
 
-        Grid _mygrid;
-        Grid _enermygrid;
         
         public MainWindow()
         {
-            _player1 = new Player();
-            _player2 = new Player();
-            _mygrid = new Grid(_player1, _player2);
-            _enermygrid = new Grid(_player1, _player2);
+            mainMenuWindow = new MainMenuWindow();
+            mainMenuWindow.SetMainWindow(this);
+            loginWindow = new LoginWindow();
+            loginWindow.SetMainWindow(this);
+            gameWindow = new GameWindow();
+            gameWindow.SetMainWindow(this);
 
             InitializeComponent();
-            myGrid.DataContext = _mygrid;
-            enermyGrid.DataContext = _enermygrid;
+            GotoMainMenu();
         }
 
         private void ExecutedNewGame(object sender, ExecutedRoutedEventArgs e)
         {
-            _player1.Reset();
-            _player2.Reset();            
+            if(DataContext != gameWindow)
+            {
+                return;
+            }
+
+            gameWindow.NewGame();
         }
 
         private void ExecutedExit(object sender, ExecutedRoutedEventArgs e)
         {
             this.Close();
+        }
+
+        public void GotoMainMenu()
+        {
+            DataContext = mainMenuWindow;
+        }
+
+        public void GotoLogin()
+        {
+            DataContext = loginWindow;
+        }
+
+        public void GotoGame()
+        {
+            DataContext = gameWindow;
         }
     }
 }
