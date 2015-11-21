@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ga="clr-namespace:Battleship.Game"
+             xmlns:game="clr-namespace:Battleship.Game"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <ga:ColorContoller x:Key="ColorContoller" />
+        <game:ColorContoller x:Key="ColorContoller" />
 
     <Style x:Key="HorizontalListBox">
         <Style.Resources>

@@ -6,8 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using Battleship.ViewModel;
-using Battleship.Model;
+using Battleship.Game;
+using Grid = Battleship.Game.Grid;
 
 namespace Battleship
 {
@@ -16,35 +16,28 @@ namespace Battleship
     /// </summary>
     public partial class MainWindow : Window
     {
-        HumanPlayer _humanPlayer;
-        ComputerPlayer _computerPlayer;
+        Player _player1;
+        Player _player2;
 
-        HumanGridVM _humanGrid;
-        ComputerGridVM _computerGrid;
+        Grid _mygrid;
+        Grid _enermygrid;
         
         public MainWindow()
         {
-            _humanPlayer = new HumanPlayer();
-            _computerPlayer = new ComputerPlayer();
-            _humanGrid = new HumanGridVM(_humanPlayer, _computerPlayer);
-            _computerGrid = new ComputerGridVM(_humanPlayer, _computerPlayer);
+            _player1 = new Player();
+            _player2 = new Player();
+            _mygrid = new Grid(_player1, _player2);
+            _enermygrid = new Grid(_player1, _player2);
 
             InitializeComponent();
-            humanGrid.DataContext = _humanGrid;
-            computerGrid.DataContext = _computerGrid;
+            myGrid.DataContext = _mygrid;
+            enermyGrid.DataContext = _enermygrid;
         }
 
         private void ExecutedNewGame(object sender, ExecutedRoutedEventArgs e)
         {
-            _humanPlayer.Reset();
-            _computerPlayer.Reset();            
-        }
-
-        private void ExecutedAutomatedGame(object sender, ExecutedRoutedEventArgs e)
-        {
-            ExecutedNewGame(sender, e);
-            while (!_computerGrid.Clicked(null, true))
-            { }
+            _player1.Reset();
+            _player2.Reset();            
         }
 
         private void ExecutedExit(object sender, ExecutedRoutedEventArgs e)
