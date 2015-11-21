@@ -26,3 +26,17 @@ C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projek
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Server\obj\Debug\Server.exe
 C:\Skole\Software Engineering\3. Semester\GLO\Semesterprojekt\3.-Semester-Projekt\ShipWarsOnline\Server\obj\Debug\Server.pdb
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\Server.exe.config
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\obj\Debug\Server.exe
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\obj\Debug\Server.pdb
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\Server.exe
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\Server.pdb
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\EntityFramework.dll
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\Service.dll
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\Types.dll
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\Service.pdb
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\EntityFramework.xml
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\bin\Debug\Types.pdb
+C:\Users\Hivemaster\Documents\derpmaster\3.-Semester-Projekt\ShipWarsOnline\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
