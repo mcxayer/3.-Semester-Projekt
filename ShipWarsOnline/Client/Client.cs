@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.IdentityModel.Tokens;
 using System.Net.Sockets;
 using System.Text;
+using System.Collections.Generic;
 
 namespace Client
 {
@@ -40,8 +41,6 @@ namespace Client
                 {
                     Console.WriteLine("Forbundet til spilserver!");
                 }
-
-                //proxyGame.AddToLobby(tokenID); <-- placeholder, since I need the new proxy to GameServices
             }
             catch (FaultException)
             {
@@ -51,6 +50,22 @@ namespace Client
             {
                 Console.WriteLine(ex.ToString());
             }
+
+
+            try  // Print lobby to console
+            {
+                List<string> lobby = gameProxy.GetLobby();
+                foreach (string s in lobby)
+                {
+                    Console.WriteLine(s);
+                }
+
+            }
+            catch
+            {
+                Console.WriteLine("Could not retrieve lobby!");
+            }
+
 
             Console.WriteLine("\nTryk Enter for at afslutte session...");
             Console.ReadLine();
@@ -65,8 +80,6 @@ namespace Client
                 {
                     Console.WriteLine("Kunne ikke afslutte forbindelse til spilserver!");
                 }
-
-                // proxyGame.RemoveFromLobby(tokenID); <-- placeholder, since I need the new proxy to GameServices
 
                 generalProxy.Logout(tokenID);
                 Console.WriteLine("Logget ud!");

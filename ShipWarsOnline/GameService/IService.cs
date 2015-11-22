@@ -20,11 +20,7 @@ namespace GameService
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        void AddToLobby(string tokenID);
-
-        [OperationContract]
-        [FaultContract(typeof(FaultException))]
-        void RemoveFromLobby(string tokenID);
+        List<string> GetLobby();
     }
 
     public interface ICallback
