@@ -24,8 +24,35 @@ namespace Battleship
 
         public LobbyWindow()
         {
+            ServiceFacade.Instance.HandlePlayerConnected += OnPlayerConnected;
+            ServiceFacade.Instance.HandlePlayerDisconnected += OnPlayerDisconnected;
+
             InitializeComponent();
             updateLobbyList();
+        }
+
+        ~LobbyWindow()
+        {
+            try
+            {
+                if (ServiceFacade.Instance != null)
+                {
+                    ServiceFacade.Instance.HandlePlayerConnected -= OnPlayerConnected;
+                }
+            }
+            catch
+            {
+                // Nothing
+            }
+        }
+
+        private void OnPlayerConnected(string player)
+        {
+            lstLobby.Items.Add(player);
+        }
+        private void OnPlayerDisconnected(string player)
+        {
+            lstLobby.Items.Remove(player);
         }
 
         public void updateLobbyList()

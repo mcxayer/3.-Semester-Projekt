@@ -11,6 +11,9 @@ namespace Battleship
         private static readonly ServiceFacade instance = new ServiceFacade();
         public static ServiceFacade Instance { get { return instance; } }
 
+        public event Action<string> HandlePlayerConnected;
+        public event Action<string> HandlePlayerDisconnected;
+
         private GeneralService.IService generalService;
         private GameService.IService gameService;
 
@@ -19,7 +22,7 @@ namespace Battleship
             var generalFactory = new ChannelFactory<GeneralService.IService>("GeneralServiceEndpoint");
             generalService = generalFactory.CreateChannel();
 
-            var gameFactory = new DuplexChannelFactory<GameService.IService>(new DuplexedClass(), "GameServiceEndpoint");
+            var gameFactory = new DuplexChannelFactory<GameService.IService>(new CallbackHandler(this), "GameServiceEndpoint");
             gameService = gameFactory.CreateChannel();
         }
 
@@ -40,11 +43,31 @@ namespace Battleship
             generalService.CreateAccount(username, password, email);
         }
 
-        private class DuplexedClass : GameService.ICallback
+        private class CallbackHandler : GameService.ICallback
         {
-            public void OnPlayerConnected(string username)
+            ServiceFacade facade;
+
+            public CallbackHandler(ServiceFacade facade)
             {
-                Console.WriteLine(string.Format("Player {0} connected to the game server!", username));
+                this.facade = facade;
+            }
+
+            public void OnPlayerConnected(string player)
+            {
+                Console.WriteLine(string.Format("Player {0} connected to the game server!", player));
+                if (facade.HandlePlayerConnected != null)
+                {
+                    facade.HandlePlayerConnected(player);
+                }
+            }
+
+            public void OnPlayerDisconnected(string player)
+            {
+                Console.WriteLine(string.Format("Player {0} disconnected from the game server!", player));
+                if (facade.HandlePlayerConnected != null)
+                {
+                    facade.HandlePlayerDisconnected(player);
+                }
             }
         }
 

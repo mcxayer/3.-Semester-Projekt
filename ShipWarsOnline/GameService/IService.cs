@@ -26,6 +26,9 @@ namespace GameService
     public interface ICallback
     {
         [OperationContract(IsOneWay = true)]
-        void OnPlayerConnected(string username);
+        void OnPlayerConnected(string player);
+
+        [OperationContract(IsOneWay = true)]
+        void OnPlayerDisconnected(string player);
     }
 }

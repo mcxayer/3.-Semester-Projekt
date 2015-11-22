@@ -36,11 +36,24 @@ namespace GameService
                 OperationContext.Current.GetCallbackChannel<ICallback>(),
                 username);
 
+            session.Channel.Closed += OnChannelClosed;
+            session.Channel.Faulted += OnChannelFaulted;
+
             activeClients.Add(OperationContext.Current.Channel, session);
 
             OnPlayerConnected();
 
             return true;
+        }
+
+        private void OnChannelClosed(object sender, EventArgs e)
+        {
+            OnPlayerDisconnected();
+        }
+
+        private void OnChannelFaulted(object sender, EventArgs e)
+        {
+            OnPlayerDisconnected();
         }
 
         public bool Disconnect()
@@ -50,22 +63,45 @@ namespace GameService
                 return false;
             }
 
+            OnPlayerDisconnected();
+
+            Session session = activeClients[OperationContext.Current.Channel];
+            session.Channel.Closed -= OnChannelClosed;
+            session.Channel.Faulted -= OnChannelFaulted;
+
             activeClients.Remove(OperationContext.Current.Channel);
             return true;
         }
 
         private void OnPlayerConnected()
         {
+            // Check if client is not null
             string username = activeClients[OperationContext.Current.Channel].Username;
 
-            foreach(Session session in activeClients.Values)
+            foreach (Session session in activeClients.Values)
             {
-                if(session.Channel.Equals(OperationContext.Current.Channel))
+                if (session.Channel.Equals(OperationContext.Current.Channel))
                 {
                     continue;
                 }
 
                 session.Callback.OnPlayerConnected(username);
+            }
+        }
+
+        private void OnPlayerDisconnected()
+        {
+            // Check if client is not null
+            string username = activeClients[OperationContext.Current.Channel].Username;
+
+            foreach (Session session in activeClients.Values)
+            {
+                if (session.Channel.Equals(OperationContext.Current.Channel))
+                {
+                    continue;
+                }
+
+                session.Callback.OnPlayerDisconnected(username);
             }
         }
 
