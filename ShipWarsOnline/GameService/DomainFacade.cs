@@ -82,5 +82,17 @@ namespace GameService
                 Username = username;
             }
         }
+
+        public List<string> GetLobby()
+        {
+            List<string> lobby = new List<string>();
+
+            foreach (Session session in activeClients.Values)
+            {
+                lobby.Add(session.Username);
+            }
+
+            return lobby;
+        }
     }
 }
