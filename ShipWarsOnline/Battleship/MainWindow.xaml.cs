@@ -19,6 +19,7 @@ namespace Battleship
         MainMenuWindow mainMenuWindow;
         LoginWindow loginWindow;
         GameWindow gameWindow;
+        LobbyWindow lobbyWindow;
 
         
         public MainWindow()
@@ -29,6 +30,8 @@ namespace Battleship
             loginWindow.SetMainWindow(this);
             gameWindow = new GameWindow();
             gameWindow.SetMainWindow(this);
+            lobbyWindow = new LobbyWindow();
+            lobbyWindow.SetMainWindow(this);
 
             InitializeComponent();
             GotoMainMenu();
@@ -62,6 +65,12 @@ namespace Battleship
         public void GotoGame()
         {
             DataContext = gameWindow;
+        }
+
+        public void GotoLobby()
+        {
+            lobbyWindow.updateLobbyList();
+            DataContext = lobbyWindow;
         }
     }
 }

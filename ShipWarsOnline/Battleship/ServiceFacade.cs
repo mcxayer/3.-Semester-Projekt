@@ -47,5 +47,20 @@ namespace Battleship
                 Console.WriteLine(string.Format("Player {0} connected to the game server!", username));
             }
         }
+
+        public List<string> GetLobby()
+        {
+            return gameService.GetLobby();
+        }
+
+        public bool Connect(string tokenId)
+        {
+            return gameService.Connect(tokenId);
+        }
+
+        public bool Disconnect()
+        {
+            return gameService.Disconnect();
+        }
     }
 }

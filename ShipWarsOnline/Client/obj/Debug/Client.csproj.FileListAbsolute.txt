@@ -15,3 +15,16 @@ C:\Users\Rasmus\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\
 C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe.config
 C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.exe
 C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.pdb
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.exe
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Client.pdb
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\EntityFramework.dll
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\GameService.dll
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Service.dll
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Types.dll
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\GameService.pdb
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Service.pdb
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\EntityFramework.xml
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\bin\Debug\Types.pdb
+C:\Users\Martin\Documents\GitHubVisualStudio\3.-Semester-Projekt\ShipWarsOnline\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache

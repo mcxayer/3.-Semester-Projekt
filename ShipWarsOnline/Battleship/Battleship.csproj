@@ -83,12 +83,19 @@
     </Compile>
     <Compile Include="Game\SeaSquare.cs" />
     <Compile Include="Game\Ship.cs" />
+    <Compile Include="LobbyWindow.xaml.cs">
+      <DependentUpon>LobbyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ServiceFacade.cs" />
     <Page Include="GameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Game\SeaGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LobbyWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
