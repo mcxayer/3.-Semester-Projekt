@@ -34,7 +34,7 @@ namespace Battleship
 
         private void OnBackButtonClicked(object sender, RoutedEventArgs e)
         {
-            window.GotoGame();
+            window.GotoMainMenu();
         }
 
         private void OnLoginButtonClicked(object sender, RoutedEventArgs e)
@@ -42,10 +42,15 @@ namespace Battleship
             try
             {
                 string tokenId = ServiceFacade.Instance.Login(tbUsername.Text, tbPassword.Text);
+
                 if (string.IsNullOrEmpty(tokenId))
                 {
                     lblInfo.Content = "Unknown error occurred";
                     return;
+                }
+                else
+                {
+                    ServiceFacade.Instance.Connect(tokenId);
                 }
             }
             catch(FaultException ex)
@@ -54,7 +59,8 @@ namespace Battleship
                 return;
             }
 
-            window.GotoGame();
+
+            window.GotoLobby();
         }
     }
 }

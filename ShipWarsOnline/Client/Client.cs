@@ -24,6 +24,9 @@ namespace Client
             try
             {
                 generalProxy.CreateAccount("hej", "med", "dig");
+                generalProxy.CreateAccount("mit", "navn", "er");
+                generalProxy.CreateAccount("kaj", "hvad", "hedder");
+                generalProxy.CreateAccount("du", "bob", "bobsen");
                 Console.WriteLine("Ny bruger skabt!");
             }
             catch
