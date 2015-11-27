@@ -21,6 +21,10 @@ namespace GameService
         [OperationContract]
         [FaultContract(typeof(FaultException))]
         List<string> GetLobby();
+
+        [OperationContract]
+        [FaultContract(typeof(FaultException))]
+        void Matchmake();
     }
 
     public interface ICallback
@@ -30,5 +34,14 @@ namespace GameService
 
         [OperationContract(IsOneWay = true)]
         void OnPlayerDisconnected(string player);
+
+        [OperationContract(IsOneWay = true)]
+        void OnPlayerMatchmade(string gameId);
+
+        [OperationContract(IsOneWay = true)]
+        void OnPlayerEnteredMatchmaking();
+
+        [OperationContract(IsOneWay = true)]
+        void OnPlayerExitedMatchmaking();
     }
 }

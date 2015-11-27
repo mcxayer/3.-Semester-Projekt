@@ -9,7 +9,6 @@ namespace GameService
 {
     public class Service : IService
     {
-
         public bool Connect(string tokenID)
         {
             return DomainFacade.Instance.Connect(tokenID);
@@ -23,6 +22,11 @@ namespace GameService
         public List<string> GetLobby()
         {
             return DomainFacade.Instance.GetLobby();
+        }
+
+        public void Matchmake()
+        {
+            DomainFacade.Instance.Matchmake();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Battleship
 
         public event Action<string> HandlePlayerConnected;
         public event Action<string> HandlePlayerDisconnected;
+        public event Action<string> HandlePlayerMatchmade;
 
         private GeneralService.IService generalService;
         private GameService.IService gameService;
@@ -31,8 +32,6 @@ namespace Battleship
             return generalService.Login(username,password);
         }
 
-        // Måske skal logout laves om til ikke at tage imod en token.
-        // Eller så skal login og logout smeltes sammen til RequestToken.
         public void Logout(string tokenId)
         {
             generalService.Logout(tokenId);
@@ -69,6 +68,25 @@ namespace Battleship
                     facade.HandlePlayerDisconnected(player);
                 }
             }
+
+            public void OnPlayerMatchmade(string gameId)
+            {
+                Console.WriteLine(string.Format("Matchmade to game {0}!", gameId));
+                if (facade.HandlePlayerMatchmade != null)
+                {
+                    facade.HandlePlayerMatchmade(gameId);
+                }
+            }
+
+            public void OnPlayerEnteredMatchmaking()
+            {
+                //Console.WriteLine("Player entered matchmaking!");
+            }
+
+            public void OnPlayerExitedMatchmaking()
+            {
+                Console.WriteLine("Player exited matchmaking!");
+            }
         }
 
         public List<string> GetLobby()
@@ -84,6 +102,11 @@ namespace Battleship
         public bool Disconnect()
         {
             return gameService.Disconnect();
+        }
+
+        public void Matchmake()
+        {
+            gameService.Matchmake();
         }
     }
 }

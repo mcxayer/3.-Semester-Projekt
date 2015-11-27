@@ -43,6 +43,7 @@ namespace Client
                 if (gameProxy.Connect(tokenID))
                 {
                     Console.WriteLine("Forbundet til spilserver!");
+                    gameProxy.Matchmake();
                 }
             }
             catch (FaultException)
@@ -97,9 +98,29 @@ namespace Client
 
         private class DuplexedClass : GameService.ICallback
         {
-            public void OnPlayerConnected(string username)
+            public void OnPlayerConnected(string player)
             {
-                Console.WriteLine(string.Format("Player {0} connected to the game server!",username));
+                Console.WriteLine(string.Format("Player {0} connected to the game server!", player));
+            }
+
+            public void OnPlayerDisconnected(string player)
+            {
+                Console.WriteLine(string.Format("Player {0} disconnected the game server!", player));
+            }
+
+            public void OnPlayerEnteredMatchmaking()
+            {
+                Console.WriteLine("Player entered matchmaking!");
+            }
+
+            public void OnPlayerExitedMatchmaking()
+            {
+                Console.WriteLine("Player exited matchmaking!");
+            }
+
+            public void OnPlayerMatchmade(string gameId)
+            {
+                Console.WriteLine(string.Format("Matchmade to game {0}!", gameId));
             }
         }
     }

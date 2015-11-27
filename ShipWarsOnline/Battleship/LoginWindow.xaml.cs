@@ -41,7 +41,7 @@ namespace Battleship
         {
             try
             {
-                string tokenId = ServiceFacade.Instance.Login(tbUsername.Text, tbPassword.Text);
+                string tokenId = ServiceFacade.Instance.Login(tbUsername.Text, tbPassword.Password);
 
                 if (string.IsNullOrEmpty(tokenId))
                 {

@@ -26,6 +26,7 @@ namespace Battleship
         {
             ServiceFacade.Instance.HandlePlayerConnected += OnPlayerConnected;
             ServiceFacade.Instance.HandlePlayerDisconnected += OnPlayerDisconnected;
+            ServiceFacade.Instance.HandlePlayerMatchmade += OnPlayerMatchMade;
 
             InitializeComponent();
             updateLobbyList();
@@ -38,6 +39,8 @@ namespace Battleship
                 if (ServiceFacade.Instance != null)
                 {
                     ServiceFacade.Instance.HandlePlayerConnected -= OnPlayerConnected;
+                    ServiceFacade.Instance.HandlePlayerDisconnected -= OnPlayerDisconnected;
+                    ServiceFacade.Instance.HandlePlayerMatchmade -= OnPlayerMatchMade;
                 }
             }
             catch
@@ -53,6 +56,11 @@ namespace Battleship
         private void OnPlayerDisconnected(string player)
         {
             lstLobby.Items.Remove(player);
+        }
+
+        private void OnPlayerMatchMade(string gameId)
+        {
+            // Get game here
         }
 
         public void updateLobbyList()
@@ -98,7 +106,7 @@ namespace Battleship
 
         private void OnMatchButtonClicked(object sender, RoutedEventArgs e)
         {
-            window.GotoGame();
+            ServiceFacade.Instance.Matchmake();
         }
 
         private void OnUpdateButtonClicked(object sender, RoutedEventArgs e)
