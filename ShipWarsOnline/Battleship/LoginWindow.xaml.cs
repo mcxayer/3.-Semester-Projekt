@@ -62,5 +62,10 @@ namespace Battleship
 
             window.GotoLobby();
         }
+
+        private void createUser_Click(object sender, RoutedEventArgs e)
+        {
+            window.GotoCreateAccount();
+        }
     }
 }
