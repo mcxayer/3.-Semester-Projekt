@@ -21,6 +21,7 @@ namespace Battleship
         GameWindow gameWindow;
         LobbyWindow lobbyWindow;
         CreateAccountWindow createAccountWindow;
+        MatchmakingWindow matchmakingWindow;
 
         
         public MainWindow()
@@ -35,6 +36,8 @@ namespace Battleship
             lobbyWindow.SetMainWindow(this);
             createAccountWindow = new CreateAccountWindow();
             createAccountWindow.SetMainWindow(this);
+            matchmakingWindow = new MatchmakingWindow();
+            matchmakingWindow.SetMainWindow(this);
 
             InitializeComponent();
             GotoMainMenu();
@@ -79,6 +82,11 @@ namespace Battleship
         public void GotoCreateAccount()
         {
             DataContext = createAccountWindow;
+        }
+
+        public void GotoMatchmaking()
+        {
+            DataContext = matchmakingWindow;
         }
     }
 }

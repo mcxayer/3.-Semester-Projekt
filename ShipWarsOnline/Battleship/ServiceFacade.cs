@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace Battleship
 {
@@ -17,11 +18,14 @@ namespace Battleship
         public event Action<string> HandlePlayerConnected;
         public event Action<string> HandlePlayerDisconnected;
         public event Action<string> HandlePlayerMatchmade;
+        public event Action HandlePlayerEnteredMatchmaking;
+        public event Action HandlePlayerExitedMatchmaking;
 
         private GeneralService.IService generalService;
         private GameService.IService gameService;
 
         private TcpClient client;
+        private Dispatcher uiDispatcher;
 
         private ServiceFacade()
         {
@@ -29,7 +33,12 @@ namespace Battleship
             generalService = generalFactory.CreateChannel();
 
             var gameFactory = new DuplexChannelFactory<GameService.IService>(new CallbackHandler(this), "GameServiceEndpoint");
-            gameService = gameFactory.CreateChannel();
+            ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
+            {
+                gameService = gameFactory.CreateChannel();
+            }));
+
+            uiDispatcher = Dispatcher.CurrentDispatcher;
 
             try
             {
@@ -66,7 +75,7 @@ namespace Battleship
             generalService.CreateAccount(username, password, email);
         }
 
-        [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = true)]
+        //[CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
         private class CallbackHandler : GameService.ICallback
         {
             ServiceFacade facade;
@@ -81,7 +90,7 @@ namespace Battleship
                 Console.WriteLine(string.Format("Player {0} connected to the game server!", player));
                 if (facade.HandlePlayerConnected != null)
                 {
-                    facade.HandlePlayerConnected(player);
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerConnected(player)));
                 }
             }
 
@@ -90,7 +99,7 @@ namespace Battleship
                 Console.WriteLine(string.Format("Player {0} disconnected from the game server!", player));
                 if (facade.HandlePlayerConnected != null)
                 {
-                    facade.HandlePlayerDisconnected(player);
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerDisconnected(player)));
                 }
             }
 
@@ -99,18 +108,26 @@ namespace Battleship
                 Console.WriteLine(string.Format("Matchmade to game {0}!", gameId));
                 if (facade.HandlePlayerMatchmade != null)
                 {
-                    facade.HandlePlayerMatchmade(gameId);
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerMatchmade(gameId)));
                 }
             }
 
             public void OnPlayerEnteredMatchmaking()
             {
                 Console.WriteLine("Player entered matchmaking!");
+                if (facade.HandlePlayerEnteredMatchmaking != null)
+                {
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerEnteredMatchmaking()));
+                }
             }
 
             public void OnPlayerExitedMatchmaking()
             {
                 Console.WriteLine("Player exited matchmaking!");
+                if (facade.HandlePlayerExitedMatchmaking != null)
+                {
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerExitedMatchmaking()));
+                }
             }
         }
 
