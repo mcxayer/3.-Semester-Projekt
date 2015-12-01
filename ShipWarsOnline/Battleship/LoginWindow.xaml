@@ -22,5 +22,6 @@
         <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,170,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="OnBackButtonClicked"/>
         <Label x:Name="lblInfo" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="0,106,0,0" Grid.Row="1" VerticalAlignment="Top" Width="129"/>
         <PasswordBox x:Name="tbPassword" Grid.Column="1" HorizontalAlignment="Left" Margin="10,37,0,0" Grid.Row="1" VerticalAlignment="Top" Width="109" Password="Password"/>
+        <Button x:Name="createUser" Content="Create User" Grid.Column="1" HorizontalAlignment="Left" Margin="22,170,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="createUser_Click"/>
     </Grid>
 </UserControl>
