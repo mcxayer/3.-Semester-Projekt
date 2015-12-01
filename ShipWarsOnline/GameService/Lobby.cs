@@ -50,11 +50,10 @@ namespace GameService
                 username);
 
             session.Channel.Closed += OnChannelClosed;
-            session.Channel.Faulted += OnChannelFaulted;
 
             activeClients.Add(OperationContext.Current.Channel, session);
 
-            OnPlayerConnected();
+            OnPlayerConnected(session.Username);
             return true;
         }
 
@@ -65,13 +64,33 @@ namespace GameService
                 return false;
             }
 
-            OnPlayerDisconnected();
+            Session currentPlayerSession;
+            if (!activeClients.TryGetValue(OperationContext.Current.Channel, out currentPlayerSession))
+            {
+                return false;
+            }
 
-            Session session = activeClients[OperationContext.Current.Channel];
-            session.Channel.Closed -= OnChannelClosed;
-            session.Channel.Faulted -= OnChannelFaulted;
+            OnPlayerDisconnected(currentPlayerSession.Username);
+
+            currentPlayerSession.Channel.Closed -= OnChannelClosed;
 
             activeClients.Remove(OperationContext.Current.Channel);
+            return true;
+        }
+
+        private bool ForceDisconnect(IContextChannel channel)
+        {
+            Session currentPlayerSession;
+            if (!activeClients.TryGetValue(channel, out currentPlayerSession))
+            {
+                return false;
+            }
+
+            OnPlayerDisconnected(currentPlayerSession.Username);
+
+            currentPlayerSession.Channel.Closed -= OnChannelClosed;
+
+            activeClients.Remove(channel);
             return true;
         }
 
@@ -129,7 +148,12 @@ namespace GameService
                     throw new NullReferenceException("Other player does not exist!");
                 }
 
-                Session otherPlayerSession = activeClients[otherPlayer];
+                Session otherPlayerSession;
+                if (!activeClients.TryGetValue(currentPlayer, out otherPlayerSession))
+                {
+                    return;
+                }
+
                 // Create game
 
                 Console.WriteLine("c");
@@ -141,26 +165,20 @@ namespace GameService
 
                 Console.WriteLine("d");
 
+                ForceDisconnect(currentPlayer);
+                ForceDisconnect(otherPlayer);
+
                 return;
             }
 
             matchmakingQueue.Enqueue(OperationContext.Current.Channel);
             OnPlayerEnteredMatchmaking(currentPlayerSession);
 
-            //Disconnect();
-
             Console.WriteLine("e");
         }
 
-        private void OnPlayerConnected()
+        private void OnPlayerConnected(string username)
         {
-            Session currentPlayerSession;
-            if (activeClients.TryGetValue(OperationContext.Current.Channel, out currentPlayerSession))
-            {
-                return;
-            }
-            string username = currentPlayerSession.Username;
-
             foreach (Session session in activeClients.Values)
             {
                 if (session.Channel.Equals(OperationContext.Current.Channel))
@@ -172,15 +190,8 @@ namespace GameService
             }
         }
 
-        private void OnPlayerDisconnected()
+        private void OnPlayerDisconnected(string username)
         {
-            Session currentPlayerSession;
-            if(activeClients.TryGetValue(OperationContext.Current.Channel,out currentPlayerSession))
-            {
-                return;
-            }
-            string username = currentPlayerSession.Username;
-
             foreach (Session session in activeClients.Values)
             {
                 if (session.Channel.Equals(OperationContext.Current.Channel))
@@ -226,12 +237,11 @@ namespace GameService
 
         private void OnChannelClosed(object sender, EventArgs e)
         {
-            OnPlayerDisconnected();
-        }
-
-        private void OnChannelFaulted(object sender, EventArgs e)
-        {
-            OnPlayerDisconnected();
+            Session currentPlayerSession;
+            if (activeClients.TryGetValue(OperationContext.Current.Channel, out currentPlayerSession))
+            {
+                OnPlayerDisconnected(currentPlayerSession.Username);
+            }
         }
     }
 }
