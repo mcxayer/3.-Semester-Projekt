@@ -23,5 +23,62 @@
         <Label x:Name="lblInfo" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="0,106,0,0" Grid.Row="1" VerticalAlignment="Top" Width="129"/>
         <PasswordBox x:Name="tbPassword" Grid.Column="1" HorizontalAlignment="Left" Margin="10,37,0,0" Grid.Row="1" VerticalAlignment="Top" Width="109" Password="Password"/>
         <Button x:Name="createUser" Content="Create User" Grid.Column="1" HorizontalAlignment="Left" Margin="22,170,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="createUser_Click"/>
+        <Label x:Name="label" Content="     ShipWarsOnline" Margin="-30.473,32.337,-31.446,35.221" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Grid.Column="1" d:LayoutOverrides="Height">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.542"/>
+                    <RotateTransform Angle="-9.726"/>
+                    <TranslateTransform X="0.166"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="Red"/>
+                    <GradientStop Color="#FF640000" Offset="0.556"/>
+                </RadialGradientBrush>
+            </Label.Background>
+        </Label>
+        <Label x:Name="label_Copy" Content="wow" Margin="21.531,84.533,22.692,87.021" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" d:LayoutOverrides="Height" Grid.Row="1" Background="{x:Null}">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.542"/>
+                    <RotateTransform Angle="20.423"/>
+                    <TranslateTransform X="0.166"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label x:Name="label_Copy1" Content="cool" Margin="0,0,1.114,39.011" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="#FF0D5306" Grid.Row="1" Background="{x:Null}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="41.492">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.542"/>
+                    <RotateTransform Angle="-3.245"/>
+                    <TranslateTransform X="0.166"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label x:Name="label_Copy2" Content="much battle" Margin="-52.613,0,-4.788,-7.423" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="18.667" RenderTransformOrigin="0.5,0.5" Foreground="#FFDBFD00" Background="{x:Null}" Grid.Column="2" VerticalAlignment="Bottom">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.542" AngleY="-0.727"/>
+                    <RotateTransform Angle="10.806"/>
+                    <TranslateTransform X="0.231" Y="-0.524"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label x:Name="label_Copy3" Content="such game" Margin="-56.117,75.847,-1.283,90.137" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="#FFFD5C00" Background="{x:Null}" Grid.Column="2" Grid.Row="1" d:LayoutOverrides="Height">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.542" AngleY="-0.727"/>
+                    <RotateTransform Angle="-2.585"/>
+                    <TranslateTransform X="0.231" Y="-0.524"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
     </Grid>
 </UserControl>
