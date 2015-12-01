@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace GameService
 {
+    //[ServiceBehavior(InstanceContextMode= InstanceContextMode.PerSession)]
     public class Service : IService
     {
         public bool Connect(string tokenID)
         {
-            return DomainFacade.Instance.Connect(tokenID);
+            return DomainFacade.Instance.ConnectLobby(tokenID);
         }
 
         public bool Disconnect()
         {
-            return DomainFacade.Instance.Disconnect();
+            return DomainFacade.Instance.DisconnectLobby();
         }
 
         public List<string> GetLobby()

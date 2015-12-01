@@ -51,11 +51,11 @@ namespace Battleship
 
         private void OnPlayerConnected(string player)
         {
-            lstLobby.Items.Add(player);
+            updateLobbyList();
         }
         private void OnPlayerDisconnected(string player)
         {
-            lstLobby.Items.Remove(player);
+            updateLobbyList();
         }
 
         private void OnPlayerMatchMade(string gameId)
@@ -67,15 +67,6 @@ namespace Battleship
         {
             lstLobby.Items.Clear();
             List<string> lobby = ServiceFacade.Instance.GetLobby();
-
-            /*
-            for(int i = 0; i<4; i++)
-            {
-                List<string> usernames = new List<string>();
-                usernames.Add("test00" + i);
-                lstLobby.Items.Add(usernames);
-            }
-            */
 
             foreach (string s in lobby)
             {

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 
 namespace Battleship
 {
@@ -18,6 +21,8 @@ namespace Battleship
         private GeneralService.IService generalService;
         private GameService.IService gameService;
 
+        private TcpClient client;
+
         private ServiceFacade()
         {
             var generalFactory = new ChannelFactory<GeneralService.IService>("GeneralServiceEndpoint");
@@ -25,6 +30,25 @@ namespace Battleship
 
             var gameFactory = new DuplexChannelFactory<GameService.IService>(new CallbackHandler(this), "GameServiceEndpoint");
             gameService = gameFactory.CreateChannel();
+
+            try
+            {
+                client = new TcpClient();
+                client.Connect(Dns.GetHostEntry("localhost").AddressList[1], 40000);
+                new Thread(new ThreadStart(Initialize));
+            }
+            catch(SocketException)
+            {
+                Console.WriteLine("Could not connect to server!");
+            }
+        }
+
+        private void Initialize()
+        {
+            while(client.Connected)
+            {
+                
+            }
         }
 
         public string Login(string username, string password)
@@ -42,6 +66,7 @@ namespace Battleship
             generalService.CreateAccount(username, password, email);
         }
 
+        [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = true)]
         private class CallbackHandler : GameService.ICallback
         {
             ServiceFacade facade;
@@ -80,7 +105,7 @@ namespace Battleship
 
             public void OnPlayerEnteredMatchmaking()
             {
-                //Console.WriteLine("Player entered matchmaking!");
+                Console.WriteLine("Player entered matchmaking!");
             }
 
             public void OnPlayerExitedMatchmaking()

@@ -22,8 +22,8 @@ namespace GameService
         [FaultContract(typeof(FaultException))]
         List<string> GetLobby();
 
-        [OperationContract]
-        [FaultContract(typeof(FaultException))]
+        [OperationContract(IsOneWay = true)]
+        //[FaultContract(typeof(FaultException))]
         void Matchmake();
     }
 

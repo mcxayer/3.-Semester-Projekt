@@ -113,7 +113,11 @@ namespace GameService
                 throw new NullReferenceException("Current player does not exist!");
             }
 
-            Session currentPlayerSession = activeClients[currentPlayer];
+            Session currentPlayerSession;
+            if(!activeClients.TryGetValue(currentPlayer,out currentPlayerSession))
+            {
+                return;
+            }
 
             Console.WriteLine("b");
 
@@ -143,13 +147,19 @@ namespace GameService
             matchmakingQueue.Enqueue(OperationContext.Current.Channel);
             OnPlayerEnteredMatchmaking(currentPlayerSession);
 
+            //Disconnect();
+
             Console.WriteLine("e");
         }
 
         private void OnPlayerConnected()
         {
-            // Check if client is not null
-            string username = activeClients[OperationContext.Current.Channel].Username;
+            Session currentPlayerSession;
+            if (activeClients.TryGetValue(OperationContext.Current.Channel, out currentPlayerSession))
+            {
+                return;
+            }
+            string username = currentPlayerSession.Username;
 
             foreach (Session session in activeClients.Values)
             {
@@ -164,8 +174,12 @@ namespace GameService
 
         private void OnPlayerDisconnected()
         {
-            // Check if client is not null
-            string username = activeClients[OperationContext.Current.Channel].Username;
+            Session currentPlayerSession;
+            if(activeClients.TryGetValue(OperationContext.Current.Channel,out currentPlayerSession))
+            {
+                return;
+            }
+            string username = currentPlayerSession.Username;
 
             foreach (Session session in activeClients.Values)
             {
@@ -194,8 +208,10 @@ namespace GameService
             {
                 throw new ArgumentNullException("playerSession");
             }
+            Console.WriteLine("d1");
 
             playerSession.Callback.OnPlayerEnteredMatchmaking();
+            Console.WriteLine("d2");
         }
 
         private void OnPlayerExitedMatchmaking(Session playerSession)

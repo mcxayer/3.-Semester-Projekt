@@ -19,12 +19,12 @@ namespace GameService
             lobby = new Lobby();
         }
 
-        public bool Connect(string tokenID)
+        public bool ConnectLobby(string tokenID)
         {
             return lobby.Connect(tokenID);
         }
 
-        public bool Disconnect()
+        public bool DisconnectLobby()
         {
             return lobby.Disconnect();
         }
