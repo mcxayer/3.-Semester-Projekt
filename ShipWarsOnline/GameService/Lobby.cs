@@ -18,20 +18,6 @@ namespace GameService
             matchmakingQueue = new Queue<IContextChannel>();
         }
 
-        private class Session
-        {
-            public IContextChannel Channel { get; private set; }
-            public ICallback Callback { get; private set; }
-            public string Username { get; private set; }
-
-            public Session(IContextChannel channel, ICallback callback, string username)
-            {
-                Channel = channel;
-                Callback = callback;
-                Username = username;
-            }
-        }
-
         public bool Connect(string tokenID)
         {
             if (HasActiveClient(OperationContext.Current.Channel))
@@ -59,11 +45,6 @@ namespace GameService
 
         public bool Disconnect()
         {
-            if (!activeClients.ContainsKey(OperationContext.Current.Channel))
-            {
-                return false;
-            }
-
             Session currentPlayerSession;
             if (!activeClients.TryGetValue(OperationContext.Current.Channel, out currentPlayerSession))
             {
@@ -124,8 +105,6 @@ namespace GameService
                 return;
             }
 
-            Console.WriteLine("a");
-
             IContextChannel currentPlayer = OperationContext.Current.Channel;
             if (currentPlayer == null)
             {
@@ -137,8 +116,6 @@ namespace GameService
             {
                 return;
             }
-
-            Console.WriteLine("b");
 
             if (matchmakingQueue.Count > 0)
             {
@@ -156,14 +133,10 @@ namespace GameService
 
                 // Create game
 
-                Console.WriteLine("c");
-
                 string gameId = "MyRandomID";
 
                 OnPlayerMatchmade(currentPlayerSession, gameId);
                 OnPlayerMatchmade(otherPlayerSession, gameId);
-
-                Console.WriteLine("d");
 
                 ForceDisconnect(currentPlayer);
                 ForceDisconnect(otherPlayer);
@@ -173,8 +146,6 @@ namespace GameService
 
             matchmakingQueue.Enqueue(OperationContext.Current.Channel);
             OnPlayerEnteredMatchmaking(currentPlayerSession);
-
-            Console.WriteLine("e");
         }
 
         private void OnPlayerConnected(string username)
@@ -219,10 +190,8 @@ namespace GameService
             {
                 throw new ArgumentNullException("playerSession");
             }
-            Console.WriteLine("d1");
 
             playerSession.Callback.OnPlayerEnteredMatchmaking();
-            Console.WriteLine("d2");
         }
 
         private void OnPlayerExitedMatchmaking(Session playerSession)
@@ -241,6 +210,20 @@ namespace GameService
             if (activeClients.TryGetValue(OperationContext.Current.Channel, out currentPlayerSession))
             {
                 OnPlayerDisconnected(currentPlayerSession.Username);
+            }
+        }
+
+        private class Session
+        {
+            public IContextChannel Channel { get; private set; }
+            public ICallback Callback { get; private set; }
+            public string Username { get; private set; }
+
+            public Session(IContextChannel channel, ICallback callback, string username)
+            {
+                Channel = channel;
+                Callback = callback;
+                Username = username;
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Cryptography;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -65,9 +66,8 @@ namespace GeneralService
                 throw new Exception("token does not exist!");
             }
 
-            string username = token.Username;
-            ExpireToken(tokenID);
-            return username;
+            token.Used = true;
+            return token.Username;
         }
 
         public string GenerateSaltString()
@@ -96,6 +96,8 @@ namespace GeneralService
             public string Salt { get; private set; }
             public string Username { get; private set; }
             public UserNameSecurityToken UsernameToken { get; private set; }
+
+            public bool Used { get; set; }
 
             public Token(string tokenID, UserNameSecurityToken usernameToken, string salt, string username)
             {
