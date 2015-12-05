@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Windows.Threading;
+using GameService;
 
 namespace Battleship
 {
@@ -17,14 +18,15 @@ namespace Battleship
 
         public event Action<string> HandlePlayerConnected;
         public event Action<string> HandlePlayerDisconnected;
-        public event Action<string> HandlePlayerMatchmade;
+        public event Action HandlePlayerMatchmade;
         public event Action HandlePlayerEnteredMatchmaking;
         public event Action HandlePlayerExitedMatchmaking;
+        public event Action HandleLobbyUpdated;
 
         private GeneralService.IService generalService;
         private GameService.IService gameService;
 
-        private TcpClient client;
+        //private TcpClient client;
         private Dispatcher uiDispatcher;
 
         private ServiceFacade()
@@ -40,39 +42,69 @@ namespace Battleship
 
             uiDispatcher = Dispatcher.CurrentDispatcher;
 
-            try
-            {
-                client = new TcpClient();
-                client.Connect(Dns.GetHostEntry("localhost").AddressList[1], 40000);
-                new Thread(new ThreadStart(Initialize));
-            }
-            catch(SocketException)
-            {
-                Console.WriteLine("Could not connect to server!");
-            }
+            //try
+            //{
+            //    client = new TcpClient();
+            //    client.Connect(Dns.GetHostEntry("localhost").AddressList[1], 40000);
+            //    new Thread(new ThreadStart(Initialize));
+            //}
+            //catch(SocketException)
+            //{
+            //    Console.WriteLine("Could not connect to server!");
+            //}
         }
 
-        private void Initialize()
-        {
-            while(client.Connected)
-            {
+        //private void Initialize()
+        //{
+        //    while(client.Connected)
+        //    {
                 
-            }
-        }
+        //    }
+        //}
 
         public string Login(string username, string password)
         {
-            return generalService.Login(username,password);
+            return uiDispatcher.Invoke(new Func<string>(() => generalService.Login(username, password)));
         }
 
         public void Logout(string tokenId)
         {
-            generalService.Logout(tokenId);
+            uiDispatcher.BeginInvoke(new Action(() => generalService.Logout(tokenId)));
         }
 
         public void CreateAccount(string username, string password, string email)
         {
-            generalService.CreateAccount(username, password, email);
+            uiDispatcher.BeginInvoke(new Action(() => generalService.CreateAccount(username, password, email)));
+        }
+
+        public List<string> GetLobby()
+        {
+            return uiDispatcher.Invoke(new Func<List<string>>(() => gameService.GetLobby()));
+        }
+
+        public bool Connect(string tokenId)
+        {
+            return uiDispatcher.Invoke(new Func<bool>(() => gameService.Connect(tokenId)));
+        }
+
+        public bool Disconnect()
+        {
+            return uiDispatcher.Invoke(new Func<bool>(() => gameService.Disconnect()));
+        }
+
+        public void Matchmake()
+        {
+            uiDispatcher.BeginInvoke(new Action(() => gameService.Matchmake()));
+        }
+
+        public void CancelMatchmaking()
+        {
+            uiDispatcher.BeginInvoke(new Action(() => gameService.CancelMatchmaking()));
+        }
+
+        public GameStateDTO GetGameState()
+        {
+            return gameService.GetGameState();
         }
 
         //[CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
@@ -103,12 +135,12 @@ namespace Battleship
                 }
             }
 
-            public void OnPlayerMatchmade(string gameId)
+            public void OnPlayerMatchmade()
             {
-                Console.WriteLine(string.Format("Matchmade to game {0}!", gameId));
+                Console.WriteLine("Matchmade to game!");
                 if (facade.HandlePlayerMatchmade != null)
                 {
-                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerMatchmade(gameId)));
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerMatchmade()));
                 }
             }
 
@@ -129,26 +161,19 @@ namespace Battleship
                     facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerExitedMatchmaking()));
                 }
             }
-        }
 
-        public List<string> GetLobby()
-        {
-            return gameService.GetLobby();
-        }
+            public void OnLobbyUpdated()
+            {
+                if (facade.HandleLobbyUpdated != null)
+                {
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandleLobbyUpdated()));
+                }
+            }
 
-        public bool Connect(string tokenId)
-        {
-            return gameService.Connect(tokenId);
-        }
-
-        public bool Disconnect()
-        {
-            return gameService.Disconnect();
-        }
-
-        public void Matchmake()
-        {
-            gameService.Matchmake();
+            public void OnGameUpdated(GameDeltaStateDTO deltaState)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

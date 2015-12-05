@@ -24,11 +24,10 @@ namespace Battleship
 
         public LobbyWindow()
         {
-            ServiceFacade.Instance.HandlePlayerConnected += OnPlayerConnected;
-            ServiceFacade.Instance.HandlePlayerDisconnected += OnPlayerDisconnected;
+            ServiceFacade.Instance.HandleLobbyUpdated += OnLobbyUpdated;
 
             InitializeComponent();
-            updateLobbyList();
+            UpdateLobbyList();
         }
 
         ~LobbyWindow()
@@ -37,8 +36,7 @@ namespace Battleship
             {
                 if (ServiceFacade.Instance != null)
                 {
-                    ServiceFacade.Instance.HandlePlayerConnected -= OnPlayerConnected;
-                    ServiceFacade.Instance.HandlePlayerDisconnected -= OnPlayerDisconnected;
+                    ServiceFacade.Instance.HandleLobbyUpdated -= OnLobbyUpdated;
                 }
             }
             catch
@@ -47,16 +45,12 @@ namespace Battleship
             }
         }
 
-        private void OnPlayerConnected(string player)
+        public void SetMainWindow(MainWindow window)
         {
-            updateLobbyList();
-        }
-        private void OnPlayerDisconnected(string player)
-        {
-            updateLobbyList();
+            this.window = window;
         }
 
-        public void updateLobbyList()
+        public void UpdateLobbyList()
         {
             lstLobby.Items.Clear();
             List<string> lobby = ServiceFacade.Instance.GetLobby();
@@ -70,9 +64,10 @@ namespace Battleship
             
         }
 
-        public void SetMainWindow(MainWindow window)
+        private void OnLobbyUpdated()
         {
-            this.window = window;
+            Console.WriteLine("Lobby updated!");
+            UpdateLobbyList();
         }
 
         private void OnDisconnectButtonClicked(object sender, RoutedEventArgs e)
@@ -96,7 +91,7 @@ namespace Battleship
 
         private void OnUpdateButtonClicked(object sender, RoutedEventArgs e)
         {
-            updateLobbyList();
+            UpdateLobbyList();
         }
     }
 }

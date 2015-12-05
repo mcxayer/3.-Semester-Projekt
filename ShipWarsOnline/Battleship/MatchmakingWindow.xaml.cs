@@ -27,7 +27,6 @@ namespace Battleship
             InitializeComponent();
 
             ServiceFacade.Instance.HandlePlayerMatchmade += OnPlayerMatchMade;
-            ServiceFacade.Instance.HandlePlayerEnteredMatchmaking += OnPlayerEnteredMatchmaking;
             ServiceFacade.Instance.HandlePlayerExitedMatchmaking += OnPlayerExitedMatchmaking;
         }
 
@@ -38,8 +37,6 @@ namespace Battleship
                 if (ServiceFacade.Instance != null)
                 {
                     ServiceFacade.Instance.HandlePlayerMatchmade -= OnPlayerMatchMade;
-                    ServiceFacade.Instance.HandlePlayerEnteredMatchmaking -= OnPlayerEnteredMatchmaking;
-                    ServiceFacade.Instance.HandlePlayerExitedMatchmaking -= OnPlayerExitedMatchmaking;
                 }
             }
             catch
@@ -55,23 +52,17 @@ namespace Battleship
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            window.GotoLobby();
+            ServiceFacade.Instance.CancelMatchmaking();
         }
 
-        private void OnPlayerMatchMade(string gameId)
+        private void OnPlayerMatchMade()
         {
-            // Get game here
-            lblWaiting.Content = "Matchmade!!!!!!!!!!!!!!!!!!!!";
-        }
-
-        private void OnPlayerEnteredMatchmaking()
-        {
-            
+            window.GotoGame();
         }
 
         private void OnPlayerExitedMatchmaking()
         {
-            
+            window.GotoLobby();
         }
     }
 }

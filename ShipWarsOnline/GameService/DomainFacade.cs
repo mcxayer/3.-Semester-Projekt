@@ -32,11 +32,26 @@ namespace GameService
         public void Matchmake()
         {
             lobby.Matchmake();
-        } 
+        }
+
+        public void CancelMatchmaking()
+        {
+            lobby.CancelMatchmaking();
+        }
 
         public List<string> GetLobby()
         {
-            return lobby.GetActiveClients();
+            return lobby.GetLobbyClients();
+        }
+
+        public void TakeTurn(int x, int y)
+        {
+            lobby.TakeTurn(x, y);
+        }
+
+        public GameStateDTO GetGameState()
+        {
+            return lobby.GetGameState();
         }
     }
 }

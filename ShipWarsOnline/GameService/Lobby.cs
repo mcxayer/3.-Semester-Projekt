@@ -10,12 +10,14 @@ namespace GameService
     public class Lobby
     {
         private Dictionary<IContextChannel, Session> activeClients;
-        private Queue<IContextChannel> matchmakingQueue;
+        private LinkedList<IContextChannel> matchmakingQueue;
+        private Dictionary<IContextChannel, ServerGame> activeGames;
 
         public Lobby()
         {
             activeClients = new Dictionary<IContextChannel, Session>();
-            matchmakingQueue = new Queue<IContextChannel>();
+            matchmakingQueue = new LinkedList<IContextChannel>();
+            activeGames = new Dictionary<IContextChannel, ServerGame>();
         }
 
         public bool Connect(string tokenID)
@@ -39,49 +41,45 @@ namespace GameService
 
             activeClients.Add(OperationContext.Current.Channel, session);
 
-            OnPlayerConnected(session.Username);
+            OnPlayerConnected(session);
             return true;
         }
 
         public bool Disconnect()
         {
-            Session currentPlayerSession;
-            if (!activeClients.TryGetValue(OperationContext.Current.Channel, out currentPlayerSession))
-            {
-                return false;
-            }
-
-            OnPlayerDisconnected(currentPlayerSession.Username);
-
-            currentPlayerSession.Channel.Closed -= OnChannelClosed;
-
-            activeClients.Remove(OperationContext.Current.Channel);
-            return true;
+            return ForceDisconnect(OperationContext.Current.Channel);
         }
 
         private bool ForceDisconnect(IContextChannel channel)
         {
-            Session currentPlayerSession;
-            if (!activeClients.TryGetValue(channel, out currentPlayerSession))
+            Session playerSession;
+            if (!activeClients.TryGetValue(channel, out playerSession))
             {
                 return false;
             }
 
-            OnPlayerDisconnected(currentPlayerSession.Username);
+            OnPlayerDisconnected(playerSession);
+            playerSession.Channel.Closed -= OnChannelClosed;
 
-            currentPlayerSession.Channel.Closed -= OnChannelClosed;
+            if(playerSession.state == SessionState.Matching)
+            {
+                ForceCancelMatchmaking(channel);
+            }
 
             activeClients.Remove(channel);
             return true;
         }
 
-        public List<string> GetActiveClients()
+        public List<string> GetLobbyClients()
         {
             List<string> lobby = new List<string>();
 
             foreach (Session session in activeClients.Values)
             {
-                lobby.Add(session.Username);
+                if(session.state == SessionState.InLobby)
+                {
+                    lobby.Add(session.Username);
+                }
             }
 
             return lobby;
@@ -94,94 +92,186 @@ namespace GameService
 
         public void Matchmake()
         {
-            IContextChannel channel = OperationContext.Current.Channel;
-            if (channel == null)
-            {
-                throw new NullReferenceException("Channel could not be found!");
-            }
-
-            if (matchmakingQueue.Contains(channel))
-            {
-                return;
-            }
-
-            IContextChannel currentPlayer = OperationContext.Current.Channel;
-            if (currentPlayer == null)
+            IContextChannel playerChannel = OperationContext.Current.Channel;
+            if (playerChannel == null)
             {
                 throw new NullReferenceException("Current player does not exist!");
             }
 
-            Session currentPlayerSession;
-            if(!activeClients.TryGetValue(currentPlayer,out currentPlayerSession))
+            Session playerSession;
+            if (!activeClients.TryGetValue(playerChannel, out playerSession))
             {
                 return;
             }
 
+            if (playerSession.state != SessionState.InLobby)
+            {
+                return;
+            }
+
+            playerSession.state = SessionState.Matching;
+
             if (matchmakingQueue.Count > 0)
             {
-                IContextChannel otherPlayer = matchmakingQueue.Dequeue();
-                if (currentPlayer == null)
+                OnPlayerEnteredMatchmaking(playerSession);
+
+                IContextChannel otherPlayerChannel = matchmakingQueue.First.Value;
+                matchmakingQueue.RemoveFirst();
+                if (playerChannel == null)
                 {
                     throw new NullReferenceException("Other player does not exist!");
                 }
 
                 Session otherPlayerSession;
-                if (!activeClients.TryGetValue(currentPlayer, out otherPlayerSession))
+                if (!activeClients.TryGetValue(otherPlayerChannel, out otherPlayerSession))
                 {
-                    return;
+                    throw new NullReferenceException("Current player is not connected!");
                 }
 
-                // Create game
+                ServerGame game = new ServerGame(playerChannel, otherPlayerChannel);
+                activeGames.Add(playerChannel, game);
+                activeGames.Add(otherPlayerChannel, game);
 
-                string gameId = "MyRandomID";
+                playerSession.state = SessionState.InGame;
+                otherPlayerSession.state = SessionState.InGame;
 
-                OnPlayerMatchmade(currentPlayerSession, gameId);
-                OnPlayerMatchmade(otherPlayerSession, gameId);
+                OnPlayerMatchmade(playerSession);
+                OnPlayerMatchmade(otherPlayerSession);
 
-                ForceDisconnect(currentPlayer);
-                ForceDisconnect(otherPlayer);
+                //ForceDisconnect(currentPlayer);
+                //ForceDisconnect(otherPlayer);
 
                 return;
             }
 
-            matchmakingQueue.Enqueue(OperationContext.Current.Channel);
-            OnPlayerEnteredMatchmaking(currentPlayerSession);
+            matchmakingQueue.AddLast(playerSession.Channel);
+            OnPlayerEnteredMatchmaking(playerSession);
         }
 
-        private void OnPlayerConnected(string username)
+        public void CancelMatchmaking()
         {
-            foreach (Session session in activeClients.Values)
+            ForceCancelMatchmaking(OperationContext.Current.Channel);
+        }
+
+        private void ForceCancelMatchmaking(IContextChannel channel)
+        {
+            if (channel == null)
             {
-                if (session.Channel.Equals(OperationContext.Current.Channel))
-                {
-                    continue;
-                }
-
-                session.Callback.OnPlayerConnected(username);
+                throw new NullReferenceException("Player does not exist!");
             }
-        }
 
-        private void OnPlayerDisconnected(string username)
-        {
-            foreach (Session session in activeClients.Values)
+            Session playerSession;
+            if (!activeClients.TryGetValue(channel, out playerSession))
             {
-                if (session.Channel.Equals(OperationContext.Current.Channel))
-                {
-                    continue;
-                }
-
-                session.Callback.OnPlayerDisconnected(username);
+                return;
             }
+
+            if (playerSession.state != SessionState.Matching)
+            {
+                return;
+            }
+
+            playerSession.state = SessionState.InLobby;
+
+            matchmakingQueue.Remove(channel);
+            OnPlayerExitedMatchmaking(playerSession);
         }
 
-        private void OnPlayerMatchmade(Session playerSession, string gameId)
+        public void TakeTurn(int x, int y)
         {
-            if(playerSession == null)
+            IContextChannel playerChannel = OperationContext.Current.Channel;
+            if (playerChannel == null)
+            {
+                throw new NullReferenceException("Current player does not exist!");
+            }
+
+            ServerGame game;
+            if (!activeGames.TryGetValue(playerChannel, out game))
+            {
+                throw new NullReferenceException("Current player is not in a game!");
+            }
+
+            game.TakeTurn(x, y, playerChannel);
+        }
+
+        public GameStateDTO GetGameState()
+        {
+            IContextChannel playerChannel = OperationContext.Current.Channel;
+            if (playerChannel == null)
+            {
+                throw new NullReferenceException("Current player does not exist!");
+            }
+
+            ServerGame game;
+            if (!activeGames.TryGetValue(playerChannel, out game))
+            {
+                throw new NullReferenceException("Current player is not in a game!");
+            }
+
+            return game.GetGameState(playerChannel);
+        }
+
+        private void OnPlayerConnected(Session playerSession)
+        {
+            if (playerSession == null)
             {
                 throw new ArgumentNullException("playerSession");
             }
 
-            playerSession.Callback.OnPlayerMatchmade(gameId);
+            foreach (Session session in activeClients.Values)
+            {
+                if (session.Channel.Equals(playerSession.Channel))
+                {
+                    continue;
+                }
+
+                if(session.state != SessionState.InLobby 
+                    || session.Channel.State != CommunicationState.Opened)
+                {
+                    continue;
+                }
+
+                session.Callback.OnPlayerConnected(playerSession.Username);
+                session.Callback.OnLobbyUpdated();
+            }
+        }
+
+        private void OnPlayerDisconnected(Session playerSession)
+        {
+            if (playerSession == null)
+            {
+                throw new ArgumentNullException("playerSession");
+            }
+
+            foreach (Session session in activeClients.Values)
+            {
+                if (session.Channel.Equals(playerSession.Channel))
+                {
+                    continue;
+                }
+
+                if (session.state != SessionState.InLobby 
+                    || session.Channel.State != CommunicationState.Opened)
+                {
+                    continue;
+                }
+
+                session.Callback.OnPlayerDisconnected(playerSession.Username);
+                session.Callback.OnLobbyUpdated();
+            }
+        }
+
+        private void OnPlayerMatchmade(Session playerSession)
+        {
+            if (playerSession == null)
+            {
+                throw new ArgumentNullException("playerSession");
+            }
+
+            if (playerSession.Channel.State == CommunicationState.Opened)
+            {
+                playerSession.Callback.OnPlayerMatchmade();
+            }
         }
 
         private void OnPlayerEnteredMatchmaking(Session playerSession)
@@ -191,7 +281,25 @@ namespace GameService
                 throw new ArgumentNullException("playerSession");
             }
 
-            playerSession.Callback.OnPlayerEnteredMatchmaking();
+            foreach (Session session in activeClients.Values)
+            {
+                if (session.Channel.Equals(playerSession.Channel))
+                {
+                    if (playerSession.Channel.State == CommunicationState.Opened)
+                    {
+                        playerSession.Callback.OnPlayerEnteredMatchmaking();
+                    }
+                    continue;
+                }
+
+                if (session.state != SessionState.InLobby 
+                    || session.Channel.State != CommunicationState.Opened)
+                {
+                    continue;
+                }
+
+                session.Callback.OnLobbyUpdated();
+            }
         }
 
         private void OnPlayerExitedMatchmaking(Session playerSession)
@@ -201,23 +309,47 @@ namespace GameService
                 throw new ArgumentNullException("playerSession");
             }
 
-            playerSession.Callback.OnPlayerExitedMatchmaking();
+            foreach (Session session in activeClients.Values)
+            {
+                if (session.Channel.Equals(playerSession.Channel))
+                {
+                    if(playerSession.Channel.State == CommunicationState.Opened)
+                    {
+                        playerSession.Callback.OnPlayerExitedMatchmaking();
+                    }
+                    continue;
+                }
+
+                if (session.state != SessionState.InLobby 
+                    || session.Channel.State != CommunicationState.Opened)
+                {
+                    continue;
+                }
+
+                session.Callback.OnLobbyUpdated();
+            }
         }
 
         private void OnChannelClosed(object sender, EventArgs e)
         {
-            Session currentPlayerSession;
-            if (activeClients.TryGetValue(OperationContext.Current.Channel, out currentPlayerSession))
+            IContextChannel playerChannel = sender as IContextChannel;
+            if (playerChannel == null)
             {
-                OnPlayerDisconnected(currentPlayerSession.Username);
+                throw new NullReferenceException("Could not get closed channel!");
             }
+
+            ForceDisconnect(playerChannel);
         }
+
+        private enum SessionState { InLobby, Matching, InGame }
 
         private class Session
         {
             public IContextChannel Channel { get; private set; }
             public ICallback Callback { get; private set; }
             public string Username { get; private set; }
+
+            public SessionState state { get; set; }
 
             public Session(IContextChannel channel, ICallback callback, string username)
             {

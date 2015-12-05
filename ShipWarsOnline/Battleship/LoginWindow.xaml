@@ -80,5 +80,15 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="49,56,-64,0" Grid.Row="1" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Source="http://i.imgur.com/g7TUsLv.png" Grid.Column="2">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-55.822"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
     </Grid>
 </UserControl>

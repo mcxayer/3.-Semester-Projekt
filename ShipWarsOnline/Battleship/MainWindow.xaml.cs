@@ -26,66 +26,80 @@ namespace Battleship
         
         public MainWindow()
         {
-            mainMenuWindow = new MainMenuWindow();
-            mainMenuWindow.SetMainWindow(this);
-            loginWindow = new LoginWindow();
-            loginWindow.SetMainWindow(this);
-            gameWindow = new GameWindow();
-            gameWindow.SetMainWindow(this);
-            lobbyWindow = new LobbyWindow();
-            lobbyWindow.SetMainWindow(this);
-            createAccountWindow = new CreateAccountWindow();
-            createAccountWindow.SetMainWindow(this);
-            matchmakingWindow = new MatchmakingWindow();
-            matchmakingWindow.SetMainWindow(this);
-
             InitializeComponent();
             GotoMainMenu();
         }
 
-        private void ExecutedNewGame(object sender, ExecutedRoutedEventArgs e)
-        {
-            if(DataContext != gameWindow)
-            {
-                return;
-            }
-
-            gameWindow.NewGame();
-        }
-
-        private void ExecutedExit(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.Close();
-        }
-
         public void GotoMainMenu()
         {
+            // Lazy instantiation
+            if(mainMenuWindow == null)
+            {
+                mainMenuWindow = new MainMenuWindow();
+                mainMenuWindow.SetMainWindow(this);
+            }
+
             DataContext = mainMenuWindow;
         }
 
         public void GotoLogin()
         {
+            // Lazy instantiation
+            if (loginWindow == null)
+            {
+                loginWindow = new LoginWindow();
+                loginWindow.SetMainWindow(this);
+            }
+
             DataContext = loginWindow;
         }
 
         public void GotoGame()
         {
+            // Lazy instantiation
+            if (gameWindow == null)
+            {
+                gameWindow = new GameWindow();
+                gameWindow.SetMainWindow(this);
+            }
+
             DataContext = gameWindow;
         }
 
         public void GotoLobby()
         {
-            lobbyWindow.updateLobbyList();
+            // Lazy instantiation
+            if (lobbyWindow == null)
+            {
+                lobbyWindow = new LobbyWindow();
+                lobbyWindow.SetMainWindow(this);
+            }
+
+            lobbyWindow.UpdateLobbyList();
             DataContext = lobbyWindow;
         }
 
         public void GotoCreateAccount()
         {
+            // Lazy instantiation
+            if (createAccountWindow == null)
+            {
+                createAccountWindow = new CreateAccountWindow();
+                createAccountWindow.SetMainWindow(this);
+            }
+
             DataContext = createAccountWindow;
         }
 
         public void GotoMatchmaking()
         {
+            // Lazy instantiation
+            if (matchmakingWindow == null)
+            {
+                matchmakingWindow = new MatchmakingWindow();
+                matchmakingWindow.SetMainWindow(this);
+            }
+
             DataContext = matchmakingWindow;
         }
     }

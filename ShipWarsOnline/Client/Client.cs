@@ -98,6 +98,11 @@ namespace Client
 
         private class DuplexedClass : GameService.ICallback
         {
+            public void OnLobbyUpdated()
+            {
+                Console.WriteLine("Lobby updated!");
+            }
+
             public void OnPlayerConnected(string player)
             {
                 Console.WriteLine(string.Format("Player {0} connected to the game server!", player));
@@ -118,9 +123,9 @@ namespace Client
                 Console.WriteLine("Player exited matchmaking!");
             }
 
-            public void OnPlayerMatchmade(string gameId)
+            public void OnPlayerMatchmade()
             {
-                Console.WriteLine(string.Format("Matchmade to game {0}!", gameId));
+                Console.WriteLine("Player matchmade to game!");
             }
         }
     }

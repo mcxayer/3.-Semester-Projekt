@@ -4,12 +4,6 @@
         xmlns:local="clr-namespace:Battleship"
         xmlns:view="clr-namespace:Battleship.Game"
         Title="{StaticResource AppTitle}" SizeToContent="WidthAndHeight">
-    <Window.CommandBindings>
-        <CommandBinding Command="{x:Static local:Commands.NewGame}"
-                    Executed="ExecutedNewGame" />
-        <CommandBinding Command="{x:Static local:Commands.Exit}"
-                    Executed="ExecutedExit" />
-    </Window.CommandBindings>
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:MainMenuWindow}">
             <local:MainMenuWindow/>
@@ -22,15 +16,6 @@
         </DataTemplate>
     </Window.Resources>
     <DockPanel>
-        <Menu HorizontalAlignment="Stretch" DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Command="{x:Static local:Commands.NewGame}"/>
-                <Separator />
-                <MenuItem Command="{x:Static local:Commands.Exit}" />                
-            </MenuItem>
-        </Menu>
-        <DockPanel>
-            <ContentControl Content="{Binding}"/>
-        </DockPanel>
+        <ContentControl Content="{Binding}"/>
     </DockPanel>
 </Window>
