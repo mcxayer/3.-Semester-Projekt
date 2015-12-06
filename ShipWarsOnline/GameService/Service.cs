@@ -84,14 +84,16 @@ namespace GameService
 
         public GameStateDTO GetGameState()
         {
-            try
-            {
-                return DomainFacade.Instance.GetGameState();
-            }
-            catch
-            {
-                throw new FaultException("Could not get game state!");
-            }
+            //try
+            //{
+            //    return DomainFacade.Instance.GetGameState();
+            //}
+            //catch
+            //{
+            //    throw new FaultException("Could not get game state!");
+            //}
+
+            return DomainFacade.Instance.GetGameState();
         }
     }
 }

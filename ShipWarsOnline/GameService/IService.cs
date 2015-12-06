@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ShipWarsOnline;
+using ShipWarsOnline.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -68,9 +70,10 @@ namespace GameService
     public class GameStateDTO
     {
         [DataMember]
-        public byte[] grid;
-        //public PlayerGridDTO playerGrid;
-        //public OpponentGridDTO opponentGrid;
+        public SeaGridData playerGrid;
+
+        [DataMember]
+        public SeaSquareData[][] opponentCells;
     }
 
     [DataContract]
@@ -81,28 +84,5 @@ namespace GameService
 
         [DataMember]
         public int affectedY;
-    }
-
-    [DataContract]
-    public class PlayerGridDTO
-    {
-        [DataMember]
-        public int[,] gridType;
-
-        [DataMember]
-        public int[,] gridShipIndex;
-
-        [DataMember]
-        public int[] shipTypes;
-
-        [DataMember]
-        public int[] shipHealths;
-    }
-
-    [DataContract]
-    public class OpponentGridDTO
-    {
-        [DataMember]
-        public int[,] gridType;
     }
 }

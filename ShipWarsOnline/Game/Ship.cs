@@ -1,19 +1,17 @@
-﻿using System;
+﻿using ShipWarsOnline.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace ShipWarsOnline
 {
-    [Serializable]
-    public enum ShipType { Carrier, Battleship, Destroyer, Submarine, PatrolBoat };
-
-    [Serializable]
     public class Ship
     {
         private int health;
         private ShipType type;
 
+        // Maybe ship factory
         private static readonly Dictionary<ShipType, int> shipLengths = new Dictionary<ShipType, int>()
         {
             {ShipType.Carrier, 5},
@@ -27,6 +25,22 @@ namespace ShipWarsOnline
         {
             this.type = type;
             health = shipLengths[type];
+        }
+
+        public Ship(ShipData data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (data.Health < 0 || data.Health > shipLengths[data.Type])
+            {
+                throw new Exception("Health of ship must not be less than zero or greater than maximum health!");
+            }
+
+            type = data.Type;
+            health = data.Health;
         }
 
         public int Length
@@ -53,6 +67,15 @@ namespace ShipWarsOnline
             }
 
             health--;
+        }
+
+        public ShipData GetData()
+        {
+            return new ShipData
+            {
+                Type = type,
+                Health = health
+            };
         }
     }
 }

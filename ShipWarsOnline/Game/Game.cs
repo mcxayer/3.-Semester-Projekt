@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShipWarsOnline.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,9 +37,14 @@ namespace ShipWarsOnline
             CurrentPlayerTurn = nextPlayerIndex;
         }
 
-        public SeaGrid GetGrid()
+        public SeaGridData[] GetData()
         {
-            return grids[0];
+            SeaGridData[] data = new SeaGridData[grids.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = grids[i].GetData();
+            }
+            return data;
         }
     }
 }

@@ -34,26 +34,15 @@ namespace Battleship.Game
             ListBoxItem item = sender as ListBoxItem;
             SeaSquare content = item.Content as SeaSquare;
 
-            ShipWarsOnline.SeaGrid grid;
-            byte[] gridBytes = ServiceFacade.Instance.GetGameState().grid;
+            GameService.GameStateDTO gameState = ServiceFacade.Instance.GetGameState();
 
-            if(gridBytes == null)
-            {
-                Console.WriteLine("grid bytes is null!");
-                return;
-            }
-            using (MemoryStream stream = new MemoryStream(gridBytes))
-            {
-                grid = (ShipWarsOnline.SeaGrid)new BinaryFormatter().Deserialize(stream);
-            }
-
-            if(grid == null)
+            if(gameState == null)
             {
                 Console.WriteLine("Game is null!");
             }
             else
             {
-                Console.WriteLine(grid.GetCell(0,0));
+                Console.WriteLine(gameState.opponentCells[0][0].Type);
             }
 
             //XXX sometimes if you click really fast you can end up clicking on what the debugger says is a "ListBoxItem {DisconnectedItem}

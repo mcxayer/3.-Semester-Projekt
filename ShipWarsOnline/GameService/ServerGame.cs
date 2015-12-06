@@ -1,4 +1,5 @@
 ﻿using ShipWarsOnline;
+using ShipWarsOnline.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,22 +25,13 @@ namespace GameService
 
         public void TakeTurn(int x, int y, IContextChannel playerChannel)
         {
-            int playerIndex = -1;
-            if(playerChannel == playerChannels[0])
-            {
-                playerIndex = 0;
-            }
-            else if (playerChannel == playerChannels[1])
-            {
-                playerIndex = 1;
-            }
-
-            if(playerIndex == -1)
+            int playerIndex = GetPlayerIndex(playerChannel);
+            if (playerIndex == -1)
             {
                 throw new ArgumentException("playerChannel is not in game!", "playerChannel");
             }
 
-            if(playerIndex != game.CurrentPlayerTurn)
+            if (playerIndex != game.CurrentPlayerTurn)
             {
                 throw new Exception("Not players turn!");
             }
@@ -49,25 +41,49 @@ namespace GameService
 
         public GameStateDTO GetGameState(IContextChannel playerChannel)
         {
-            if(playerChannel != playerChannels[0] && playerChannel != playerChannels[1])
+            int playerIndex = GetPlayerIndex(playerChannel);
+            if ( playerIndex == -1)
             {
                 throw new Exception("Could not get game state as player does not exist in game!");
             }
 
-            byte[] gridBytes;
-            using (MemoryStream stream = new MemoryStream())
+            SeaGridData[] grids = game.GetData();
+            SeaSquareData[][] opponentCells = grids[(playerIndex + 1) % 2].Cells;
+
+            for (int i = 0; i < opponentCells.Length; i++)
             {
-                new BinaryFormatter().Serialize(stream, game.GetGrid());
-                gridBytes = stream.ToArray();
+                for (int j = 0; j < opponentCells[i].Length; j++)
+                {
+                    SeaSquareData square = opponentCells[i][j];
+
+                    if(!square.Revealed)
+                    {
+                        square.Type = SquareType.Unknown;
+                        square.ShipIndex = -1;
+                    }
+                }
             }
 
-            Console.WriteLine(gridBytes);
-
             GameStateDTO state = new GameStateDTO();
-            state.grid = gridBytes;
+            state.playerGrid = grids[playerIndex];
+            state.opponentCells = opponentCells;
+
             return state;
-            //PlayerGridDTO playerGrid = new PlayerGridDTO();
-            //playerGrid.gridType = new int[game.]
+        }
+
+        private int GetPlayerIndex(IContextChannel playerChannel)
+        {
+            int playerIndex = -1;
+            if (playerChannel == playerChannels[0])
+            {
+                playerIndex = 0;
+            }
+            else if (playerChannel == playerChannels[1])
+            {
+                playerIndex = 1;
+            }
+
+            return playerIndex;
         }
     }
 }

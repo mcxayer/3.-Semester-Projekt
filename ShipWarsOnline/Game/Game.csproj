@@ -42,8 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComputerPlayer.cs" />
+    <Compile Include="Data\SeaGridData.cs" />
+    <Compile Include="Data\SeaSquareData.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Grid.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,7 +52,7 @@
     <Compile Include="SeaSquare.cs" />
     <Compile Include="BinarySerializer.cs" />
     <Compile Include="Ship.cs" />
-    <Compile Include="ShipData.cs" />
+    <Compile Include="Data\ShipData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

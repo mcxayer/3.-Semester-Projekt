@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShipWarsOnline.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,35 @@ using System.Threading.Tasks;
 
 namespace ShipWarsOnline
 {
-    [Serializable]
-    public class SeaGrid : Grid<SeaSquare>
+    public class SeaGrid
     {
         private static readonly int MaxLoopCount = 10000;
+        private static readonly int DefaultGridSize = 10;
+
+        private SeaSquare[,] cells;
+        private int Size { get; set; }
 
         private List<Ship> ships = new List<Ship>();
         private Random rnd = new Random();
 
         public SeaGrid() : this(DefaultGridSize) { }
-        public SeaGrid(int size) : base(size)
+        public SeaGrid(int size)
         {
+            if (size <= 0)
+            {
+                throw new ArgumentOutOfRangeException("size", "size must be greater than zero!");
+            }
+            Size = size;
+
+            cells = new SeaSquare[Size, Size];
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    cells[i, j] = new SeaSquare();
+                }
+            }
+
             ships = new List<Ship>();
 
             foreach (ShipType type in Enum.GetValues(typeof(ShipType)))
@@ -25,6 +44,40 @@ namespace ShipWarsOnline
             }
 
             Reset();
+        }
+
+        public SeaGrid(SeaGridData data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (data.Ships == null)
+            {
+                throw new NullReferenceException("Ships in data can not be null!");
+            }
+
+            if (data.Cells == null)
+            {
+                throw new NullReferenceException("Cells in data can not be null!");
+            }
+
+            Size = data.Cells.GetLength(0);
+            cells = new SeaSquare[Size, Size];
+            for (int i = 0; i < cells.GetLength(0); i++)
+            {
+                for (int j = 0; j < cells.GetLength(1); j++)
+                {
+                    cells[i,j] = new SeaSquare(data.Cells[i][j]);
+                }
+            }
+
+            ships = new List<Ship>();
+            for (int i = 0; i < data.Ships.Length; i++)
+            {
+                ships.Add(new Ship(data.Ships[i]));
+            }
         }
 
         public void Reset()
@@ -185,6 +238,56 @@ namespace ShipWarsOnline
         public bool AreAllShipsSunk()
         {
             return ships.All(ship => ship.Sunk);
+        }
+
+        private SeaSquare GetCell(int x, int y)
+        {
+            if (x < 0 || x >= Size)
+            {
+                throw new ArgumentOutOfRangeException("x");
+            }
+
+            if (y < 0 || y >= Size)
+            {
+                throw new ArgumentOutOfRangeException("y");
+            }
+
+            return cells[x, y];
+        }
+
+        public SeaGridData GetData()
+        {
+            return new SeaGridData()
+            {
+                Ships = GetShipData(),
+                Cells = GetCellData()
+            };
+        }
+
+        public SeaSquareData[][] GetCellData()
+        {
+            SeaSquareData[][] data = new SeaSquareData[Size][];
+            for (int i = 0; i < Size; i++)
+            {
+                data[i] = new SeaSquareData[Size];
+
+                for (int j = 0; j < Size; j++)
+                {
+                    data[i][j] = cells[i,j].GetData();
+                }
+            }
+
+            return data;
+        }
+
+        public ShipData[] GetShipData()
+        {
+            ShipData[] data = new ShipData[ships.Count];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = ships[i].GetData();
+            }
+            return data;
         }
     }
 }

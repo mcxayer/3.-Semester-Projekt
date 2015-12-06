@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShipWarsOnline.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,6 @@ using System.Windows;
 
 namespace ShipWarsOnline
 {
-    [Serializable]
-    public enum SquareType { Unknown, Water, Undamaged, Damaged, Sunk }
-
-    [Serializable]
     public class SeaSquare
     {
         private int shipIndex;
@@ -18,9 +15,9 @@ namespace ShipWarsOnline
             get { return shipIndex; }
             set
             {
-                if(shipIndex < -1)
+                if(value < -1)
                 {
-                    throw new ArgumentOutOfRangeException("ShipIndex.value");
+                    throw new ArgumentOutOfRangeException("value");
                 }
 
                 shipIndex = value;
@@ -28,5 +25,36 @@ namespace ShipWarsOnline
         }
 
         public SquareType Type { get; set; }
+
+        public bool Revealed { get; set; }
+
+        public SeaSquare() { }
+
+        public SeaSquare(SeaSquareData data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException("data");
+            }
+
+            if (data.ShipIndex < -1)
+            {
+                throw new Exception("Ship index must not be less than negative one!");
+            }
+
+            ShipIndex = data.ShipIndex;
+            Type = data.Type;
+            Revealed = data.Revealed;
+        }
+
+        public SeaSquareData GetData()
+        {
+            return new SeaSquareData
+            {
+                ShipIndex = ShipIndex,
+                Type = Type,
+                Revealed = Revealed
+            };
+        }
     }
 }

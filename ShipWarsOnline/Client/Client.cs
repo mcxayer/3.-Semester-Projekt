@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
+using GameService;
 
 namespace Client
 {
@@ -126,6 +127,10 @@ namespace Client
             public void OnPlayerMatchmade()
             {
                 Console.WriteLine("Player matchmade to game!");
+            }
+            public void OnGameUpdated(GameDeltaStateDTO deltaState)
+            {
+                throw new NotImplementedException();
             }
         }
     }
