@@ -73,7 +73,7 @@ namespace GameService
         public SeaGridData playerGrid;
 
         [DataMember]
-        public SeaSquareData[][] opponentCells;
+        public SeaCellData[][] opponentCells;
     }
 
     [DataContract]

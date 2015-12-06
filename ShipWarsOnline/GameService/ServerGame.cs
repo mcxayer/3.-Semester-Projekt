@@ -14,12 +14,12 @@ namespace GameService
 {
     public class ServerGame
     {
-        private Game game;
+        private LocalGame game;
         private IContextChannel[] playerChannels;
 
         public ServerGame(IContextChannel playerChannel1, IContextChannel playerChannel2)
         {
-            game = new Game(null,null);
+            game = new LocalGame(null,null);
             playerChannels = new IContextChannel[] { playerChannel1, playerChannel2 };
         }
 
@@ -48,17 +48,17 @@ namespace GameService
             }
 
             SeaGridData[] grids = game.GetData();
-            SeaSquareData[][] opponentCells = grids[(playerIndex + 1) % 2].Cells;
+            SeaCellData[][] opponentCells = grids[(playerIndex + 1) % 2].Cells;
 
             for (int i = 0; i < opponentCells.Length; i++)
             {
                 for (int j = 0; j < opponentCells[i].Length; j++)
                 {
-                    SeaSquareData square = opponentCells[i][j];
+                    SeaCellData square = opponentCells[i][j];
 
                     if(!square.Revealed)
                     {
-                        square.Type = SquareType.Unknown;
+                        square.Type = CellType.Unknown;
                         square.ShipIndex = -1;
                     }
                 }

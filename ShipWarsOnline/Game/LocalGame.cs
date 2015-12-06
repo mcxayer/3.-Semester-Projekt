@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShipWarsOnline
 {
-    public class Game
+    public class LocalGame : IGame
     {
         private static readonly int MaxPlayerAmount = 2;
 
@@ -16,7 +16,7 @@ namespace ShipWarsOnline
 
         public int CurrentPlayerTurn { get; private set; }
 
-        public Game(IPlayer player1, IPlayer player2)
+        public LocalGame(IPlayer player1, IPlayer player2)
         {
             players = new IPlayer[MaxPlayerAmount];
             players[0] = player1;
@@ -45,6 +45,14 @@ namespace ShipWarsOnline
                 data[i] = grids[i].GetData();
             }
             return data;
+        }
+
+        public CellType[][] GetCellTypes(int playerIndex)
+        {
+            if(playerIndex < 0 || playerIndex >= MaxPlayerAmount)
+            {
+                throw new ArgumentOutOfRangeException("playerIndex");
+            }
         }
     }
 }

@@ -27,19 +27,19 @@ namespace Battleship
         private Player _player2;
 
         private Grid _mygrid;
-        private Grid _enermygrid;
+        private Grid _enemygrid;
 
         public GameWindow()
         {
             _player1 = new Player();
             _player2 = new Player();
             _mygrid = new Grid(_player1, _player2);
-            _enermygrid = new Grid(_player1, _player2);
+            _enemygrid = new Grid(_player1, _player2);
 
             InitializeComponent();
 
             myGrid.DataContext = _mygrid;
-            enermyGrid.DataContext = _enermygrid;
+            enemyGrid.DataContext = _enemygrid;
         }
 
         public void SetMainWindow(MainWindow window)

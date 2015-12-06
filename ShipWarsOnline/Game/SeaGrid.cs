@@ -12,7 +12,7 @@ namespace ShipWarsOnline
         private static readonly int MaxLoopCount = 10000;
         private static readonly int DefaultGridSize = 10;
 
-        private SeaSquare[,] cells;
+        private SeaCell[,] cells;
         private int Size { get; set; }
 
         private List<Ship> ships = new List<Ship>();
@@ -27,12 +27,12 @@ namespace ShipWarsOnline
             }
             Size = size;
 
-            cells = new SeaSquare[Size, Size];
+            cells = new SeaCell[Size, Size];
             for (int i = 0; i < Size; i++)
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    cells[i, j] = new SeaSquare();
+                    cells[i, j] = new SeaCell();
                 }
             }
 
@@ -64,12 +64,12 @@ namespace ShipWarsOnline
             }
 
             Size = data.Cells.GetLength(0);
-            cells = new SeaSquare[Size, Size];
+            cells = new SeaCell[Size, Size];
             for (int i = 0; i < cells.GetLength(0); i++)
             {
                 for (int j = 0; j < cells.GetLength(1); j++)
                 {
-                    cells[i,j] = new SeaSquare(data.Cells[i][j]);
+                    cells[i,j] = new SeaCell(data.Cells[i][j]);
                 }
             }
 
@@ -86,8 +86,8 @@ namespace ShipWarsOnline
             {
                 for (int j = 0; j < Size; ++j)
                 {
-                    SeaSquare square = GetCell(i, j);
-                    square.Type = SquareType.Water;
+                    SeaCell square = GetCell(i, j);
+                    square.Type = CellType.Water;
                     square.ShipIndex = -1;
                 }
             }
@@ -133,11 +133,11 @@ namespace ShipWarsOnline
 
             for (int i = 0; i < length; ++i)
             {
-                SeaSquare square = horizontal
+                SeaCell square = horizontal
                     ? GetCell(startX + i, startY)
                     : GetCell(startX, startY + i);
 
-                square.Type = SquareType.Undamaged;
+                square.Type = CellType.Undamaged;
                 square.ShipIndex = shipIndex;
             }
 
@@ -187,11 +187,11 @@ namespace ShipWarsOnline
             return x >= 0 && x < Size && y >= 0 && y < Size;
         }
 
-        public SquareType FireAt(int x, int y)
+        public CellType FireAt(int x, int y)
         {
-            SeaSquare square = GetCell(x, y);
+            SeaCell square = GetCell(x, y);
 
-            if(square.Type == SquareType.Undamaged)
+            if(square.Type == CellType.Undamaged)
             {
                 int indexToDamage = square.ShipIndex;
                 Ship ship = GetShip(indexToDamage);
@@ -203,7 +203,7 @@ namespace ShipWarsOnline
                 }
                 else
                 {
-                    square.Type = SquareType.Damaged;
+                    square.Type = CellType.Damaged;
                 }
             }
 
@@ -226,10 +226,10 @@ namespace ShipWarsOnline
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    SeaSquare square = GetCell(i, j);
+                    SeaCell square = GetCell(i, j);
                     if (square.ShipIndex == shipIndex)
                     {
-                        square.Type = SquareType.Sunk;
+                        square.Type = CellType.Sunk;
                     }
                 }
             }
@@ -240,7 +240,7 @@ namespace ShipWarsOnline
             return ships.All(ship => ship.Sunk);
         }
 
-        private SeaSquare GetCell(int x, int y)
+        private SeaCell GetCell(int x, int y)
         {
             if (x < 0 || x >= Size)
             {
@@ -264,12 +264,12 @@ namespace ShipWarsOnline
             };
         }
 
-        public SeaSquareData[][] GetCellData()
+        public SeaCellData[][] GetCellData()
         {
-            SeaSquareData[][] data = new SeaSquareData[Size][];
+            SeaCellData[][] data = new SeaCellData[Size][];
             for (int i = 0; i < Size; i++)
             {
-                data[i] = new SeaSquareData[Size];
+                data[i] = new SeaCellData[Size];
 
                 for (int j = 0; j < Size; j++)
                 {

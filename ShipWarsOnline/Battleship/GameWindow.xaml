@@ -9,6 +9,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
         <view:SeaGrid x:Name="myGrid" DockPanel.Dock="Left"/>
-        <view:SeaGrid x:Name="enermyGrid" />
+        <view:SeaGrid x:Name="enemyGrid" />
     </DockPanel>
 </UserControl>

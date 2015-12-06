@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ShipWarsOnline.Data
 {
     [DataContract]
-    public enum SquareType
+    public enum CellType
     {
         [EnumMember]
         Unknown,
@@ -23,13 +23,13 @@ namespace ShipWarsOnline.Data
     }
 
     [DataContract]
-    public class SeaSquareData
+    public class SeaCellData
     {
         [DataMember]
         public int ShipIndex { get; set; }
 
         [DataMember]
-        public SquareType Type { get; set; }
+        public CellType Type { get; set; }
 
         [DataMember]
         public bool Revealed { get; set; }

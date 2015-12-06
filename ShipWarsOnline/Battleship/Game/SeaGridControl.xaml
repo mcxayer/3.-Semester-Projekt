@@ -30,12 +30,12 @@
 
     <DataTemplate x:Key="RowTemplate">
             <ListBox BorderThickness="0"
-        ItemsSource="{Binding}"
-        Style="{StaticResource HorizontalListBox}"
-        ItemTemplate="{StaticResource CellTemplate}">
+                    ItemsSource="{Binding}"
+                    Style="{StaticResource HorizontalListBox}"
+                    ItemTemplate="{StaticResource CellTemplate}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}">
-                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="Item_PreviewMouseLeftButtonDown" />
+                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="OnCellClicked" />
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>

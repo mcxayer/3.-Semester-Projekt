@@ -75,14 +75,15 @@
     <Compile Include="CreateAccountWindow.xaml.cs">
       <DependentUpon>CreateAccountWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameContextFacade.cs" />
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\ColorContoller.cs" />
     <Compile Include="Game\Grid.cs" />
     <Compile Include="Game\Player.cs" />
-    <Compile Include="Game\SeaGrid.xaml.cs">
-      <DependentUpon>SeaGrid.xaml</DependentUpon>
+    <Compile Include="Game\SeaGridControl.xaml.cs">
+      <DependentUpon>SeaGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\SeaSquare.cs" />
     <Compile Include="Game\Ship.cs" />
@@ -101,7 +102,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Game\SeaGrid.xaml">
+    <Page Include="Game\SeaGridControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

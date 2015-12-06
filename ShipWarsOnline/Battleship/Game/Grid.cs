@@ -54,7 +54,7 @@ namespace Battleship.Game
                 
                 
             }
-        public List<List<SeaSquare>> enermyGrid
+        public List<List<SeaSquare>> enemyGrid
         {
             get { return Gamer1.EnemyGrid; }
 

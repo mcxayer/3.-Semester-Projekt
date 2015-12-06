@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace ShipWarsOnline
 {
-    public class SeaSquare
+    class SeaCell
     {
         private int shipIndex;
         public int ShipIndex
@@ -24,13 +24,13 @@ namespace ShipWarsOnline
             }
         }
 
-        public SquareType Type { get; set; }
+        public CellType Type { get; set; }
 
         public bool Revealed { get; set; }
 
-        public SeaSquare() { }
+        public SeaCell() { }
 
-        public SeaSquare(SeaSquareData data)
+        public SeaCell(SeaCellData data)
         {
             if (data == null)
             {
@@ -47,14 +47,19 @@ namespace ShipWarsOnline
             Revealed = data.Revealed;
         }
 
-        public SeaSquareData GetData()
+        public SeaCellData GetData()
         {
-            return new SeaSquareData
+            return new SeaCellData
             {
                 ShipIndex = ShipIndex,
                 Type = Type,
                 Revealed = Revealed
             };
         }
+    }
+
+    public class ReadOnlySeaCell
+    {
+        public 
     }
 }

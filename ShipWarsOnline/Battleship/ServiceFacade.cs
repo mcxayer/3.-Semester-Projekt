@@ -13,9 +13,6 @@ namespace Battleship
 {
     public class ServiceFacade
     {
-        private static readonly ServiceFacade instance = new ServiceFacade();
-        public static ServiceFacade Instance { get { return instance; } }
-
         public event Action<string> HandlePlayerConnected;
         public event Action<string> HandlePlayerDisconnected;
         public event Action HandlePlayerMatchmade;
@@ -29,7 +26,7 @@ namespace Battleship
         //private TcpClient client;
         private Dispatcher uiDispatcher;
 
-        private ServiceFacade()
+        public ServiceFacade()
         {
             var generalFactory = new ChannelFactory<GeneralService.IService>("GeneralServiceEndpoint");
             generalService = generalFactory.CreateChannel();

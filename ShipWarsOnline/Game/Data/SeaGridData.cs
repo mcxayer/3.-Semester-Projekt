@@ -14,6 +14,6 @@ namespace ShipWarsOnline.Data
         public ShipData[] Ships { get; set; }
 
         [DataMember]
-        public SeaSquareData[][] Cells { get; set; }
+        public SeaCellData[][] Cells { get; set; }
     }
 }
