@@ -6,29 +6,26 @@
              xmlns:game="clr-namespace:Battleship.Game"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <game:ColorContoller x:Key="ColorContoller" />
-
-    <Style x:Key="HorizontalListBox">
-        <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="White" />
-        </Style.Resources>
-         <Setter Property="ListBox.ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
+        <game:ColorController x:Key="ColorController" />
+        <Style x:Key="HorizontalListBox">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="White" />
+            </Style.Resources>
+            <Setter Property="ListBox.ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-
-    <DataTemplate x:Key="CellTemplate">
-        <Border BorderThickness="2" BorderBrush="DarkGray" CornerRadius="2" Width="20" Height="20" >
+        <DataTemplate x:Key="CellTemplate">
+            <Border BorderThickness="2" BorderBrush="DarkGray" CornerRadius="2" Width="20" Height="20" >
                 <Rectangle Fill ="{Binding Type,
-                    Converter={StaticResource ColorContoller}}" />
-        </Border>            
+                    Converter={StaticResource ColorController}}" />
+            </Border>
         </DataTemplate>
-
-    <DataTemplate x:Key="RowTemplate">
+        <DataTemplate x:Key="RowTemplate">
             <ListBox BorderThickness="0"
                     ItemsSource="{Binding}"
                     Style="{StaticResource HorizontalListBox}"
@@ -40,22 +37,18 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </DataTemplate>
-        
     </UserControl.Resources>
-    
+
     <StackPanel Width="300" Height="300">
-    <ListBox ItemsSource="{Binding MyGrid}" ItemTemplate="{StaticResource RowTemplate}"
-             HorizontalContentAlignment="Center" Padding="20"
-             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,
-             Type=game:Grid}">
-        <ListBox.Style>
-            <Style>
-                <Style.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="White" />
-                </Style.Resources>
-            </Style>
-        </ListBox.Style>
-     </ListBox>
+        <ListBox ItemsSource="{Binding MyGrid}" ItemTemplate="{StaticResource RowTemplate}"
+             HorizontalContentAlignment="Center" Padding="20">
+            <ListBox.Style>
+                <Style>
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="White" />
+                    </Style.Resources>
+                </Style>
+            </ListBox.Style>
+        </ListBox>
     </StackPanel>
-    
 </UserControl>

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.ServiceModel;
-using System.IdentityModel.Tokens;
-using System.Net.Sockets;
-using System.Text;
 using System.Collections.Generic;
 using GameService;
 
 namespace Client
 {
-    public class Client
+    // Flyt alt over til client
+    public class Application
     {
         static void Main(string[] args)
         {

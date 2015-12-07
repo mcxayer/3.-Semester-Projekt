@@ -1,9 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using System.Security.Cryptography;
-using System.Net.Sockets;
-using System.Net;
-using System.IO;
 
 namespace Server
 {

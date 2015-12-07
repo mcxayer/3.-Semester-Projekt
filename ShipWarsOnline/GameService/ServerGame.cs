@@ -1,14 +1,7 @@
 ﻿using ShipWarsOnline;
 using ShipWarsOnline.Data;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameService
 {
@@ -47,26 +40,30 @@ namespace GameService
                 throw new Exception("Could not get game state as player does not exist in game!");
             }
 
-            SeaGridData[] grids = game.GetData();
-            SeaCellData[][] opponentCells = grids[(playerIndex + 1) % 2].Cells;
+            var grids = game.ReadOnlyGrids;
+            var opponentCells = grids[(playerIndex + 1) % 2].ReadOnlyCells;
 
-            for (int i = 0; i < opponentCells.Length; i++)
+            // NOTE: Jagged arrays are necessary, as WCF does not like multidimensional arrays
+            SeaCellData[][] opponentCellsData = DTOFactory.CreateCellData(opponentCells);
+
+            for (int i = 0; i < opponentCellsData.Length; i++)
             {
-                for (int j = 0; j < opponentCells[i].Length; j++)
+                for (int j = 0; j < opponentCellsData[i].Length; j++)
                 {
-                    SeaCellData square = opponentCells[i][j];
+                    SeaCellData cellData = opponentCellsData[i][j];
 
-                    if(!square.Revealed)
+                    if (!cellData.Revealed)
                     {
-                        square.Type = CellType.Unknown;
-                        square.ShipIndex = -1;
+                        cellData.Type = CellType.Unknown;
+                        cellData.ShipIndex = -1;
                     }
                 }
             }
 
             GameStateDTO state = new GameStateDTO();
-            state.playerGrid = grids[playerIndex];
-            state.opponentCells = opponentCells;
+            state.PlayerGrid = DTOFactory.CreateSeaGridData(grids[playerIndex]);
+            state.OpponentCells = opponentCellsData;
+            state.PlayerIndex = playerIndex;
 
             return state;
         }

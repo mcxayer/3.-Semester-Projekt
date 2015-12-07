@@ -1,12 +1,7 @@
-﻿using ShipWarsOnline;
-using ShipWarsOnline.Data;
-using System;
+﻿using ShipWarsOnline.Data;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameService
 {
@@ -70,19 +65,22 @@ namespace GameService
     public class GameStateDTO
     {
         [DataMember]
-        public SeaGridData playerGrid;
+        public SeaGridData PlayerGrid { get; set; }
 
         [DataMember]
-        public SeaCellData[][] opponentCells;
+        public SeaCellData[][] OpponentCells { get; set; }
+
+        [DataMember]
+        public int PlayerIndex { get; set; }
     }
 
     [DataContract]
     public class GameDeltaStateDTO
     {
         [DataMember]
-        public int affectedX;
+        public int AffectedX { get; set; }
 
         [DataMember]
-        public int affectedY;
+        public int AffectedY { get; set; }
     }
 }

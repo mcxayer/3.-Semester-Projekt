@@ -1,13 +1,9 @@
 ﻿using ShipWarsOnline.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
 
 namespace ShipWarsOnline
 {
-    class SeaCell
+    public class SeaCell
     {
         private int shipIndex;
         public int ShipIndex
@@ -46,20 +42,5 @@ namespace ShipWarsOnline
             Type = data.Type;
             Revealed = data.Revealed;
         }
-
-        public SeaCellData GetData()
-        {
-            return new SeaCellData
-            {
-                ShipIndex = ShipIndex,
-                Type = Type,
-                Revealed = Revealed
-            };
-        }
-    }
-
-    public class ReadOnlySeaCell
-    {
-        public 
     }
 }

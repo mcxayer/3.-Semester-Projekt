@@ -1,32 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ShipWarsOnline.Data;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
 using System.Windows.Media;
 
 namespace Battleship.Game
 {
-    [ValueConversion(typeof(SquareType), typeof(Brush))]
-    class ColorContoller: IValueConverter
+    [ValueConversion(typeof(CellType), typeof(Brush))]
+    class ColorController: IValueConverter
     {
         public object Convert(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
-            SquareType type = (SquareType)value;
+            CellType type = (CellType)value;
 
             switch (type)
             {
-                case SquareType.Unknown:
+                case CellType.Unknown:
                     return new SolidColorBrush(Colors.LightGray);
-                case SquareType.Water:
+                case CellType.Water:
                     return new SolidColorBrush(Colors.LightBlue);
-                case SquareType.Undamaged:
+                case CellType.Undamaged:
                     return new SolidColorBrush(Colors.Black);
-                case SquareType.Damaged:
+                case CellType.Damaged:
                     return new SolidColorBrush(Colors.Orange);
-                case SquareType.Sunk:
+                case CellType.Sunk:
                     return new SolidColorBrush(Colors.Red);
             }
 

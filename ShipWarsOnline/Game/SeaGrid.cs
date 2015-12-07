@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShipWarsOnline
 {
@@ -12,11 +10,15 @@ namespace ShipWarsOnline
         private static readonly int MaxLoopCount = 10000;
         private static readonly int DefaultGridSize = 10;
 
-        private SeaCell[,] cells;
-        private int Size { get; set; }
-
-        private List<Ship> ships = new List<Ship>();
         private Random rnd = new Random();
+
+        public int Size { get; private set; }
+
+        private SeaCell[,] cells;
+        public ReadOnly2DArray<ReadOnlySeaCell> ReadOnlyCells { get; private set; }
+
+        private List<Ship> ships;
+        public IReadOnlyList<ReadOnlyShip> ReadOnlyShips { get; private set; }
 
         public SeaGrid() : this(DefaultGridSize) { }
         public SeaGrid(int size)
@@ -25,23 +27,32 @@ namespace ShipWarsOnline
             {
                 throw new ArgumentOutOfRangeException("size", "size must be greater than zero!");
             }
-            Size = size;
+            this.Size = size;
 
-            cells = new SeaCell[Size, Size];
-            for (int i = 0; i < Size; i++)
+            cells = new SeaCell[this.Size, this.Size];
+            ReadOnlySeaCell[,] roCells = new ReadOnlySeaCell[this.Size, this.Size];
+            for (int i = 0; i < this.Size; i++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < this.Size; j++)
                 {
                     cells[i, j] = new SeaCell();
+                    roCells[i, j] = new ReadOnlySeaCell(cells[i, j]);
                 }
             }
+            ReadOnlyCells = new ReadOnly2DArray<ReadOnlySeaCell>(roCells);
 
             ships = new List<Ship>();
-
             foreach (ShipType type in Enum.GetValues(typeof(ShipType)))
             {
                 ships.Add(new Ship(type));
             }
+
+            List<ReadOnlyShip> roShips = new List<ReadOnlyShip>();
+            foreach(Ship ship in ships)
+            {
+                roShips.Add(new ReadOnlyShip(ship));
+            }
+            ReadOnlyShips = roShips.AsReadOnly();
 
             Reset();
         }
@@ -80,20 +91,7 @@ namespace ShipWarsOnline
             }
         }
 
-        public void Reset()
-        {
-            for (int i = 0; i < Size; ++i)
-            {
-                for (int j = 0; j < Size; ++j)
-                {
-                    SeaCell square = GetCell(i, j);
-                    square.Type = CellType.Water;
-                    square.ShipIndex = -1;
-                }
-            }
-
-            PlaceShips();
-        }
+        #region private methods
 
         private void PlaceShips()
         {
@@ -134,8 +132,8 @@ namespace ShipWarsOnline
             for (int i = 0; i < length; ++i)
             {
                 SeaCell square = horizontal
-                    ? GetCell(startX + i, startY)
-                    : GetCell(startX, startY + i);
+                    ? GetCellInternal(startX + i, startY)
+                    : GetCellInternal(startX, startY + i);
 
                 square.Type = CellType.Undamaged;
                 square.ShipIndex = shipIndex;
@@ -179,7 +177,7 @@ namespace ShipWarsOnline
 
         private bool IsSquareFree(int x, int y)
         {
-            return GetCell(x, y).ShipIndex == -1;
+            return GetCellInternal(x, y).ShipIndex == -1;
         }
        
         private bool IsSquareValid(int x, int y)
@@ -187,30 +185,7 @@ namespace ShipWarsOnline
             return x >= 0 && x < Size && y >= 0 && y < Size;
         }
 
-        public CellType FireAt(int x, int y)
-        {
-            SeaCell square = GetCell(x, y);
-
-            if(square.Type == CellType.Undamaged)
-            {
-                int indexToDamage = square.ShipIndex;
-                Ship ship = GetShip(indexToDamage);
-                ship.Damage();
-
-                if(ship.Sunk)
-                {
-                    SinkShip(indexToDamage);
-                }
-                else
-                {
-                    square.Type = CellType.Damaged;
-                }
-            }
-
-            return square.Type;
-        }
-
-        private Ship GetShip(int index)
+        private Ship GetShipInternal(int index)
         {
             if(index < 0 || index >= ships.Count)
             {
@@ -226,7 +201,7 @@ namespace ShipWarsOnline
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    SeaCell square = GetCell(i, j);
+                    SeaCell square = GetCellInternal(i, j);
                     if (square.ShipIndex == shipIndex)
                     {
                         square.Type = CellType.Sunk;
@@ -235,12 +210,7 @@ namespace ShipWarsOnline
             }
         }
 
-        public bool AreAllShipsSunk()
-        {
-            return ships.All(ship => ship.Sunk);
-        }
-
-        private SeaCell GetCell(int x, int y)
+        private SeaCell GetCellInternal(int x, int y)
         {
             if (x < 0 || x >= Size)
             {
@@ -255,39 +225,53 @@ namespace ShipWarsOnline
             return cells[x, y];
         }
 
-        public SeaGridData GetData()
-        {
-            return new SeaGridData()
-            {
-                Ships = GetShipData(),
-                Cells = GetCellData()
-            };
-        }
+        #endregion
 
-        public SeaCellData[][] GetCellData()
-        {
-            SeaCellData[][] data = new SeaCellData[Size][];
-            for (int i = 0; i < Size; i++)
-            {
-                data[i] = new SeaCellData[Size];
+        #region public methods
 
-                for (int j = 0; j < Size; j++)
+        public void Reset()
+        {
+            for (int i = 0; i < Size; ++i)
+            {
+                for (int j = 0; j < Size; ++j)
                 {
-                    data[i][j] = cells[i,j].GetData();
+                    SeaCell square = GetCellInternal(i, j);
+                    square.Type = CellType.Water;
+                    square.ShipIndex = -1;
                 }
             }
 
-            return data;
+            PlaceShips();
         }
 
-        public ShipData[] GetShipData()
+        public CellType FireAt(int x, int y)
         {
-            ShipData[] data = new ShipData[ships.Count];
-            for (int i = 0; i < data.Length; i++)
+            SeaCell square = GetCellInternal(x, y);
+
+            if (square.Type == CellType.Undamaged)
             {
-                data[i] = ships[i].GetData();
+                int indexToDamage = square.ShipIndex;
+                Ship ship = GetShipInternal(indexToDamage);
+                ship.Damage();
+
+                if (ship.Sunk)
+                {
+                    SinkShip(indexToDamage);
+                }
+                else
+                {
+                    square.Type = CellType.Damaged;
+                }
             }
-            return data;
+
+            return square.Type;
         }
+
+        public bool AreAllShipsSunk()
+        {
+            return ships.All(ship => ship.Sunk);
+        }
+
+        #endregion
     }
 }

@@ -44,16 +44,19 @@
     <Compile Include="ComputerPlayer.cs" />
     <Compile Include="Data\SeaGridData.cs" />
     <Compile Include="Data\SeaCellData.cs" />
+    <Compile Include="DTOFactory.cs" />
     <Compile Include="ISeaCell.cs" />
     <Compile Include="LocalGame.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="IPlayer.cs" />
-    <Compile Include="NetworkGame.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadOnly2DArray.cs" />
+    <Compile Include="ReadOnlySeaCell.cs" />
+    <Compile Include="ReadOnlySeaGrid.cs" />
+    <Compile Include="ReadOnlyShip.cs" />
     <Compile Include="SeaGrid.cs" />
     <Compile Include="SeaCell.cs" />
-    <Compile Include="BinarySerializer.cs" />
     <Compile Include="Ship.cs" />
     <Compile Include="Data\ShipData.cs" />
   </ItemGroup>

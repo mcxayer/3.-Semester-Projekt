@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.Linq;
 using System.Security.Cryptography;
-using System.ServiceModel;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GeneralService
 {

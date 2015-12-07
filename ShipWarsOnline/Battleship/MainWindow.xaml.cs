@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using Battleship.Game;
-using Grid = Battleship.Game.Grid;
+﻿using System.Windows;
 
 namespace Battleship
 {

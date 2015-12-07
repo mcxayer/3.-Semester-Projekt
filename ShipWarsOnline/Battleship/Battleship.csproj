@@ -79,14 +79,12 @@
     <Compile Include="GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Game\ColorContoller.cs" />
-    <Compile Include="Game\Grid.cs" />
-    <Compile Include="Game\Player.cs" />
+    <Compile Include="Game\ColorController.cs" />
+    <Compile Include="Game\NetworkedGame.cs" />
     <Compile Include="Game\SeaGridControl.xaml.cs">
       <DependentUpon>SeaGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\SeaSquare.cs" />
-    <Compile Include="Game\Ship.cs" />
     <Compile Include="LobbyWindow.xaml.cs">
       <DependentUpon>LobbyWindow.xaml</DependentUpon>
     </Compile>
@@ -126,7 +124,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>

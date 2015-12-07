@@ -1,9 +1,4 @@
-﻿using ShipWarsOnline.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ShipWarsOnline
 {
@@ -12,7 +7,9 @@ namespace ShipWarsOnline
         private static readonly int MaxPlayerAmount = 2;
 
         private IPlayer[] players;
+
         private SeaGrid[] grids;
+        public IReadOnlyList<ReadOnlySeaGrid> ReadOnlyGrids { get; private set; }
 
         public int CurrentPlayerTurn { get; private set; }
 
@@ -23,10 +20,13 @@ namespace ShipWarsOnline
             players[1] = player2;
 
             grids = new SeaGrid[MaxPlayerAmount];
+            List<ReadOnlySeaGrid> roGrids = new List<ReadOnlySeaGrid>(MaxPlayerAmount);
             for (int i = 0; i < MaxPlayerAmount; i++)
             {
                 grids[i] = new SeaGrid();
+                roGrids.Add(new ReadOnlySeaGrid(grids[i]));
             }
+            ReadOnlyGrids = roGrids.AsReadOnly();
         }
 
         public void TakeTurn(int x, int y)
@@ -35,24 +35,8 @@ namespace ShipWarsOnline
             grids[nextPlayerIndex].FireAt(x,y);
 
             CurrentPlayerTurn = nextPlayerIndex;
-        }
 
-        public SeaGridData[] GetData()
-        {
-            SeaGridData[] data = new SeaGridData[grids.Length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = grids[i].GetData();
-            }
-            return data;
-        }
-
-        public CellType[][] GetCellTypes(int playerIndex)
-        {
-            if(playerIndex < 0 || playerIndex >= MaxPlayerAmount)
-            {
-                throw new ArgumentOutOfRangeException("playerIndex");
-            }
+            // Check winner here
         }
     }
 }

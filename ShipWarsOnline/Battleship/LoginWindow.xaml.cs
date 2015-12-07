@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
+﻿using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Battleship
 {
@@ -41,7 +30,7 @@ namespace Battleship
         {
             try
             {
-                string tokenId = ServiceFacade.Instance.Login(tbUsername.Text, tbPassword.Password);
+                string tokenId = GameContextFacade.Instance.Login(tbUsername.Text, tbPassword.Password);
 
                 if (string.IsNullOrEmpty(tokenId))
                 {
@@ -50,7 +39,7 @@ namespace Battleship
                 }
                 else
                 {
-                    ServiceFacade.Instance.Connect(tokenId);
+                    GameContextFacade.Instance.Connect(tokenId);
                 }
             }
             catch(FaultException ex)

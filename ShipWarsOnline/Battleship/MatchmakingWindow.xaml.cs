@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Battleship
 {
@@ -26,17 +14,18 @@ namespace Battleship
         {
             InitializeComponent();
 
-            ServiceFacade.Instance.HandlePlayerMatchmade += OnPlayerMatchMade;
-            ServiceFacade.Instance.HandlePlayerExitedMatchmaking += OnPlayerExitedMatchmaking;
+            GameContextFacade.Instance.HandlePlayerMatchmade += OnPlayerMatchMade;
+            GameContextFacade.Instance.HandlePlayerExitedMatchmaking += OnPlayerExitedMatchmaking;
         }
 
         ~MatchmakingWindow()
         {
             try
             {
-                if (ServiceFacade.Instance != null)
+                if (GameContextFacade.Instance != null)
                 {
-                    ServiceFacade.Instance.HandlePlayerMatchmade -= OnPlayerMatchMade;
+                    GameContextFacade.Instance.HandlePlayerMatchmade -= OnPlayerMatchMade;
+                    GameContextFacade.Instance.HandlePlayerExitedMatchmaking -= OnPlayerExitedMatchmaking;
                 }
             }
             catch
@@ -52,7 +41,7 @@ namespace Battleship
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            ServiceFacade.Instance.CancelMatchmaking();
+            GameContextFacade.Instance.CancelMatchmaking();
         }
 
         private void OnPlayerMatchMade()

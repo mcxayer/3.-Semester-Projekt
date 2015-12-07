@@ -1,17 +1,18 @@
 ﻿using ShipWarsOnline.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ShipWarsOnline
 {
     public class Ship
     {
-        private int health;
-        private ShipType type;
+        public int Length { get { return shipLengths[Type]; } }
+        public bool Sunk { get { return Health <= 0; } }
 
-        // Maybe ship factory
+        public int Health { get; private set; }
+        public ShipType Type { get; private set; }
+
+        // Maybe ship factory and immutable object
         private static readonly Dictionary<ShipType, int> shipLengths = new Dictionary<ShipType, int>()
         {
             {ShipType.Carrier, 5},
@@ -23,8 +24,8 @@ namespace ShipWarsOnline
 
         public Ship(ShipType type)
         {
-            this.type = type;
-            health = shipLengths[type];
+            Type = type;
+            Health = shipLengths[type];
         }
 
         public Ship(ShipData data)
@@ -39,24 +40,8 @@ namespace ShipWarsOnline
                 throw new Exception("Health of ship must not be less than zero or greater than maximum health!");
             }
 
-            type = data.Type;
-            health = data.Health;
-        }
-
-        public int Length
-        {
-            get
-            {
-                return shipLengths[type];
-            }
-        }
-
-        public bool Sunk
-        {
-            get
-            {
-                return health <= 0;
-            }
+            Type = data.Type;
+            Health = data.Health;
         }
 
         public void Damage()
@@ -66,16 +51,7 @@ namespace ShipWarsOnline
                 return;
             }
 
-            health--;
-        }
-
-        public ShipData GetData()
-        {
-            return new ShipData
-            {
-                Type = type,
-                Health = health
-            };
+            Health--;
         }
     }
 }

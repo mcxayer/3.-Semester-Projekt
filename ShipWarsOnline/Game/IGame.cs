@@ -1,9 +1,4 @@
-﻿using ShipWarsOnline.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ShipWarsOnline
 {
@@ -11,6 +6,6 @@ namespace ShipWarsOnline
     {
         void TakeTurn(int x, int y);
 
-        CellType[][] GetCellTypes(int playerIndex);
+        IReadOnlyList<ReadOnlySeaGrid> ReadOnlyGrids { get; }
     }
 }
