@@ -61,10 +61,5 @@ namespace Battleship
         {
             gameService.CancelMatchmaking();
         }
-
-        public GameStateDTO GetGameState()
-        {
-            return gameService.GetGameState();
-        }
     }
 }

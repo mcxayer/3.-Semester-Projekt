@@ -7,7 +7,7 @@ using System.Windows.Media;
 namespace Battleship.Game
 {
     [ValueConversion(typeof(CellType), typeof(Brush))]
-    class ColorController: IValueConverter
+    public class ColorController: IValueConverter
     {
         public object Convert(object value, Type targetType,
             object parameter, CultureInfo culture)

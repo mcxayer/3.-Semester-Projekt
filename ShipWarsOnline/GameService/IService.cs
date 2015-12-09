@@ -30,10 +30,6 @@ namespace GameService
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        GameStateDTO GetGameState();
-
-        [OperationContract]
-        [FaultContract(typeof(FaultException))]
         void TakeTurn(int x, int y);
     }
 
@@ -58,24 +54,43 @@ namespace GameService
         void OnLobbyUpdated();
 
         [OperationContract(IsOneWay = true)]
-        void OnGameUpdated(GameDeltaStateDTO deltaState);
+        void OnGameInit(GameInitStateDTO initState);
+
+        [OperationContract(IsOneWay = true)]
+        void OnCellImpact(GameCellImpactDTO cellImpact);
+
+        [OperationContract(IsOneWay = true)]
+        void OnShipRevealed(GameShipDTO ship);
     }
 
     [DataContract]
-    public class GameStateDTO
+    public class GameInitStateDTO
     {
         [DataMember]
-        public SeaGridData PlayerGrid { get; set; }
+        public int GridSize { get; set; }
 
         [DataMember]
-        public SeaCellData[][] OpponentCells { get; set; }
+        public ShipType[] Ships { get; set; }
 
         [DataMember]
         public int PlayerIndex { get; set; }
     }
 
     [DataContract]
-    public class GameDeltaStateDTO
+    public class GameCellImpactDTO
+    {
+        [DataMember]
+        public int AffectedX { get; set; }
+
+        [DataMember]
+        public int AffectedY { get; set; }
+
+        [DataMember]
+        public int PlayerIndex { get; set; }
+    }
+
+    [DataContract]
+    public class GameShipDTO
     {
         [DataMember]
         public int AffectedX { get; set; }

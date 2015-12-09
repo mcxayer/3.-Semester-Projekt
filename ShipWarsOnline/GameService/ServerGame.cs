@@ -12,7 +12,14 @@ namespace GameService
 
         public ServerGame(IContextChannel playerChannel1, IContextChannel playerChannel2)
         {
-            game = new LocalGame(null,null);
+            game = new LocalGame(null, null);
+
+            // Setup for a scenario with all the ship types
+            foreach (ShipType type in Enum.GetValues(typeof(ShipType)))
+            {
+                game.AddShip(type);
+            }
+
             playerChannels = new IContextChannel[] { playerChannel1, playerChannel2 };
         }
 
@@ -32,40 +39,28 @@ namespace GameService
             game.TakeTurn(x, y);
         }
 
-        public GameStateDTO GetGameState(IContextChannel playerChannel)
+        public GameInitStateDTO GetInitGameState(IContextChannel playerChannel)
         {
             int playerIndex = GetPlayerIndex(playerChannel);
-            if ( playerIndex == -1)
+            if (playerIndex == -1)
             {
                 throw new Exception("Could not get game state as player does not exist in game!");
             }
 
-            var grids = game.ReadOnlyGrids;
-            var opponentCells = grids[(playerIndex + 1) % 2].ReadOnlyCells;
+            var playerShips = game.ReadOnlyGrids[playerIndex].ReadOnlyShips;
+            ShipType[] ships = new ShipType[playerShips.Count];
 
-            // NOTE: Jagged arrays are necessary, as WCF does not like multidimensional arrays
-            SeaCellData[][] opponentCellsData = DTOFactory.CreateCellData(opponentCells);
-
-            for (int i = 0; i < opponentCellsData.Length; i++)
+            for (int i = 0; i < ships.Length; i++)
             {
-                for (int j = 0; j < opponentCellsData[i].Length; j++)
-                {
-                    SeaCellData cellData = opponentCellsData[i][j];
-
-                    if (!cellData.Revealed)
-                    {
-                        cellData.Type = CellType.Unknown;
-                        cellData.ShipIndex = -1;
-                    }
-                }
+                ships[i] = playerShips[i].Type;
             }
 
-            GameStateDTO state = new GameStateDTO();
-            state.PlayerGrid = DTOFactory.CreateSeaGridData(grids[playerIndex]);
-            state.OpponentCells = opponentCellsData;
-            state.PlayerIndex = playerIndex;
-
-            return state;
+            return new GameInitStateDTO()
+            {
+                GridSize = game.ReadOnlyGrids[0].Size,
+                Ships = ships,
+                PlayerIndex = playerIndex
+            };
         }
 
         private int GetPlayerIndex(IContextChannel playerChannel)

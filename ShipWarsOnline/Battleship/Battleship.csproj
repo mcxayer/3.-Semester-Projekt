@@ -80,7 +80,7 @@
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\ColorController.cs" />
-    <Compile Include="Game\NetworkedGame.cs" />
+    <Compile Include="Game\ClientGame.cs" />
     <Compile Include="Game\SeaGridControl.xaml.cs">
       <DependentUpon>SeaGridControl.xaml</DependentUpon>
     </Compile>

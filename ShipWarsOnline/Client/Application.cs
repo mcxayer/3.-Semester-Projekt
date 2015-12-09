@@ -126,7 +126,18 @@ namespace Client
             {
                 Console.WriteLine("Player matchmade to game!");
             }
-            public void OnGameUpdated(GameDeltaStateDTO deltaState)
+
+            public void OnGameInit(GameInitStateDTO initState)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void OnCellImpact(GameCellImpactDTO cellImpact)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void OnShipRevealed(GameShipDTO ship)
             {
                 throw new NotImplementedException();
             }

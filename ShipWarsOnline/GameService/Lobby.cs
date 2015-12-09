@@ -125,12 +125,7 @@ namespace GameService
                     throw new NullReferenceException("Current player is not connected!");
                 }
 
-                ServerGame game = new ServerGame(playerChannel, otherPlayerChannel);
-                activeGames.Add(playerChannel, game);
-                activeGames.Add(otherPlayerChannel, game);
-
-                playerSession.state = SessionState.InGame;
-                otherPlayerSession.state = SessionState.InGame;
+                CreateNetworkGame(playerSession, otherPlayerSession);
 
                 OnPlayerMatchmade(playerSession);
                 OnPlayerMatchmade(otherPlayerSession);
@@ -174,6 +169,36 @@ namespace GameService
             OnPlayerExitedMatchmaking(playerSession);
         }
 
+        private void CreateNetworkGame(Session player1Session, Session player2Session)
+        {
+            if (player1Session == null || player2Session == null)
+            {
+                throw new NullReferenceException("A player does not exist!");
+            }
+
+            if (player1Session.state != SessionState.Matching
+                || player2Session.state != SessionState.Matching)
+            {
+                throw new Exception("A player is not in matchmaking!");
+            }
+
+            if(player1Session.Channel.State != CommunicationState.Opened
+                || player2Session.Channel.State != CommunicationState.Opened)
+            {
+                throw new CommunicationException("A player connection is not open!");
+            }
+
+            ServerGame game = new ServerGame(player1Session.Channel, player2Session.Channel);
+            activeGames.Add(player1Session.Channel, game);
+            activeGames.Add(player2Session.Channel, game);
+
+            player1Session.state = SessionState.InGame;
+            player2Session.state = SessionState.InGame;
+
+            OnGameInitialized(player1Session, game.GetInitGameState(player1Session.Channel));
+            OnGameInitialized(player2Session, game.GetInitGameState(player2Session.Channel));
+        }
+
         public void TakeTurn(int x, int y)
         {
             IContextChannel playerChannel = OperationContext.Current.Channel;
@@ -191,21 +216,24 @@ namespace GameService
             game.TakeTurn(x, y, playerChannel);
         }
 
-        public GameStateDTO GetGameState()
+        private void OnGameInitialized(Session playerSession, GameInitStateDTO initState)
         {
-            IContextChannel playerChannel = OperationContext.Current.Channel;
-            if (playerChannel == null)
+            if (playerSession == null)
             {
-                throw new NullReferenceException("Current player does not exist!");
+                throw new ArgumentNullException("playerSession");
             }
 
-            ServerGame game;
-            if (!activeGames.TryGetValue(playerChannel, out game))
+            if (playerSession.state != SessionState.InGame)
             {
-                throw new NullReferenceException("Current player is not in a game!");
+                throw new Exception("Player is not in game!");
             }
 
-            return game.GetGameState(playerChannel);
+            if (playerSession.Channel.State != CommunicationState.Opened)
+            {
+                throw new CommunicationException("Player connection is not open!");
+            }
+
+            playerSession.Callback.OnGameInit(initState);
         }
 
         private void OnPlayerConnected(Session playerSession)

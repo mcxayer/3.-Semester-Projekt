@@ -28,22 +28,6 @@ namespace ShipWarsOnline
             Health = shipLengths[type];
         }
 
-        public Ship(ShipData data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            if (data.Health < 0 || data.Health > shipLengths[data.Type])
-            {
-                throw new Exception("Health of ship must not be less than zero or greater than maximum health!");
-            }
-
-            Type = data.Type;
-            Health = data.Health;
-        }
-
         public void Damage()
         {
             if(Sunk)

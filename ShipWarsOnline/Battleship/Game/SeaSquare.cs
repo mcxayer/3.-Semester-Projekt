@@ -9,6 +9,8 @@ namespace Battleship.Game
         public int Col { get; private set; }
         public int ShipIndex { get; set; }
 
+        public string Name { get { return "test"; } }
+
         public CellType Type
         {
             get { return (CellType)GetValue(TypeProperty); }

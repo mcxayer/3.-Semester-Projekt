@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <DockPanel>
-        <view:SeaGrid x:Name="myGrid" DockPanel.Dock="Left"/>
-        <view:SeaGrid x:Name="enemyGrid" />
+        <view:SeaGridControl x:Name="myGrid" DockPanel.Dock="Left" Width="152"/>
+        <view:SeaGridControl x:Name="enemyGrid" />
     </DockPanel>
 </UserControl>

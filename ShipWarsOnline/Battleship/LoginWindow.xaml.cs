@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using Battleship.Game;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Controls;
 

@@ -4,6 +4,6 @@
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <s:String x:Key="AppTitle">Battleship</s:String>
+        <s:String x:Key="AppTitle">ShipWarsOnline</s:String>
     </Application.Resources>
 </Application>

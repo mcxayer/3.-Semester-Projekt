@@ -2,9 +2,10 @@
 using ShipWarsOnline;
 using System;
 using System.Collections.Generic;
+using System.ServiceModel;
 using System.Windows.Threading;
 
-namespace Battleship
+namespace Battleship.Game
 {
     public class GameContextFacade
     {
@@ -17,9 +18,9 @@ namespace Battleship
         public event Action HandlePlayerEnteredMatchmaking;
         public event Action HandlePlayerExitedMatchmaking;
         public event Action HandleLobbyUpdated;
+        public event Action HandleGameInitialized;
 
-        private int playerIndex;
-        private IGame game;
+        private ClientGame clientGame;
         private ServiceFacade serviceFacade;
         private Dispatcher uiDispatcher;
 
@@ -78,45 +79,46 @@ namespace Battleship
 
         #endregion
 
-        public void CreateNetworkedGame()
+        private void CreateClientGame(GameInitStateDTO initState)
         {
-            GameStateDTO state = serviceFacade.GetGameState();
-            playerIndex = state.PlayerIndex;
-
-            game = new NetworkedGame(state);
+            clientGame = new ClientGame(initState.GridSize,initState.PlayerIndex);
+            for (int i = 0; i < initState.Ships.Length; i++)
+            {
+                clientGame.AddShip(initState.Ships[i]);
+            }
         }
 
         public void TakeTurn(int x, int y)
         {
-            if(game == null)
+            if(clientGame == null)
             {
                 throw new NullReferenceException("No game exists!");
             }
 
-            game.TakeTurn(x, y);
+            clientGame.TakeTurn(x, y);
         }
 
         public ReadOnly2DArray<ReadOnlySeaCell> GetPlayerCells()
         {
-            if (game == null)
+            if (clientGame == null)
             {
                 throw new NullReferenceException("No game exists!");
             }
 
-            return game.ReadOnlyGrids[playerIndex].ReadOnlyCells;
+            return clientGame.ReadOnlyGrids[clientGame.PlayerIndex].ReadOnlyCells;
         } 
 
         public ReadOnly2DArray<ReadOnlySeaCell> GetOpponentCells()
         {
-            if (game == null)
+            if (clientGame == null)
             {
                 throw new NullReferenceException("No game exists!");
             }
 
-            return game.ReadOnlyGrids[(playerIndex + 1) % 2].ReadOnlyCells;
+            return clientGame.ReadOnlyGrids[(clientGame.PlayerIndex + 1) % 2].ReadOnlyCells;
         }
 
-        //[CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
+        [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
         private class CallbackHandler : GameService.ICallback
         {
             private GameContextFacade facade;
@@ -179,7 +181,22 @@ namespace Battleship
                 }
             }
 
-            public void OnGameUpdated(GameDeltaStateDTO deltaState)
+            public void OnGameInit(GameInitStateDTO initState)
+            {
+                facade.CreateClientGame(initState);
+
+                if(facade.HandleGameInitialized != null)
+                {
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandleGameInitialized()));
+                }
+            }
+
+            public void OnCellImpact(GameCellImpactDTO cellImpact)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void OnShipRevealed(GameShipDTO ship)
             {
                 throw new NotImplementedException();
             }

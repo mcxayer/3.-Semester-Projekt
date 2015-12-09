@@ -43,10 +43,5 @@ namespace GameService
         {
             lobby.TakeTurn(x, y);
         }
-
-        public GameStateDTO GetGameState()
-        {
-            return lobby.GetGameState();
-        }
     }
 }

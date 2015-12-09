@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 
 namespace GameService
@@ -12,8 +13,9 @@ namespace GameService
             {
                 return DomainFacade.Instance.ConnectLobby(tokenID);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw new FaultException("Could not connect!");
             }
         }
@@ -24,8 +26,9 @@ namespace GameService
             {
                 return DomainFacade.Instance.DisconnectLobby();
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw new FaultException("Could not disconnect!");
             }
         }
@@ -36,8 +39,9 @@ namespace GameService
             {
                 return DomainFacade.Instance.GetLobby();
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw new FaultException("Could not get lobby!");
             }
         }
@@ -48,8 +52,9 @@ namespace GameService
             {
                 DomainFacade.Instance.Matchmake();
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw new FaultException("Could not start matchmaking!");
             }
         }
@@ -60,8 +65,9 @@ namespace GameService
             {
                 DomainFacade.Instance.CancelMatchmaking();
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw new FaultException("Could not cancel matchmaking!");
             }
         }
@@ -72,24 +78,11 @@ namespace GameService
             {
                 DomainFacade.Instance.TakeTurn(x, y);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw new FaultException("Could not take turn!");
             }
-        }
-
-        public GameStateDTO GetGameState()
-        {
-            //try
-            //{
-            //    return DomainFacade.Instance.GetGameState();
-            //}
-            //catch
-            //{
-            //    throw new FaultException("Could not get game state!");
-            //}
-
-            return DomainFacade.Instance.GetGameState();
         }
     }
 }

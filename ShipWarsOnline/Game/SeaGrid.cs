@@ -7,8 +7,8 @@ namespace ShipWarsOnline
 {
     public class SeaGrid
     {
+        public static readonly int DefaultGridSize = 10;
         private static readonly int MaxLoopCount = 10000;
-        private static readonly int DefaultGridSize = 10;
 
         private Random rnd = new Random();
 
@@ -18,6 +18,7 @@ namespace ShipWarsOnline
         public ReadOnly2DArray<ReadOnlySeaCell> ReadOnlyCells { get; private set; }
 
         private List<Ship> ships;
+        private List<ReadOnlyShip> readOnlyShips;
         public IReadOnlyList<ReadOnlyShip> ReadOnlyShips { get; private set; }
 
         public SeaGrid() : this(DefaultGridSize) { }
@@ -27,13 +28,13 @@ namespace ShipWarsOnline
             {
                 throw new ArgumentOutOfRangeException("size", "size must be greater than zero!");
             }
-            this.Size = size;
+            Size = size;
 
-            cells = new SeaCell[this.Size, this.Size];
-            ReadOnlySeaCell[,] roCells = new ReadOnlySeaCell[this.Size, this.Size];
-            for (int i = 0; i < this.Size; i++)
+            cells = new SeaCell[Size, Size];
+            ReadOnlySeaCell[,] roCells = new ReadOnlySeaCell[Size, Size];
+            for (int i = 0; i < Size; i++)
             {
-                for (int j = 0; j < this.Size; j++)
+                for (int j = 0; j < Size; j++)
                 {
                     cells[i, j] = new SeaCell();
                     roCells[i, j] = new ReadOnlySeaCell(cells[i, j]);
@@ -42,98 +43,70 @@ namespace ShipWarsOnline
             ReadOnlyCells = new ReadOnly2DArray<ReadOnlySeaCell>(roCells);
 
             ships = new List<Ship>();
-            foreach (ShipType type in Enum.GetValues(typeof(ShipType)))
-            {
-                ships.Add(new Ship(type));
-            }
-
-            List<ReadOnlyShip> roShips = new List<ReadOnlyShip>();
-            foreach(Ship ship in ships)
-            {
-                roShips.Add(new ReadOnlyShip(ship));
-            }
-            ReadOnlyShips = roShips.AsReadOnly();
+            readOnlyShips = new List<ReadOnlyShip>();
+            ReadOnlyShips = readOnlyShips.AsReadOnly();
 
             Reset();
-        }
-
-        public SeaGrid(SeaGridData data)
-        {
-            if (data == null)
-            {
-                throw new ArgumentNullException("data");
-            }
-
-            if (data.Ships == null)
-            {
-                throw new NullReferenceException("Ships in data can not be null!");
-            }
-
-            if (data.Cells == null)
-            {
-                throw new NullReferenceException("Cells in data can not be null!");
-            }
-
-            Size = data.Cells.GetLength(0);
-            cells = new SeaCell[Size, Size];
-            for (int i = 0; i < cells.GetLength(0); i++)
-            {
-                for (int j = 0; j < cells.GetLength(1); j++)
-                {
-                    cells[i,j] = new SeaCell(data.Cells[i][j]);
-                }
-            }
-
-            ships = new List<Ship>();
-            for (int i = 0; i < data.Ships.Length; i++)
-            {
-                ships.Add(new Ship(data.Ships[i]));
-            }
         }
 
         #region private methods
 
         private void PlaceShips()
         {
-            for (int i = 0; i != ships.Count; ++i)
+            for (int i = 0; i < ships.Count; ++i)
             {
-                bool placed = false;
-
-                int loopCounter = 0;
-                while (!placed && loopCounter < MaxLoopCount)
+                if (!PlaceShip(i, ships[i].Length))
                 {
-                    placed = PlaceShip(i, ships[i].Length);
-
-                    loopCounter++;
-                }
-
-                if (loopCounter == MaxLoopCount)
-                {
-                    throw new Exception(string.Format("Unable to place ship {0}!", i));
+                    throw new Exception(string.Format("Unable to place ship {0} with length {1}!", i, ships[i].Length));
                 }
             }
         }
 
         private bool PlaceShip(int shipIndex, int length)
         {
-            bool horizontal = rnd.Next(2) == 0;
+            bool horizontal = false;
+            bool validPlacement = false;
+            int startX = 0, startY = 0, endX = 0, endY = 0;
 
-            int startX = rnd.Next(Size - length);
-            int startY = rnd.Next(Size);
-
-            int endX = horizontal ? startX + length : startX;
-            int endY = horizontal ? startY : startY + length;
-
-            if (!IsPlacementValid(startX, startY, endX, endY))
+            for (int i = 0; i < MaxLoopCount; i++)
             {
-                return false;
+                horizontal = rnd.Next(2) == 0;
+
+                startX = rnd.Next(horizontal ? Size - length : Size);
+                startY = rnd.Next(horizontal ? Size : Size - length);
+
+                endX = horizontal ? startX + length : startX;
+                endY = horizontal ? startY : startY + length;
+
+                for (int j = 0; j < Size - endX; j++)
+                {
+                    if (IsPlacementValid(startX + j, startY, endX + j, endY))
+                    {
+                        startX += j;
+                        endX += j;
+
+                        validPlacement = true;
+
+                        break;
+                    }
+                }
+
+                if(validPlacement)
+                {
+                    break;
+                }
+
+                if(i == MaxLoopCount - 1)
+                {
+                    return false;
+                }
             }
 
-            for (int i = 0; i < length; ++i)
+            for (int j = 0; j < length; j++)
             {
                 SeaCell square = horizontal
-                    ? GetCellInternal(startX + i, startY)
-                    : GetCellInternal(startX, startY + i);
+                    ? GetCellInternal(startX + j, startY)
+                    : GetCellInternal(startX, startY + j);
 
                 square.Type = CellType.Undamaged;
                 square.ShipIndex = shipIndex;
@@ -166,7 +139,7 @@ namespace ShipWarsOnline
         {
             for (int i = startX; i <= endX; i++)
             {
-                if (!IsSquareValid(i,y) || !IsSquareFree(i, y))
+                if (!IsSquareValid(i, y) || !IsSquareFree(i, y))
                 {
                     return false;
                 }
@@ -179,7 +152,7 @@ namespace ShipWarsOnline
         {
             return GetCellInternal(x, y).ShipIndex == -1;
         }
-       
+
         private bool IsSquareValid(int x, int y)
         {
             return x >= 0 && x < Size && y >= 0 && y < Size;
@@ -187,7 +160,7 @@ namespace ShipWarsOnline
 
         private Ship GetShipInternal(int index)
         {
-            if(index < 0 || index >= ships.Count)
+            if (index < 0 || index >= ships.Count)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
@@ -228,6 +201,18 @@ namespace ShipWarsOnline
         #endregion
 
         #region public methods
+
+        public void AddShip(ShipType type)
+        {
+            Ship ship = new Ship(type);
+
+            if (!PlaceShip(ships.Count, ship.Length))
+            {
+                throw new Exception(string.Format("Unable to place ship {0} with length {1}!", ships.Count, ship.Length));
+            }
+
+            ships.Add(ship);
+        }
 
         public void Reset()
         {

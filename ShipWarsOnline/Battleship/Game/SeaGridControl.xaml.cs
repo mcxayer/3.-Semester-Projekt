@@ -1,32 +1,74 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Battleship.Game
 {
     /// <summary>
-    /// Interaction logic for ComputerGrid.xaml
+    /// Interaction logic for SeaGridControl.xaml
     /// </summary>
-    public partial class SeaGrid : UserControl
+    public partial class SeaGridControl : UserControl, INotifyPropertyChanged
     {
-        public List<List<SeaSquare>> GridCells { get; private set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public SeaGrid()
+        private List<List<SeaSquare>> gridCells;
+        public List<List<SeaSquare>> GridCells
+        {
+            get { return gridCells; }
+            set { gridCells = value; OnPropertyChanged("GridCells"); }
+        }
+
+        public SeaGridControl()
         {
             InitializeComponent();
+            DataContext = this;
+        }
 
-            var cells = GameContextFacade.Instance.GetPlayerCells();
-            GridCells = new List<List<SeaSquare>>();
-            for (int i = 0; i < cells.GetLength(0); i++)
+        public void SetCells(List<List<SeaSquare>> gridCells)
+        {
+            //this.gridCells = gridCells;
+
+            //this.gridCells.Clear();
+            //for (int i = 0; i < gridCells.Count; i++)
+            //{
+            //    this.gridCells.Add(new ObservableCollection<SeaSquare>());
+            //    foreach (var cell in gridCells[i])
+            //    {
+            //        this.gridCells[i].Add(cell);
+            //    }
+            //}
+
+            //for (int i = 0; i < gridCells.Count; i++)
+            //{
+            //    gridControl.ColumnDefinitions.Add(new ColumnDefinition());
+            //    gridControl.RowDefinitions.Add(new RowDefinition());
+            //}
+
+            //for (int i = 0; i < gridCells.Count; i++)
+            //{
+            //    for (int j = 0; j < gridCells[i].Count; j++)
+            //    {
+            //        Rectangle rct = new Rectangle();
+            //        rct.Fill = new SolidColorBrush(Colors.Black);
+            //        rct.Width = 10;
+            //        rct.Height = 10;
+            //        Grid.SetRow(rct, j);
+            //        Grid.SetColumn(rct, i);
+
+            //        gridControl.Children.Add(rct);
+            //    }
+            //}
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if(PropertyChanged != null)
             {
-                GridCells.Add(new List<SeaSquare>());
-
-                for (int j = 0; j < cells.GetLength(1); j++)
-                {
-                    SeaSquare square = new SeaSquare(i, j);
-                    square.Type = cells[i, j].Type;
-                    GridCells[i].Add(square);
-                }
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
