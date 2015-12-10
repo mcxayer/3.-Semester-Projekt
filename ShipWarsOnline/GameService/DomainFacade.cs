@@ -14,14 +14,14 @@ namespace GameService
             lobby = new Lobby();
         }
 
-        public bool ConnectLobby(string tokenID)
+        public void ConnectLobby(string tokenID)
         {
-            return lobby.Connect(tokenID);
+            lobby.Connect(tokenID);
         }
 
-        public bool DisconnectLobby()
+        public void DisconnectLobby()
         {
-            return lobby.Disconnect();
+            lobby.Disconnect();
         }
 
         public void Matchmake()

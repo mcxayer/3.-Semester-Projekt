@@ -12,11 +12,12 @@ namespace Battleship.Game
         private static readonly GameContextFacade instance = new GameContextFacade();
         public static GameContextFacade Instance { get { return instance; } }
 
-        public event Action<string> HandlePlayerConnected;
-        public event Action<string> HandlePlayerDisconnected;
+        public event Action HandlePlayerConnected;
+        public event Action HandlePlayerDisconnected;
+        public event Action HandlePlayerFailedConnecting;
         public event Action HandlePlayerMatchmade;
         public event Action HandlePlayerEnteredMatchmaking;
-        public event Action HandlePlayerExitedMatchmaking;
+        public event Action HandlePlayerCancelledMatchmaking;
         public event Action HandleLobbyUpdated;
         public event Action HandleGameInitialized;
 
@@ -33,14 +34,14 @@ namespace Battleship.Game
 
         #region general services
 
-        public string Login(string username, string password)
+        public bool Login(string username, string password)
         {
-            return uiDispatcher.Invoke(new Func<string>(() => serviceFacade.Login(username, password)));
+            return uiDispatcher.Invoke(new Func<bool>(() => serviceFacade.Login(username, password)));
         }
 
-        public void Logout(string tokenId)
+        public void Logout()
         {
-            uiDispatcher.BeginInvoke(new Action(() => serviceFacade.Logout(tokenId)));
+            uiDispatcher.BeginInvoke(new Action(() => serviceFacade.Logout()));
         }
 
         public void CreateAccount(string username, string password, string email)
@@ -57,14 +58,14 @@ namespace Battleship.Game
             return uiDispatcher.Invoke(new Func<List<string>>(() => serviceFacade.GetLobby()));
         }
 
-        public bool Connect(string tokenId)
+        public void Connect()
         {
-            return uiDispatcher.Invoke(new Func<bool>(() => serviceFacade.Connect(tokenId)));
+            uiDispatcher.Invoke(new Action(() => serviceFacade.Connect()));
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
-            return uiDispatcher.Invoke(new Func<bool>(() => serviceFacade.Disconnect()));
+            uiDispatcher.Invoke(new Action(() => serviceFacade.Disconnect()));
         }
 
         public void Matchmake()
@@ -78,15 +79,6 @@ namespace Battleship.Game
         }
 
         #endregion
-
-        private void CreateClientGame(GameInitStateDTO initState)
-        {
-            clientGame = new ClientGame(initState.GridSize,initState.PlayerIndex);
-            for (int i = 0; i < initState.Ships.Length; i++)
-            {
-                clientGame.AddShip(initState.Ships[i]);
-            }
-        }
 
         public void TakeTurn(int x, int y)
         {
@@ -118,6 +110,15 @@ namespace Battleship.Game
             return clientGame.ReadOnlyGrids[(clientGame.PlayerIndex + 1) % 2].ReadOnlyCells;
         }
 
+        private void CreateClientGame(GameInitStateDTO initState)
+        {
+            clientGame = new ClientGame(initState.GridSize, initState.PlayerIndex);
+            for (int i = 0; i < initState.Ships.Length; i++)
+            {
+                clientGame.AddShip(initState.Ships[i]);
+            }
+        }
+
         [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
         private class CallbackHandler : GameService.ICallback
         {
@@ -128,27 +129,32 @@ namespace Battleship.Game
                 this.facade = facade;
             }
 
-            public void OnPlayerConnected(string player)
+            public void OnPlayerConnected()
             {
-                Console.WriteLine(string.Format("Player {0} connected to the game server!", player));
                 if (facade.HandlePlayerConnected != null)
                 {
-                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerConnected(player)));
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerConnected()));
                 }
             }
 
-            public void OnPlayerDisconnected(string player)
+            public void OnPlayerDisconnected()
             {
-                Console.WriteLine(string.Format("Player {0} disconnected from the game server!", player));
                 if (facade.HandlePlayerConnected != null)
                 {
-                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerDisconnected(player)));
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerDisconnected()));
+                }
+            }
+
+            public void OnPlayerFailedConnecting()
+            {
+                if (facade.HandlePlayerFailedConnecting != null)
+                {
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerFailedConnecting()));
                 }
             }
 
             public void OnPlayerMatchmade()
             {
-                Console.WriteLine("Matchmade to game!");
                 if (facade.HandlePlayerMatchmade != null)
                 {
                     facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerMatchmade()));
@@ -157,19 +163,17 @@ namespace Battleship.Game
 
             public void OnPlayerEnteredMatchmaking()
             {
-                Console.WriteLine("Player entered matchmaking!");
                 if (facade.HandlePlayerEnteredMatchmaking != null)
                 {
                     facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerEnteredMatchmaking()));
                 }
             }
 
-            public void OnPlayerExitedMatchmaking()
+            public void OnPlayerCancelledMatchmaking()
             {
-                Console.WriteLine("Player exited matchmaking!");
-                if (facade.HandlePlayerExitedMatchmaking != null)
+                if (facade.HandlePlayerCancelledMatchmaking != null)
                 {
-                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerExitedMatchmaking()));
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerCancelledMatchmaking()));
                 }
             }
 
@@ -185,7 +189,7 @@ namespace Battleship.Game
             {
                 facade.CreateClientGame(initState);
 
-                if(facade.HandleGameInitialized != null)
+                if (facade.HandleGameInitialized != null)
                 {
                     facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandleGameInitialized()));
                 }

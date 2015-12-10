@@ -1,11 +1,12 @@
-﻿using System.Windows;
+﻿using Battleship.GUI;
+using System.Windows;
 
 namespace Battleship
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IGUIController
     { 
         MainMenuWindow mainMenuWindow;
         LoginWindow loginWindow;
@@ -14,84 +15,100 @@ namespace Battleship
         CreateAccountWindow createAccountWindow;
         MatchmakingWindow matchmakingWindow;
 
-        
         public MainWindow()
         {
             InitializeComponent();
-            GotoMainMenu();
+
+            GUIFacade.Instance.GUIController = this;
         }
 
-        public void GotoMainMenu()
+        public void GotoWindow(GUIWindowType type)
+        {
+            switch(type)
+            {
+                case GUIWindowType.MainMenu: GotoMainMenu();
+                    break;
+                case GUIWindowType.Login: GotoLogin();
+                    break;
+                case GUIWindowType.AccountCreation: GotoAccountCreation();
+                    break;
+                case GUIWindowType.Lobby: GotoLobby();
+                    break;
+                case GUIWindowType.Matchmaking: GotoMatchmaking();
+                    break;
+                case GUIWindowType.Game: GotoGame();
+                    break;
+
+                default:
+                    throw new System.Exception(string.Format("Window type {0} is not valid!",type));
+            }
+        }
+
+        private void GotoMainMenu()
         {
             // Lazy instantiation
             if(mainMenuWindow == null)
             {
                 mainMenuWindow = new MainMenuWindow();
-                mainMenuWindow.SetMainWindow(this);
             }
 
             DataContext = mainMenuWindow;
         }
 
-        public void GotoLogin()
+        private void GotoLogin()
         {
             // Lazy instantiation
             if (loginWindow == null)
             {
                 loginWindow = new LoginWindow();
-                loginWindow.SetMainWindow(this);
             }
 
             DataContext = loginWindow;
         }
 
-        public void GotoGame()
+        private void GotoAccountCreation()
         {
             // Lazy instantiation
-            if (gameWindow == null)
+            if (createAccountWindow == null)
             {
-                gameWindow = new GameWindow();
-                gameWindow.SetMainWindow(this);
+                createAccountWindow = new CreateAccountWindow();
             }
 
-            DataContext = gameWindow;
+            DataContext = createAccountWindow;
         }
 
-        public void GotoLobby()
+        private void GotoLobby()
         {
             // Lazy instantiation
             if (lobbyWindow == null)
             {
                 lobbyWindow = new LobbyWindow();
-                lobbyWindow.SetMainWindow(this);
             }
 
             lobbyWindow.UpdateLobbyList();
             DataContext = lobbyWindow;
         }
 
-        public void GotoCreateAccount()
-        {
-            // Lazy instantiation
-            if (createAccountWindow == null)
-            {
-                createAccountWindow = new CreateAccountWindow();
-                createAccountWindow.SetMainWindow(this);
-            }
-
-            DataContext = createAccountWindow;
-        }
-
-        public void GotoMatchmaking()
+        private void GotoMatchmaking()
         {
             // Lazy instantiation
             if (matchmakingWindow == null)
             {
                 matchmakingWindow = new MatchmakingWindow();
-                matchmakingWindow.SetMainWindow(this);
             }
 
             DataContext = matchmakingWindow;
+        }
+
+        private void GotoGame()
+        {
+            // Lazy instantiation
+            if (gameWindow == null)
+            {
+                gameWindow = new GameWindow();
+            }
+
+            DataContext = gameWindow;
         }
     }
 }

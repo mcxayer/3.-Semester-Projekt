@@ -46,7 +46,7 @@
         <!--<Grid Name="gridControl">
             <ItemsControl ItemsSource="{Binding GridCells}" ItemTemplate="{DynamicResource RowTemplate}"/>
         </Grid>-->
-        <ListBox Name="lstBoxCells" HorizontalContentAlignment="Center" 
+        <ListBox Name="lstBoxCells" HorizontalContentAlignment="Center"
                  ItemsSource="{Binding GridCells}" ItemTemplate="{DynamicResource RowTemplate}">
             <ListBox.Style>
                 <Style>

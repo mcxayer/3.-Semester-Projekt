@@ -5,26 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Battleship"
              xmlns:Game="clr-namespace:Battleship.Game" x:Class="Battleship.LobbyWindow"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" Width="544.737">
-    <Grid>
-        <Button x:Name="btnMatchmaking" Content="Find Match" HorizontalAlignment="Left" Margin="301,270,0,0" VerticalAlignment="Top" Width="91" Click="OnMatchButtonClicked" Height="20"/>
-        <Button x:Name="btnDisconnect" Content="Disconnect" HorizontalAlignment="Left" Margin="52,270,0,0" VerticalAlignment="Top" Width="75" Click="OnDisconnectButtonClicked" Height="20"/>
-        <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="161,270,0,0" VerticalAlignment="Top" Width="75" Click="OnUpdateButtonClicked" Height="20"/>
-        <Label x:Name="lblInfo" Content="" HorizontalAlignment="Left" Margin="86,242,0,0" VerticalAlignment="Top" Width="129" Height="23"/>
-        <ListView x:Name="lstLobby" HorizontalAlignment="Stretch" Height="Auto" Margin="52,10,309,63" VerticalAlignment="Stretch" Width="Auto">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Lobby" Width="180" DisplayMemberBinding="{Binding [0]}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView x:Name="lstLobbyMatchmaking" HorizontalAlignment="Stretch" Height="Auto" Margin="301,10,60,63" VerticalAlignment="Stretch" Width="Auto">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Matchmaking" Width="180" DisplayMemberBinding="{Binding [0]}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+             mc:Ignorable="d">
+    <Grid Background="#FF464646">
+        <Label x:Name="lblTitle" Content="Lobby" Margin="0" Background="Gainsboro" VerticalAlignment="Top">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="3"/>
+            </Label.Effect>
+        </Label>
+        <Grid Margin="0,26,0,40">
+            <ListBox x:Name="lstLobby" Margin="5,0"/>
+        </Grid>
+        <Grid VerticalAlignment="Bottom" Height="40">
+            <Button x:Name="btnDisconnect" Content="Disconnect" Margin="5,0,0,0" Click="OnDisconnectButtonClicked" Width="70" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                        <GradientStop Color="#FFCDCDCD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btnUpdate" Content="Update" Margin="0" Click="OnUpdateButtonClicked" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button x:Name="btnFindMatch" Content="Find Match" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center" Width="91" Click="OnFindMatchButtonClicked" Height="20"/>
+        </Grid>
     </Grid>
 </UserControl>

@@ -10,11 +10,11 @@ namespace GameService
     {
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        bool Connect(string tokenID);
+        void Connect(string tokenID);
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        bool Disconnect();
+        void Disconnect();
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]
@@ -36,10 +36,13 @@ namespace GameService
     public interface ICallback
     {
         [OperationContract(IsOneWay = true)]
-        void OnPlayerConnected(string player);
+        void OnPlayerConnected();
 
         [OperationContract(IsOneWay = true)]
-        void OnPlayerDisconnected(string player);
+        void OnPlayerDisconnected();
+
+        [OperationContract(IsOneWay = true)]
+        void OnPlayerFailedConnecting();
 
         [OperationContract(IsOneWay = true)]
         void OnPlayerMatchmade();
@@ -48,7 +51,7 @@ namespace GameService
         void OnPlayerEnteredMatchmaking();
 
         [OperationContract(IsOneWay = true)]
-        void OnPlayerExitedMatchmaking();
+        void OnPlayerCancelledMatchmaking();
 
         [OperationContract(IsOneWay = true)]
         void OnLobbyUpdated();

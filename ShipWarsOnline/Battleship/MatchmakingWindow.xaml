@@ -7,22 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label x:Name="lblWaiting" Content="Waiting for an opponent..." HorizontalAlignment="Left" Margin="9,123,0,0" VerticalAlignment="Top" Width="280" FontWeight="Bold" FontStyle="Italic" FontFamily="Comic Sans MS" FontSize="18.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RenderTransformOrigin="0.5,0.5" Foreground="#FF97FF00">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1" ScaleX="1"/>
-                    <SkewTransform AngleY="0" AngleX="0"/>
-                    <RotateTransform Angle="691.39"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="Red"/>
-                </RadialGradientBrush>
-            </Label.Background>
+        <Label x:Name="lblWaiting" Margin="0" FontWeight="Bold" FontStyle="Italic" FontSize="18.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" RenderTransformOrigin="0.5,0.5" Foreground="Black" Background="#FF464646" Content="Waiting for an opponent..."/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="OnCancelButtonClicked" Width="50"/>
+        <Label x:Name="lblTitle" Content="Matchmaking" Margin="0" Background="Gainsboro" VerticalAlignment="Top" Padding="5">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="3"/>
+            </Label.Effect>
         </Label>
-        <Button x:Name="button" Content="Cancel" HorizontalAlignment="Left" Margin="10,261,0,0" VerticalAlignment="Top" Width="98" Height="29" Click="button_Click"/>
     </Grid>
 </UserControl>

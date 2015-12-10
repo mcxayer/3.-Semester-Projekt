@@ -25,6 +25,7 @@ namespace Battleship.Game
         public SeaGridControl()
         {
             InitializeComponent();
+
             DataContext = this;
         }
 
@@ -66,7 +67,7 @@ namespace Battleship.Game
 
         private void OnPropertyChanged(string propertyName)
         {
-            if(PropertyChanged != null)
+            if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }

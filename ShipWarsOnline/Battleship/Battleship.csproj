@@ -85,6 +85,8 @@
       <DependentUpon>SeaGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\SeaSquare.cs" />
+    <Compile Include="GUIFacade.cs" />
+    <Compile Include="IGUIController.cs" />
     <Compile Include="LobbyWindow.xaml.cs">
       <DependentUpon>LobbyWindow.xaml</DependentUpon>
     </Compile>

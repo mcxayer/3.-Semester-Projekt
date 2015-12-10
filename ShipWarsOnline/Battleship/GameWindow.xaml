@@ -5,10 +5,42 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Battleship"
              xmlns:view="clr-namespace:Battleship.Game"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <DockPanel>
-        <view:SeaGridControl x:Name="myGrid" DockPanel.Dock="Left" Width="152"/>
-        <view:SeaGridControl x:Name="enemyGrid" />
-    </DockPanel>
+             mc:Ignorable="d">
+    <Grid x:Name="gridMain">
+        <Grid x:Name="gridContent" Margin="0,0,0,60" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="lblUsername1" Content="Username1" FontSize="16" FontFamily="Calibri" Background="#FF299742" Foreground="White" HorizontalContentAlignment="Center" VerticalAlignment="Top">
+                <Label.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Label.Effect>
+            </Label>
+            <Label x:Name="lblUsername2" Content="Username2" FontSize="16" FontFamily="Calibri" Background="#FF972929" Foreground="White" HorizontalContentAlignment="Center" Grid.Column="2" VerticalAlignment="Top">
+                <Label.Effect>
+                    <DropShadowEffect ShadowDepth="3"/>
+                </Label.Effect>
+            </Label>
+            <view:SeaGridControl x:Name="myGrid" Margin="0,30,0,0"/>
+            <view:SeaGridControl x:Name="enemyGrid" Margin="0,30,0,0" Grid.Column="1" />
+        </Grid>
+        <Grid x:Name="gridFooter" VerticalAlignment="Bottom" Height="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="15*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Fill="Gainsboro" Margin="0" Grid.ColumnSpan="2"/>
+            <Button x:Name="button" Content="End Turn" Margin="0,15,10,15" Cursor="" IsDefault="True" ToolTip="Ends the current turn" VerticalAlignment="Center" HorizontalAlignment="Right" Width="80" Height="30" Grid.Column="1">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                        <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                        <GradientStop Color="#FFCDCDCD" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+        </Grid>
+    </Grid>
 </UserControl>

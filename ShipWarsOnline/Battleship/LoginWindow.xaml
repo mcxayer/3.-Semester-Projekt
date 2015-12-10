@@ -7,23 +7,20 @@
              xmlns:Game="clr-namespace:Battleship.Game" x:Class="Battleship.LoginWindow"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <Grid Background="#FF464646">
         <Grid.RowDefinitions>
-            <RowDefinition Height="49*"/>
-            <RowDefinition Height="101*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="150*"/>
-            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="tbUsername" HorizontalAlignment="Left" Height="23" Margin="10,9,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="109" Grid.Column="1" Grid.Row="1"/>
-        <Button x:Name="btnLogin" Content="Login" Grid.Column="2" HorizontalAlignment="Left" Margin="0,170,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="OnLoginButtonClicked"/>
-        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,170,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="OnBackButtonClicked"/>
-        <Label x:Name="lblInfo" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="0,106,0,0" Grid.Row="1" VerticalAlignment="Top" Width="129"/>
-        <PasswordBox x:Name="tbPassword" Grid.Column="1" HorizontalAlignment="Left" Margin="10,37,0,0" Grid.Row="1" VerticalAlignment="Top" Width="109" Password="Password"/>
-        <Button x:Name="createUser" Content="Create User" Grid.Column="1" HorizontalAlignment="Left" Margin="22,170,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="createUser_Click"/>
-        <Label x:Name="label" Content="     ShipWarsOnline" Margin="-30.473,32.337,-31.446,35.221" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Grid.Column="1" d:LayoutOverrides="Height">
+        <TextBox x:Name="tbUsername" HorizontalAlignment="Center" Height="22" Margin="89,114,96,164" TextWrapping="Wrap" Text="Username" VerticalAlignment="Center" Width="115"/>
+        <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Center" Margin="164,165,96,113" VerticalAlignment="Center" Click="OnLoginButtonClicked" Width="40"/>
+        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="OnBackButtonClicked" Width="35"/>
+        <Label x:Name="lblInfo" Content="" HorizontalAlignment="Center" Margin="89,214,96,60" VerticalAlignment="Center" Width="115"/>
+        <PasswordBox x:Name="tbPassword" HorizontalAlignment="Center" Margin="89,140,96,140" VerticalAlignment="Center" Width="115" Password="Password"/>
+        <Button x:Name="btnCreateUser" Content="Create User" HorizontalAlignment="Center" Margin="89,165,141,113" VerticalAlignment="Center" Click="OnCreateUserButtonClicked" Width="70"/>
+        <Label x:Name="label" Content="ShipWarsOnline" Margin="56,32,54,237" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="#FFAA3434" HorizontalContentAlignment="Center" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.IsSharedSizeScope="True" VerticalAlignment="Top">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -32,15 +29,8 @@
                     <TranslateTransform X="0.166"/>
                 </TransformGroup>
             </Label.RenderTransform>
-            <Label.Background>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="Red"/>
-                    <GradientStop Color="#FF640000" Offset="0.556"/>
-                </RadialGradientBrush>
-            </Label.Background>
         </Label>
-        <Label x:Name="label_Copy" Content="wow" Margin="21.531,84.533,22.692,87.021" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" d:LayoutOverrides="Height" Grid.Row="1" Background="{x:Null}">
+        <Label x:Name="label_Copy" Content="wow" Margin="22,183,237,87" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -50,7 +40,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label x:Name="label_Copy1" Content="cool" Margin="0,0,1.114,39.011" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="#FF0D5306" Grid.Row="1" Background="{x:Null}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="41.492">
+        <Label x:Name="label_Copy1" Content="cool" Margin="0,0,0,39" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="Cyan" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="42">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -60,7 +50,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label x:Name="label_Copy2" Content="much battle" Margin="-52.613,0,-4.788,-7.423" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="18.667" RenderTransformOrigin="0.5,0.5" Foreground="#FFDBFD00" Background="{x:Null}" Grid.Column="2" VerticalAlignment="Bottom">
+        <Label x:Name="label_Copy2" Content="much battle" Margin="172,67,11,0" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="18.667" RenderTransformOrigin="0.5,0.5" Foreground="#FFDBFD00" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -70,7 +60,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label x:Name="label_Copy3" Content="such game" Margin="-56.117,75.847,-1.283,90.137" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="#FFFD5C00" Background="{x:Null}" Grid.Column="2" Grid.Row="1" d:LayoutOverrides="Height">
+        <Label x:Name="label_Copy3" Content="such game" Margin="200,191,44,86" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="#FFFD5C00" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -80,7 +70,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="49,56,-64,0" Grid.Row="1" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Source="http://i.imgur.com/g7TUsLv.png" Grid.Column="2">
+        <Image x:Name="image" HorizontalAlignment="Right" Height="100" Margin="0,127,-37,73" VerticalAlignment="Center" Width="100" RenderTransformOrigin="0.5,0.5" Source="http://i.imgur.com/g7TUsLv.png">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -90,5 +80,10 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
+        <Label x:Name="lblTitle" Content="Login" Margin="0" Background="Gainsboro" VerticalAlignment="Top" Padding="5">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="3"/>
+            </Label.Effect>
+        </Label>
     </Grid>
 </UserControl>

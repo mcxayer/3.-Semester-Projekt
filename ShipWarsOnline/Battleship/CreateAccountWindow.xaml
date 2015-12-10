@@ -6,12 +6,20 @@
              xmlns:local="clr-namespace:Battleship"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <TextBox x:Name="tbUsername" HorizontalAlignment="Left" Height="23" Margin="89,36,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="tbEmail" HorizontalAlignment="Left" Height="23" Margin="89,123,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="createUser_Button" Content="Create User" HorizontalAlignment="Left" Margin="215,268,0,0" VerticalAlignment="Top" Width="75" Click="createUser_Button_Click"/>
-        <Button x:Name="back_Button" Content="Back" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top" Width="75" Click="back_Button_Click"/>
-        <TextBox x:Name="tbPassword" HorizontalAlignment="Left" Height="23" Margin="89,81,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="120"/>
+    <Grid Background="#FF464646">
+        <TextBox x:Name="tbUsername" Height="23" Margin="89,36,10,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top"/>
+        <TextBox x:Name="tbPassword" Height="23" Margin="89,67,10,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top"/>
+        <TextBox x:Name="tbEmail" Height="23" Margin="89,98,10,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top"/>
+        <Button x:Name="btnCreateUser" Content="Create User" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="OnCreateUserButtonClicked" Width="70"/>
+        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="OnBackButtonClicked" Width="35"/>
+        <Label x:Name="lblTitle" Content="Account Creation" Margin="0" Background="Gainsboro" VerticalAlignment="Top">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="3"/>
+            </Label.Effect>
+        </Label>
+        <Label x:Name="lblUsername" Content="Username" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="lblPassword" Content="Password" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label x:Name="lblEmail" Content="Email" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top" Foreground="White"/>
 
     </Grid>
 </UserControl>

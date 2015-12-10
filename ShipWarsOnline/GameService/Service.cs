@@ -7,11 +7,11 @@ namespace GameService
     //[ServiceBehavior(InstanceContextMode= InstanceContextMode.PerSession)]
     public class Service : IService
     {
-        public bool Connect(string tokenID)
+        public void Connect(string tokenID)
         {
             try
             {
-                return DomainFacade.Instance.ConnectLobby(tokenID);
+                DomainFacade.Instance.ConnectLobby(tokenID);
             }
             catch (Exception ex)
             {
@@ -20,11 +20,11 @@ namespace GameService
             }
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
             try
             {
-                return DomainFacade.Instance.DisconnectLobby();
+                DomainFacade.Instance.DisconnectLobby();
             }
             catch (Exception ex)
             {

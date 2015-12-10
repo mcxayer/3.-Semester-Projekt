@@ -39,11 +39,11 @@ namespace Client
                 tokenID = generalProxy.Login("hej", "med");
                 Console.WriteLine("Logget ind med token id: " + tokenID);
 
-                if (gameProxy.Connect(tokenID))
-                {
-                    Console.WriteLine("Forbundet til spilserver!");
-                    gameProxy.Matchmake();
-                }
+                //if (gameProxy.Connect(tokenID))
+                //{
+                //    Console.WriteLine("Forbundet til spilserver!");
+                //    gameProxy.Matchmake();
+                //}
             }
             catch (FaultException)
             {
@@ -75,14 +75,14 @@ namespace Client
 
             try
             {
-                if (gameProxy.Disconnect())
-                {
-                    Console.WriteLine("Afsluttet forbindelse til spilserver!");
-                }
-                else
-                {
-                    Console.WriteLine("Kunne ikke afslutte forbindelse til spilserver!");
-                }
+                //if (gameProxy.Disconnect())
+                //{
+                //    Console.WriteLine("Afsluttet forbindelse til spilserver!");
+                //}
+                //else
+                //{
+                //    Console.WriteLine("Kunne ikke afslutte forbindelse til spilserver!");
+                //}
 
                 generalProxy.Logout(tokenID);
                 Console.WriteLine("Logget ud!");
@@ -102,14 +102,19 @@ namespace Client
                 Console.WriteLine("Lobby updated!");
             }
 
-            public void OnPlayerConnected(string player)
+            public void OnPlayerConnected()
             {
-                Console.WriteLine(string.Format("Player {0} connected to the game server!", player));
+                Console.WriteLine("Player connected to the game server!");
             }
 
-            public void OnPlayerDisconnected(string player)
+            public void OnPlayerDisconnected()
             {
-                Console.WriteLine(string.Format("Player {0} disconnected the game server!", player));
+                Console.WriteLine("Player disconnected from the game server!");
+            }
+
+            public void OnPlayerFailedConnecting()
+            {
+                throw new NotImplementedException();
             }
 
             public void OnPlayerEnteredMatchmaking()
@@ -117,7 +122,7 @@ namespace Client
                 Console.WriteLine("Player entered matchmaking!");
             }
 
-            public void OnPlayerExitedMatchmaking()
+            public void OnPlayerCancelledMatchmaking()
             {
                 Console.WriteLine("Player exited matchmaking!");
             }

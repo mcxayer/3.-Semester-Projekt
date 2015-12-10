@@ -15,7 +15,7 @@
             <local:GameWindow/>
         </DataTemplate>
     </Window.Resources>
-    <DockPanel>
+    <DockPanel Width="500" Height="500">
         <ContentControl Content="{Binding}"/>
     </DockPanel>
 </Window>

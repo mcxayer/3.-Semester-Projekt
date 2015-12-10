@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Battleship.GUI;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Battleship
@@ -8,21 +9,14 @@ namespace Battleship
     /// </summary>
     public partial class MainMenuWindow : UserControl
     {
-        private MainWindow window;
-
         public MainMenuWindow()
         {
             InitializeComponent();
         }
 
-        public void SetMainWindow(MainWindow window)
+        private void OnStartMultiplayerButtonClicked(object sender, RoutedEventArgs e)
         {
-            this.window = window;
-        }
-
-        private void btnMultiplayer_Click(object sender, RoutedEventArgs e)
-        {
-            window.GotoLogin();
+            GUIFacade.Instance.GotoLogin();
         }
     }
 }

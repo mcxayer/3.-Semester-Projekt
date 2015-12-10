@@ -1,4 +1,5 @@
 ﻿using Battleship.Game;
+using Battleship.GUI;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,26 +10,19 @@ namespace Battleship
     /// </summary>
     public partial class CreateAccountWindow : UserControl
     {
-        private MainWindow window;
         public CreateAccountWindow()
         {
             InitializeComponent();
         }
-        public void SetMainWindow(MainWindow window)
+
+        private void OnBackButtonClicked(object sender, RoutedEventArgs e)
         {
-            this.window = window;
+            GUIFacade.Instance.GotoLogin();
         }
 
-        private void back_Button_Click(object sender, RoutedEventArgs e)
+        private void OnCreateUserButtonClicked(object sender, RoutedEventArgs e)
         {
-            window.GotoLogin();
+            GUIFacade.Instance.CreateAccount(tbUsername.Text,tbPassword.Text,tbEmail.Text);
         }
-
-        private void createUser_Button_Click(object sender, RoutedEventArgs e)
-        {
-            GameContextFacade.Instance.CreateAccount(tbUsername.Text,tbPassword.Text,tbEmail.Text);
-            window.GotoLogin();
-        }
-
     }
 }

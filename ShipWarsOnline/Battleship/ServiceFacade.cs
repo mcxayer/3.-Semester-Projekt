@@ -10,6 +10,8 @@ namespace Battleship
         private GeneralService.IService generalService;
         private GameService.IService gameService;
 
+        private string tokenId;
+
         public ServiceFacade(GameService.ICallback callback)
         {
             var generalFactory = new ChannelFactory<GeneralService.IService>("GeneralServiceEndpoint");
@@ -22,12 +24,14 @@ namespace Battleship
             }));
         }
 
-        public string Login(string username, string password)
+        public bool Login(string username, string password)
         {
-            return generalService.Login(username, password);
+            tokenId = generalService.Login(username, password);
+
+            return !string.IsNullOrEmpty(tokenId);
         }
 
-        public void Logout(string tokenId)
+        public void Logout()
         {
             generalService.Logout(tokenId);
         }
@@ -42,14 +46,14 @@ namespace Battleship
             return gameService.GetLobby();
         }
 
-        public bool Connect(string tokenId)
+        public void Connect()
         {
-            return gameService.Connect(tokenId);
+            gameService.Connect(tokenId);
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
-            return gameService.Disconnect();
+            gameService.Disconnect();
         }
 
         public void Matchmake()

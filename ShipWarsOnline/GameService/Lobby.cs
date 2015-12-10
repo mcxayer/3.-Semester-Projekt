@@ -17,17 +17,18 @@ namespace GameService
             activeGames = new Dictionary<IContextChannel, ServerGame>();
         }
 
-        public bool Connect(string tokenID)
+        public void Connect(string tokenID)
         {
             if (HasActiveClient(OperationContext.Current.Channel))
             {
-                return false;
+                throw new Exception("Player already connected!");
             }
 
             string username = GeneralService.DomainFacade.Instance.UseToken(tokenID);
             if (string.IsNullOrEmpty(username))
             {
-                return false;
+                OnPlayerFailedConnecting(OperationContext.Current.GetCallbackChannel<ICallback>());
+                return;
             }
 
             Session session = new Session(OperationContext.Current.Channel,
@@ -39,20 +40,19 @@ namespace GameService
             activeClients.Add(OperationContext.Current.Channel, session);
 
             OnPlayerConnected(session);
-            return true;
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
-            return ForceDisconnect(OperationContext.Current.Channel);
+            ForceDisconnect(OperationContext.Current.Channel);
         }
 
-        private bool ForceDisconnect(IContextChannel channel)
+        private void ForceDisconnect(IContextChannel channel)
         {
             Session playerSession;
             if (!activeClients.TryGetValue(channel, out playerSession))
             {
-                return false;
+                throw new Exception("Player not connected!");
             }
 
             OnPlayerDisconnected(playerSession);
@@ -64,7 +64,6 @@ namespace GameService
             }
 
             activeClients.Remove(channel);
-            return true;
         }
 
         public List<string> GetLobbyClients()
@@ -125,10 +124,10 @@ namespace GameService
                     throw new NullReferenceException("Current player is not connected!");
                 }
 
-                CreateNetworkGame(playerSession, otherPlayerSession);
-
                 OnPlayerMatchmade(playerSession);
                 OnPlayerMatchmade(otherPlayerSession);
+
+                CreateNetworkGame(playerSession, otherPlayerSession);
 
                 //ForceDisconnect(currentPlayer);
                 //ForceDisconnect(otherPlayer);
@@ -243,22 +242,18 @@ namespace GameService
                 throw new ArgumentNullException("playerSession");
             }
 
-            foreach (Session session in activeClients.Values)
+            if (playerSession.state != SessionState.InLobby)
             {
-                if (session.Channel.Equals(playerSession.Channel))
-                {
-                    continue;
-                }
-
-                if(session.state != SessionState.InLobby 
-                    || session.Channel.State != CommunicationState.Opened)
-                {
-                    continue;
-                }
-
-                session.Callback.OnPlayerConnected(playerSession.Username);
-                session.Callback.OnLobbyUpdated();
+                throw new Exception("Player is not in lobby!");
             }
+
+            if (playerSession.Channel.State != CommunicationState.Opened)
+            {
+                throw new CommunicationException("Player connection is not open!");
+            }
+
+            playerSession.Callback.OnPlayerConnected();
+            playerSession.Callback.OnLobbyUpdated();
         }
 
         private void OnPlayerDisconnected(Session playerSession)
@@ -268,22 +263,23 @@ namespace GameService
                 throw new ArgumentNullException("playerSession");
             }
 
-            foreach (Session session in activeClients.Values)
+            if (playerSession.Channel.State != CommunicationState.Opened)
             {
-                if (session.Channel.Equals(playerSession.Channel))
-                {
-                    continue;
-                }
-
-                if (session.state != SessionState.InLobby 
-                    || session.Channel.State != CommunicationState.Opened)
-                {
-                    continue;
-                }
-
-                session.Callback.OnPlayerDisconnected(playerSession.Username);
-                session.Callback.OnLobbyUpdated();
+                throw new CommunicationException("Player connection is not open!");
             }
+
+            playerSession.Callback.OnPlayerDisconnected();
+            playerSession.Callback.OnLobbyUpdated();
+        }
+
+        private void OnPlayerFailedConnecting(ICallback playerCallback)
+        {
+            if (playerCallback == null)
+            {
+                throw new ArgumentNullException("playerCallback");
+            }
+
+            playerCallback.OnPlayerFailedConnecting();
         }
 
         private void OnPlayerMatchmade(Session playerSession)
@@ -293,10 +289,12 @@ namespace GameService
                 throw new ArgumentNullException("playerSession");
             }
 
-            if (playerSession.Channel.State == CommunicationState.Opened)
+            if (playerSession.Channel.State != CommunicationState.Opened)
             {
-                playerSession.Callback.OnPlayerMatchmade();
+                throw new CommunicationException("Player connection is not open!");
             }
+
+            playerSession.Callback.OnPlayerMatchmade();
         }
 
         private void OnPlayerEnteredMatchmaking(Session playerSession)
@@ -340,7 +338,7 @@ namespace GameService
                 {
                     if(playerSession.Channel.State == CommunicationState.Opened)
                     {
-                        playerSession.Callback.OnPlayerExitedMatchmaking();
+                        playerSession.Callback.OnPlayerCancelledMatchmaking();
                     }
                     continue;
                 }
