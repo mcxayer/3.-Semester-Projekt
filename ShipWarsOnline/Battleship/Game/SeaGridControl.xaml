@@ -8,9 +8,9 @@
     <UserControl.Resources>
         <game:ColorController x:Key="ColorController" />
         <Style x:Key="HorizontalListBox">
-            <!--<Style.Resources>
+            <Style.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="White" />
-            </Style.Resources>-->
+            </Style.Resources>
             <Setter Property="ListBox.ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>

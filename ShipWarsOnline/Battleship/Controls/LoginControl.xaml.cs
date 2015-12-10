@@ -9,9 +9,9 @@ namespace Battleship
     /// <summary>
     /// Interaction logic for LoginPage.xaml
     /// </summary>
-    public partial class LoginWindow : UserControl
+    public partial class LoginControl : UserControl, IGUILogin
     {
-        public LoginWindow()
+        public LoginControl()
         {
             InitializeComponent();
         }
@@ -38,6 +38,21 @@ namespace Battleship
         private void OnCreateUserButtonClicked(object sender, RoutedEventArgs e)
         {
             GUIFacade.Instance.GotoAccountCreation();
+        }
+
+        public void OnPlayerFailedConnecting()
+        {
+            lblInfo.Content = "Failed to connect!";
+        }
+
+        public void OnSelected()
+        {
+            lblInfo.Content = "";
+        }
+
+        public FrameworkElement GetElement()
+        {
+            return this;
         }
     }
 }

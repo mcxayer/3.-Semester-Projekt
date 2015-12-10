@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Battleship.GUI;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -29,42 +30,6 @@ namespace Battleship.Game
             DataContext = this;
         }
 
-        public void SetCells(List<List<SeaSquare>> gridCells)
-        {
-            //this.gridCells = gridCells;
-
-            //this.gridCells.Clear();
-            //for (int i = 0; i < gridCells.Count; i++)
-            //{
-            //    this.gridCells.Add(new ObservableCollection<SeaSquare>());
-            //    foreach (var cell in gridCells[i])
-            //    {
-            //        this.gridCells[i].Add(cell);
-            //    }
-            //}
-
-            //for (int i = 0; i < gridCells.Count; i++)
-            //{
-            //    gridControl.ColumnDefinitions.Add(new ColumnDefinition());
-            //    gridControl.RowDefinitions.Add(new RowDefinition());
-            //}
-
-            //for (int i = 0; i < gridCells.Count; i++)
-            //{
-            //    for (int j = 0; j < gridCells[i].Count; j++)
-            //    {
-            //        Rectangle rct = new Rectangle();
-            //        rct.Fill = new SolidColorBrush(Colors.Black);
-            //        rct.Width = 10;
-            //        rct.Height = 10;
-            //        Grid.SetRow(rct, j);
-            //        Grid.SetColumn(rct, i);
-
-            //        gridControl.Children.Add(rct);
-            //    }
-            //}
-        }
-
         private void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -83,7 +48,7 @@ namespace Battleship.Game
             if (content == null)
                 return;
 
-            GameContextFacade.Instance.TakeTurn(content.Row, content.Col);
+            GUIFacade.Instance.TakeTurn(content.Row, content.Col);
         }
     }
 }

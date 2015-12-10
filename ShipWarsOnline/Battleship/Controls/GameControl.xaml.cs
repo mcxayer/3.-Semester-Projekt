@@ -1,43 +1,25 @@
 ﻿using Battleship.Game;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
+using System;
+using Battleship.GUI;
 
 namespace Battleship
 {
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class GameWindow : UserControl
+    public partial class GameControl : UserControl, IGUIGame
     {
-        private MainWindow window;
-
-        public GameWindow()
+        public GameControl()
         {
             InitializeComponent();
-
-            GameContextFacade.Instance.HandleGameInitialized += OnGameInit;
         }
 
-        ~GameWindow()
+        public void OnGameInit()
         {
-            try
-            {
-                GameContextFacade.Instance.HandleGameInitialized -= OnGameInit;
-            }
-            catch
-            {
-                // Nothing
-            }
-        }
-
-        public void SetMainWindow(MainWindow window)
-        {
-            this.window = window;
-        }
-
-        private void OnGameInit()
-        {
-            var cells = GameContextFacade.Instance.GetPlayerCells();
+            var cells = GUIFacade.Instance.GetPlayerCells();
             List<List<SeaSquare>> gridCells = new List<List<SeaSquare>>();
             for (int i = 0; i < cells.GetLength(0); i++)
             {
@@ -52,6 +34,16 @@ namespace Battleship
             }
 
             myGrid.GridCells = gridCells;
+        }
+
+        public void OnSelected()
+        {
+            // Nothing
+        }
+
+        public FrameworkElement GetElement()
+        {
+            return this;
         }
     }
 }

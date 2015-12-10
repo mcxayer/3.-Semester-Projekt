@@ -72,12 +72,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CreateAccountWindow.xaml.cs">
-      <DependentUpon>CreateAccountWindow.xaml</DependentUpon>
+    <Compile Include="Controls\AccountCreationControl.xaml.cs">
+      <DependentUpon>AccountCreationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameContextFacade.cs" />
-    <Compile Include="GameWindow.xaml.cs">
-      <DependentUpon>GameWindow.xaml</DependentUpon>
+    <Compile Include="Controls\GameControl.xaml.cs">
+      <DependentUpon>GameControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\ColorController.cs" />
     <Compile Include="Game\ClientGame.cs" />
@@ -86,19 +86,24 @@
     </Compile>
     <Compile Include="Game\SeaSquare.cs" />
     <Compile Include="GUIFacade.cs" />
-    <Compile Include="IGUIController.cs" />
-    <Compile Include="LobbyWindow.xaml.cs">
-      <DependentUpon>LobbyWindow.xaml</DependentUpon>
+    <Compile Include="IGUIGame.cs" />
+    <Compile Include="IGUILobby.cs" />
+    <Compile Include="IGUILogin.cs" />
+    <Compile Include="IGUIMatchmaking.cs" />
+    <Compile Include="IGUIWindow.cs" />
+    <Compile Include="IGUIControl.cs" />
+    <Compile Include="Controls\LobbyControl.xaml.cs">
+      <DependentUpon>LobbyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MatchmakingWindow.xaml.cs">
-      <DependentUpon>MatchmakingWindow.xaml</DependentUpon>
+    <Compile Include="Controls\MatchmakingControl.xaml.cs">
+      <DependentUpon>MatchmakingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServiceFacade.cs" />
-    <Page Include="CreateAccountWindow.xaml">
+    <Page Include="Controls\AccountCreationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GameWindow.xaml">
+    <Page Include="Controls\GameControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,15 +111,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LobbyWindow.xaml">
+    <Page Include="Controls\LobbyControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="Controls\LoginControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainMenuWindow.xaml">
+    <Page Include="Controls\MainMenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,17 +131,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LoginWindow.xaml.cs">
-      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    <Compile Include="Controls\LoginControl.xaml.cs">
+      <DependentUpon>LoginControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainMenuWindow.xaml.cs">
-      <DependentUpon>MainMenuWindow.xaml</DependentUpon>
+    <Compile Include="Controls\MainMenuControl.xaml.cs">
+      <DependentUpon>MainMenuControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MatchmakingWindow.xaml">
+    <Page Include="Controls\MatchmakingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,107 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Battleship"
+             xmlns:Game="clr-namespace:Battleship.Game" x:Class="Battleship.LoginControl"
+             mc:Ignorable="d" d:DesignWidth="443.233" d:DesignHeight="401.872">
+    <Grid Background="#FF464646">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="gridContent" Margin="0,26,0,60">
+            <TextBox x:Name="tbUsername" HorizontalAlignment="Center" Margin="0,0,0,55" TextWrapping="Wrap" Text="Username" VerticalAlignment="Center" Width="115" Height="22"/>
+            <PasswordBox x:Name="tbPassword" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="116" Password="Password" RenderTransformOrigin="0.5,0.5" Height="22">
+                <PasswordBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </PasswordBox.RenderTransform>
+            </PasswordBox>
+            <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Center" Margin="168,123,92,69" VerticalAlignment="Center" Click="OnLoginButtonClicked" Width="40"/>
+            <Button x:Name="btnCreateUser" Content="Create User" HorizontalAlignment="Center" Margin="92,123,138,69" VerticalAlignment="Center" Click="OnCreateUserButtonClicked" Width="70"/>
+            <Label x:Name="lblInfo" Content="" HorizontalAlignment="Center" Margin="93,150,92,38" VerticalAlignment="Center" Width="115"/>
+            <Label x:Name="label" Content="ShipWarsOnline" Margin="0" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="#FFAA3434" HorizontalContentAlignment="Center" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.IsSharedSizeScope="True" VerticalAlignment="Top" HorizontalAlignment="Center" Width="175">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.542"/>
+                        <RotateTransform Angle="-9.726"/>
+                        <TranslateTransform X="0.166"/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label x:Name="label_Copy" Content="wow" Margin="35,152,227,32" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.542"/>
+                        <RotateTransform Angle="20.423"/>
+                        <TranslateTransform X="0.166"/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label x:Name="label_Copy1" Content="cool" Margin="0,0,33,13" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="Cyan" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="42">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.542"/>
+                        <RotateTransform Angle="-3.245"/>
+                        <TranslateTransform X="0.166"/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label x:Name="label_Copy2" Content="much battle" Margin="175,31,8,0" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="18.667" RenderTransformOrigin="0.5,0.5" Foreground="#FFDBFD00" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.542" AngleY="-0.727"/>
+                        <RotateTransform Angle="10.806"/>
+                        <TranslateTransform X="0.231" Y="-0.524"/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label x:Name="label_Copy3" Content="such game" Margin="217,128,27,63" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="#FFFD5C00" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.542" AngleY="-0.727"/>
+                        <RotateTransform Angle="-2.585"/>
+                        <TranslateTransform X="0.231" Y="-0.524"/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Image x:Name="image" HorizontalAlignment="Right" Height="100" Margin="0,95,-40,122" VerticalAlignment="Center" Width="100" RenderTransformOrigin="0.5,0.5" Source="http://i.imgur.com/g7TUsLv.png">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-55.822"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </Grid>
+        <Grid VerticalAlignment="Bottom" x:Name="gridFooter" Margin="0" Height="60">
+            <Grid.ColumnDefinitions
+    >
+                <ColumnDefinition
+    />
+            </Grid.ColumnDefinitions>
+            <Rectangle Fill="Gainsboro" Margin="0"/>
+            <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Click="OnBackButtonClicked" Width="35"/>
+        </Grid>
+        <Label x:Name="lblTitle" Content="Login" Margin="0" Background="Gainsboro" VerticalAlignment="Top" Padding="5">
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="3"/>
+            </Label.Effect>
+        </Label>
+    </Grid>
+</UserControl>

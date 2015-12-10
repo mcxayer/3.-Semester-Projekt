@@ -8,9 +8,9 @@ namespace Battleship
     /// <summary>
     /// Interaction logic for CreateAccountWindow.xaml
     /// </summary>
-    public partial class CreateAccountWindow : UserControl
+    public partial class AccountCreationControl : UserControl, IGUIControl
     {
-        public CreateAccountWindow()
+        public AccountCreationControl()
         {
             InitializeComponent();
         }
@@ -23,6 +23,18 @@ namespace Battleship
         private void OnCreateUserButtonClicked(object sender, RoutedEventArgs e)
         {
             GUIFacade.Instance.CreateAccount(tbUsername.Text,tbPassword.Text,tbEmail.Text);
+        }
+
+        public void OnSelected()
+        {
+            tbUsername.Text = "";
+            tbPassword.Text = "";
+            tbEmail.Text = "";
+        }
+
+        public FrameworkElement GetElement()
+        {
+            return this;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Battleship.Game;
+using ShipWarsOnline;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,12 @@ namespace Battleship.GUI
 
         private GUIWindowType currentWindowType;
 
-        private IGUIController guiController;
-        public IGUIController GUIController { set { guiController = value; GotoWindow(GUIWindowType.MainMenu); } }
+        private IGUIWindow windowContainer;
+        public IGUIWindow WindowContainer
+        {
+            private get { return windowContainer; }
+            set { windowContainer = value; GotoWindow(GUIWindowType.MainMenu); }
+        }
 
         private GUIFacade()
         {
@@ -53,110 +58,173 @@ namespace Battleship.GUI
             }
         }
 
-        public bool GotoMainMenu()
+        private void GotoWindow(GUIWindowType type)
+        {
+            currentWindowType = type;
+            IGUIControl control = null;
+            switch (type)
+            {
+                case GUIWindowType.MainMenu:
+                    control = WindowContainer.GetMainMenuControl();
+                    break;
+                case GUIWindowType.Login:
+                    control = WindowContainer.GetLoginControl();
+                    break;
+                case GUIWindowType.AccountCreation:
+                    control = WindowContainer.GetAccountCreationControl();
+                    break;
+                case GUIWindowType.Lobby:
+                    control = WindowContainer.GetLobbyControl();
+                    break;
+                case GUIWindowType.Matchmaking:
+                    control = WindowContainer.GetMatchmakingControl();
+                    break;
+                case GUIWindowType.Game:
+                    control = WindowContainer.GetGameControl();
+                    break;
+
+                default:
+                    throw new System.Exception(string.Format("Window type {0} is not valid!", type));
+            }
+
+            if(control != null)
+            {
+                WindowContainer.SetDataContext(control.GetElement());
+                control.OnSelected();
+            }
+        }
+
+        public void GotoMainMenu()
         {
             if (currentWindowType != GUIWindowType.Login
                 && currentWindowType != GUIWindowType.AccountCreation)
             {
-                return false;
+                throw new Exception("Invalid control!");
             }
 
             GotoWindow(GUIWindowType.MainMenu);
-            return true;
         }
 
-        public bool GotoLogin()
+        public void GotoLogin()
         {
             if(currentWindowType != GUIWindowType.MainMenu
                 && currentWindowType != GUIWindowType.AccountCreation)
             {
-                return false;
+                throw new Exception("Invalid control!");
             }
 
             GotoWindow(GUIWindowType.Login);
-            return true;
         }
 
-        public bool GotoAccountCreation()
+        public void GotoAccountCreation()
         {
             if (currentWindowType != GUIWindowType.Login)
             {
-                return false;
+                throw new Exception("Invalid control!");
             }
 
             GotoWindow(GUIWindowType.AccountCreation);
-            return true;
         }
 
-        public bool Login(string username, string password)
+        public void Login(string username, string password)
         {
             if (currentWindowType != GUIWindowType.Login)
             {
-                return false;
+                throw new Exception("Invalid control!");
             }
 
             GameContextFacade.Instance.Login(username, password);
-            return true;
         }
 
-        public bool Connect()
-        {
-            if (currentWindowType != GUIWindowType.Login)
-            {
-                return false;
-            }
-
-            GameContextFacade.Instance.Connect();
-            return true;
-        }
-
-        public bool Matchmake()
+        public void Logout()
         {
             if (currentWindowType != GUIWindowType.Lobby)
             {
-                return false;
+                throw new Exception("Invalid control!");
+            }
+
+            GameContextFacade.Instance.Logout();
+        }
+
+        public void Connect()
+        {
+            if (currentWindowType != GUIWindowType.Login)
+            {
+                throw new Exception("Invalid control!");
+            }
+
+            GameContextFacade.Instance.Connect();
+        }
+
+        public void Disconnect()
+        {
+            if (currentWindowType != GUIWindowType.Lobby
+                && currentWindowType != GUIWindowType.Game)
+            {
+                throw new Exception("Invalid control!");
+            }
+
+            GameContextFacade.Instance.Disconnect();
+        }
+
+        public void Matchmake()
+        {
+            if (currentWindowType != GUIWindowType.Lobby)
+            {
+                throw new Exception("Invalid control!");
             }
 
             GameContextFacade.Instance.Matchmake();
-            return true;
         }
 
-        public bool CancelMatchmaking()
+        public void CancelMatchmaking()
         {
             if (currentWindowType != GUIWindowType.Matchmaking)
             {
-                return false;
+                throw new Exception("Invalid control!");
             }
 
             GameContextFacade.Instance.CancelMatchmaking();
-            return true;
         }
 
-        public bool CreateAccount(string username, string password, string email)
+        public void CreateAccount(string username, string password, string email)
         {
             if (currentWindowType != GUIWindowType.AccountCreation)
             {
-                return false;
+                throw new Exception("Invalid control!");
             }
 
             GameContextFacade.Instance.CreateAccount(username, password, email);
-            return true;
         }
 
-        private void GotoWindow(GUIWindowType type)
+        public ReadOnly2DArray<ReadOnlySeaCell> GetPlayerCells()
         {
-            currentWindowType = type;
-            guiController.GotoWindow(type);
+            return GameContextFacade.Instance.GetPlayerCells();
+        }
+
+        public void TakeTurn(int x, int y)
+        {
+            if (currentWindowType != GUIWindowType.Game)
+            {
+                throw new Exception("Invalid control!");
+            }
+
+            GameContextFacade.Instance.TakeTurn(x, y);
+        }
+
+        public List<string> GetLobby()
+        {
+            if (currentWindowType != GUIWindowType.Lobby)
+            {
+                throw new Exception("Invalid control!");
+            }
+
+            return GameContextFacade.Instance.GetLobby();
         }
 
         private void OnPlayerConnected()
         {
             Console.WriteLine("Player connected to the game server!");
-
-            if(guiController == null)
-            {
-                return;
-            }
 
             GotoWindow(GUIWindowType.Lobby);
         }
@@ -165,11 +233,6 @@ namespace Battleship.GUI
         {
             Console.WriteLine("Player disconnected from the game server!");
 
-            if (guiController == null)
-            {
-                return;
-            }
-
             GotoWindow(GUIWindowType.Login);
         }
 
@@ -177,22 +240,17 @@ namespace Battleship.GUI
         {
             Console.WriteLine("Player failed to connect to the game server!");
 
-            if (guiController == null)
+            if(currentWindowType != GUIWindowType.Login)
             {
                 return;
             }
 
-            //TODO
+            WindowContainer.GetLoginControl().OnPlayerFailedConnecting();
         }
 
         private void OnPlayerEnteredMatchmaking()
         {
             Console.WriteLine("Player entered matchmaking!");
-
-            if (guiController == null)
-            {
-                return;
-            }
 
             GotoWindow(GUIWindowType.Matchmaking);
         }
@@ -201,11 +259,6 @@ namespace Battleship.GUI
         {
             Console.WriteLine("Player exited matchmaking!");
 
-            if (guiController == null)
-            {
-                return;
-            }
-
             GotoWindow(GUIWindowType.Lobby);
         }
 
@@ -213,36 +266,32 @@ namespace Battleship.GUI
         {
             Console.WriteLine("Matchmade to game!");
 
-            if (guiController == null)
+            if (currentWindowType != GUIWindowType.Matchmaking)
             {
                 return;
             }
 
-            // TODO: Prepare to be matched
+            WindowContainer.GetMatchmakingControl().OnPlayerMatchmade();
         }
 
         private void OnLobbyUpdated()
         {
             Console.WriteLine("Lobby updated!");
 
-            if (guiController == null)
+            if (currentWindowType != GUIWindowType.Lobby)
             {
                 return;
             }
 
-            // TODO
+            WindowContainer.GetLobbyControl().OnLobbyUpdated();
         }
 
         private void OnGameInit()
         {
             Console.WriteLine("Game has been initialized!");
 
-            if (guiController == null)
-            {
-                return;
-            }
-
             GotoWindow(GUIWindowType.Game);
+            WindowContainer.GetGameControl().OnGameInit();
         }
     }
 }

@@ -1,114 +1,97 @@
 ﻿using Battleship.GUI;
 using System.Windows;
+using System;
 
 namespace Battleship
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IGUIController
-    { 
-        MainMenuWindow mainMenuWindow;
-        LoginWindow loginWindow;
-        GameWindow gameWindow;
-        LobbyWindow lobbyWindow;
-        CreateAccountWindow createAccountWindow;
-        MatchmakingWindow matchmakingWindow;
+    public partial class MainWindow : Window, IGUIWindow
+    {
+        MainMenuControl mainMenuControl;
+        LoginControl loginControl;
+        GameControl gameControl;
+        LobbyControl lobbyControl;
+        AccountCreationControl accountCreationControl;
+        MatchmakingControl matchmakingControl;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            GUIFacade.Instance.GUIController = this;
+            GUIFacade.Instance.WindowContainer = this;
         }
 
-        public void GotoWindow(GUIWindowType type)
+        public void SetDataContext(FrameworkElement element)
         {
-            switch(type)
-            {
-                case GUIWindowType.MainMenu: GotoMainMenu();
-                    break;
-                case GUIWindowType.Login: GotoLogin();
-                    break;
-                case GUIWindowType.AccountCreation: GotoAccountCreation();
-                    break;
-                case GUIWindowType.Lobby: GotoLobby();
-                    break;
-                case GUIWindowType.Matchmaking: GotoMatchmaking();
-                    break;
-                case GUIWindowType.Game: GotoGame();
-                    break;
-
-                default:
-                    throw new System.Exception(string.Format("Window type {0} is not valid!",type));
-            }
+            DataContext = element;
         }
 
-        private void GotoMainMenu()
+        public IGUIControl GetMainMenuControl()
         {
             // Lazy instantiation
-            if(mainMenuWindow == null)
+            if (mainMenuControl == null)
             {
-                mainMenuWindow = new MainMenuWindow();
+                mainMenuControl = new MainMenuControl();
             }
 
-            DataContext = mainMenuWindow;
+            return mainMenuControl;
         }
 
-        private void GotoLogin()
+        public IGUILogin GetLoginControl()
         {
             // Lazy instantiation
-            if (loginWindow == null)
+            if (loginControl == null)
             {
-                loginWindow = new LoginWindow();
+                loginControl = new LoginControl();
             }
 
-            DataContext = loginWindow;
+            return loginControl;
         }
 
-        private void GotoAccountCreation()
+        public IGUIControl GetAccountCreationControl()
         {
             // Lazy instantiation
-            if (createAccountWindow == null)
+            if (accountCreationControl == null)
             {
-                createAccountWindow = new CreateAccountWindow();
+                accountCreationControl = new AccountCreationControl();
             }
 
-            DataContext = createAccountWindow;
+            return accountCreationControl;
         }
 
-        private void GotoLobby()
+        public IGUILobby GetLobbyControl()
         {
             // Lazy instantiation
-            if (lobbyWindow == null)
+            if (lobbyControl == null)
             {
-                lobbyWindow = new LobbyWindow();
+                lobbyControl = new LobbyControl();
             }
 
-            lobbyWindow.UpdateLobbyList();
-            DataContext = lobbyWindow;
+            return lobbyControl;
         }
 
-        private void GotoMatchmaking()
+        public IGUIMatchmaking GetMatchmakingControl()
         {
             // Lazy instantiation
-            if (matchmakingWindow == null)
+            if (matchmakingControl == null)
             {
-                matchmakingWindow = new MatchmakingWindow();
+                matchmakingControl = new MatchmakingControl();
             }
 
-            DataContext = matchmakingWindow;
+            return matchmakingControl;
         }
 
-        private void GotoGame()
+        public IGUIGame GetGameControl()
         {
             // Lazy instantiation
-            if (gameWindow == null)
+            if (gameControl == null)
             {
-                gameWindow = new GameWindow();
+                gameControl = new GameControl();
             }
 
-            DataContext = gameWindow;
+            return gameControl;
         }
     }
 }
