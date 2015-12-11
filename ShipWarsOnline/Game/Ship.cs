@@ -12,6 +12,10 @@ namespace ShipWarsOnline
         public int Health { get; private set; }
         public ShipType Type { get; private set; }
 
+        public int PosX { get; set; }
+        public int PosY { get; set; }
+        public bool Horizontal { get; set; }
+
         // Maybe ship factory and immutable object
         private static readonly Dictionary<ShipType, int> shipLengths = new Dictionary<ShipType, int>()
         {
@@ -36,6 +40,11 @@ namespace ShipWarsOnline
             }
 
             Health--;
+        }
+
+        public void Destroy()
+        {
+            Health = 0;
         }
     }
 }

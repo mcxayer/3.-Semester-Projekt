@@ -54,6 +54,16 @@ namespace ShipWarsOnline
             grids[playerIndex].AddShip(type);
         }
 
+        public void AddShip(ShipType type, int playerIndex, int x, int y, bool horizontal)
+        {
+            if (playerIndex < 0 || playerIndex >= MaxPlayerAmount)
+            {
+                throw new ArgumentOutOfRangeException("playerIndex");
+            }
+
+            grids[playerIndex].AddShip(type,x,y,horizontal);
+        }
+
         public void TakeTurn(int x, int y)
         {
             int nextPlayerIndex = (CurrentPlayerTurn + 1) % MaxPlayerAmount;

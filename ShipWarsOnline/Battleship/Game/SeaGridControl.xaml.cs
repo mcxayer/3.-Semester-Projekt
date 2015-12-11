@@ -23,6 +23,8 @@ namespace Battleship.Game
             set { gridCells = value; OnPropertyChanged("GridCells"); }
         }
 
+        public ICellSelectionListener CellSelectionCallback { get; set; }
+
         public SeaGridControl()
         {
             InitializeComponent();
@@ -48,7 +50,10 @@ namespace Battleship.Game
             if (content == null)
                 return;
 
-            GUIFacade.Instance.TakeTurn(content.Row, content.Col);
+            if(CellSelectionCallback != null)
+            {
+                CellSelectionCallback.OnCellSelected(content);
+            }
         }
     }
 }

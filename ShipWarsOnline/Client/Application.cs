@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.Collections.Generic;
 using GameService;
+using ShipWarsOnline.Data;
 
 namespace Client
 {
@@ -142,7 +143,7 @@ namespace Client
                 throw new NotImplementedException();
             }
 
-            public void OnShipRevealed(GameShipDTO ship)
+            public void OnShipRevealed(ShipData ship)
             {
                 throw new NotImplementedException();
             }

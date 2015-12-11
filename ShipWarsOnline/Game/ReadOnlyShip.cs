@@ -13,6 +13,9 @@ namespace ShipWarsOnline
         public bool Sunk { get { return ship.Sunk; } }
         public int Health { get { return ship.Health; } }
         public ShipType Type { get { return ship.Type; } }
+        public int PosX { get { return ship.PosX; } }
+        public int PosY { get { return ship.PosY; } }
+        public bool Horizontal { get { return ship.Horizontal; } }
 
         public ReadOnlyShip(Ship ship)
         {

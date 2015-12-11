@@ -202,6 +202,11 @@ namespace Battleship.GUI
             return GameContextFacade.Instance.GetPlayerCells();
         }
 
+        public ReadOnly2DArray<ReadOnlySeaCell> GetOpponentCells()
+        {
+            return GameContextFacade.Instance.GetOpponentCells();
+        }
+
         public void TakeTurn(int x, int y)
         {
             if (currentWindowType != GUIWindowType.Game)

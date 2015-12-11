@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Battleship
 {
-    public interface IGUIGame : IGUIControl
+    public interface ICellSelectionListener
     {
-        void OnGameInit();
+        void OnCellSelected(SeaSquare cell);
     }
 }

@@ -48,11 +48,16 @@ namespace GameService
             }
 
             var playerShips = game.ReadOnlyGrids[playerIndex].ReadOnlyShips;
-            ShipType[] ships = new ShipType[playerShips.Count];
+            ShipData[] ships = new ShipData[playerShips.Count];
 
             for (int i = 0; i < ships.Length; i++)
             {
-                ships[i] = playerShips[i].Type;
+                ships[i] = new ShipData();
+                ships[i].Type = playerShips[i].Type;
+                ships[i].Health = playerShips[i].Health;
+                ships[i].PosX = playerShips[i].PosX;
+                ships[i].PosY = playerShips[i].PosY;
+                ships[i].Horizontal = playerShips[i].Horizontal;
             }
 
             return new GameInitStateDTO()

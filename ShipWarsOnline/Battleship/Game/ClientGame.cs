@@ -1,4 +1,5 @@
-﻿using ShipWarsOnline;
+﻿using GameService;
+using ShipWarsOnline;
 using ShipWarsOnline.Data;
 using System;
 using System.Collections.Generic;
@@ -15,15 +16,26 @@ namespace Battleship.Game
         public int PlayerIndex { get; private set; }
         public IReadOnlyList<ReadOnlySeaGrid> ReadOnlyGrids { get { return game.ReadOnlyGrids; } }
 
-        public ClientGame(int gridSize, int playerIndex)
+        public ClientGame(GameInitStateDTO initState)
         {
-            game = new LocalGame(null,null, gridSize);
-            PlayerIndex = playerIndex;
+            game = new LocalGame(null,null, initState.GridSize);
+            PlayerIndex = initState.PlayerIndex;
+
+            for (int i = 0; i < initState.Ships.Length; i++)
+            {
+                ShipData ship = initState.Ships[i];
+                AddShip(ship.Type, ship.PosX, ship.PosY, ship.Horizontal);
+            }
         }
 
-        public void AddShip(ShipType type)
+        private void AddShip(ShipType type)
         {
             game.AddShip(type,PlayerIndex);
+        }
+
+        private void AddShip(ShipType type, int x, int y, bool horizontal)
+        {
+            game.AddShip(type, PlayerIndex, x, y, horizontal);
         }
 
         public void TakeTurn(int x, int y)

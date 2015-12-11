@@ -1,5 +1,6 @@
 ﻿using GameService;
 using ShipWarsOnline;
+using ShipWarsOnline.Data;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -112,11 +113,7 @@ namespace Battleship.Game
 
         private void CreateClientGame(GameInitStateDTO initState)
         {
-            clientGame = new ClientGame(initState.GridSize, initState.PlayerIndex);
-            for (int i = 0; i < initState.Ships.Length; i++)
-            {
-                clientGame.AddShip(initState.Ships[i]);
-            }
+            clientGame = new ClientGame(initState);
         }
 
         [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
@@ -200,7 +197,7 @@ namespace Battleship.Game
                 throw new NotImplementedException();
             }
 
-            public void OnShipRevealed(GameShipDTO ship)
+            public void OnShipRevealed(ShipData ship)
             {
                 throw new NotImplementedException();
             }

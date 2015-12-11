@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="15*"/>
             </Grid.ColumnDefinitions>
             <Rectangle Fill="Gainsboro" Margin="0" Grid.ColumnSpan="2"/>
-            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Click="OnCancelButtonClicked" Grid.ColumnSpan="2" Width="50" HorizontalContentAlignment="Center"/>
+            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Click="OnCancelButtonClicked" Grid.ColumnSpan="2" Width="50" HorizontalContentAlignment="Center" Height="30"/>
         </Grid>
     </Grid>
 </UserControl>

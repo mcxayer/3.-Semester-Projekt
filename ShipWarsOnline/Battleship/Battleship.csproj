@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="Game\SeaSquare.cs" />
     <Compile Include="GUIFacade.cs" />
+    <Compile Include="ICellSelectionListener.cs" />
     <Compile Include="IGUIGame.cs" />
     <Compile Include="IGUILobby.cs" />
     <Compile Include="IGUILogin.cs" />

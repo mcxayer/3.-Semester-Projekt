@@ -63,7 +63,7 @@ namespace GameService
         void OnCellImpact(GameCellImpactDTO cellImpact);
 
         [OperationContract(IsOneWay = true)]
-        void OnShipRevealed(GameShipDTO ship);
+        void OnShipRevealed(ShipData ship);
     }
 
     [DataContract]
@@ -73,7 +73,7 @@ namespace GameService
         public int GridSize { get; set; }
 
         [DataMember]
-        public ShipType[] Ships { get; set; }
+        public ShipData[] Ships { get; set; }
 
         [DataMember]
         public int PlayerIndex { get; set; }
@@ -90,15 +90,5 @@ namespace GameService
 
         [DataMember]
         public int PlayerIndex { get; set; }
-    }
-
-    [DataContract]
-    public class GameShipDTO
-    {
-        [DataMember]
-        public int AffectedX { get; set; }
-
-        [DataMember]
-        public int AffectedY { get; set; }
     }
 }

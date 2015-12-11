@@ -5,7 +5,7 @@ namespace ShipWarsOnline
 {
     public class SeaCell
     {
-        private int shipIndex;
+        private int shipIndex = -1;
         public int ShipIndex
         {
             get { return shipIndex; }

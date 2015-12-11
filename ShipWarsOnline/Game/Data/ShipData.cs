@@ -26,9 +26,18 @@ namespace ShipWarsOnline.Data
     public class ShipData
     {
         [DataMember]
+        public ShipType Type { get; set; }
+
+        [DataMember]
         public int Health { get; set; }
 
         [DataMember]
-        public ShipType Type { get; set; }
+        public int PosX { get; set; }
+
+        [DataMember]
+        public int PosY { get; set; }
+
+        [DataMember]
+        public bool Horizontal { get; set; }
     }
 }

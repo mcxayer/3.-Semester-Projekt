@@ -55,14 +55,14 @@ namespace ShipWarsOnline
         {
             for (int i = 0; i < ships.Count; ++i)
             {
-                if (!PlaceShip(i, ships[i].Length))
+                if (!TryPlaceShip(ships[i]))
                 {
                     throw new Exception(string.Format("Unable to place ship {0} with length {1}!", i, ships[i].Length));
                 }
             }
         }
 
-        private bool PlaceShip(int shipIndex, int length)
+        private bool TryPlaceShip(Ship ship)
         {
             bool horizontal = false;
             bool validPlacement = false;
@@ -72,11 +72,11 @@ namespace ShipWarsOnline
             {
                 horizontal = rnd.Next(2) == 0;
 
-                startX = rnd.Next(horizontal ? Size - length : Size);
-                startY = rnd.Next(horizontal ? Size : Size - length);
+                startX = rnd.Next(horizontal ? Size - ship.Length : Size);
+                startY = rnd.Next(horizontal ? Size : Size - ship.Length);
 
-                endX = horizontal ? startX + length : startX;
-                endY = horizontal ? startY : startY + length;
+                endX = horizontal ? startX + (ship.Length - 1) : startX;
+                endY = horizontal ? startY : startY - (ship.Length - 1);
 
                 for (int j = 0; j < Size - endX; j++)
                 {
@@ -91,42 +91,70 @@ namespace ShipWarsOnline
                     }
                 }
 
-                if(validPlacement)
+                if (validPlacement)
                 {
                     break;
                 }
 
-                if(i == MaxLoopCount - 1)
+                if (i == MaxLoopCount - 1)
                 {
                     return false;
                 }
             }
 
-            for (int j = 0; j < length; j++)
-            {
-                SeaCell square = horizontal
-                    ? GetCellInternal(startX + j, startY)
-                    : GetCellInternal(startX, startY + j);
-
-                square.Type = CellType.Undamaged;
-                square.ShipIndex = shipIndex;
-            }
+            PlaceShip(ship, startX, startY, horizontal);
 
             return true;
         }
 
+        private bool TryPlaceShip(Ship ship, int startX, int startY, bool horizontal)
+        {
+            int endX = horizontal ? startX + (ship.Length - 1) : startX;
+            int endY = horizontal ? startY : startY - (ship.Length - 1);
+
+            if (!IsPlacementValid(startX, startY, endX, endY))
+            {
+                return false;
+            }
+
+            PlaceShip(ship, startX, startY, horizontal);
+
+            return true;
+        }
+
+        private void PlaceShip(Ship ship, int startX, int startY, bool horizontal)
+        {
+            ship.PosX = startX;
+            ship.PosY = startY;
+            ship.Horizontal = horizontal;
+
+            int shipIndex = ships.Count;
+            ships.Add(ship);
+            readOnlyShips.Add(new ReadOnlyShip(ship));
+
+            for (int j = 0; j < ship.Length; j++)
+            {
+                SeaCell square = horizontal
+                    ? GetCellInternal(startX + j, startY)
+                    : GetCellInternal(startX, startY - j);
+
+                square.Type = CellType.Undamaged;
+                square.ShipIndex = shipIndex;
+            }
+        }
+
         private bool IsPlacementValid(int startX, int startY, int endX, int endY)
         {
-            return (endX - startX > 0)
+            return (endY - startY == 0)
                 ? IsHorizontalPlacementValid(startY, startX, endX)
                 : IsVerticalPlacementValid(startX, startY, endY);
         }
 
         private bool IsVerticalPlacementValid(int x, int startY, int endY)
         {
-            for (int i = startY; i <= endY; i++)
+            for (int i = endY; i <= startY; i++)
             {
-                if (!IsSquareValid(x, i) || !IsSquareFree(x, i))
+                if (!IsCellValid(x, i) || !IsCellFree(x, i))
                 {
                     return false;
                 }
@@ -139,7 +167,7 @@ namespace ShipWarsOnline
         {
             for (int i = startX; i <= endX; i++)
             {
-                if (!IsSquareValid(i, y) || !IsSquareFree(i, y))
+                if (!IsCellValid(i, y) || !IsCellFree(i, y))
                 {
                     return false;
                 }
@@ -148,12 +176,12 @@ namespace ShipWarsOnline
             return true;
         }
 
-        private bool IsSquareFree(int x, int y)
+        private bool IsCellFree(int x, int y)
         {
             return GetCellInternal(x, y).ShipIndex == -1;
         }
 
-        private bool IsSquareValid(int x, int y)
+        private bool IsCellValid(int x, int y)
         {
             return x >= 0 && x < Size && y >= 0 && y < Size;
         }
@@ -206,12 +234,20 @@ namespace ShipWarsOnline
         {
             Ship ship = new Ship(type);
 
-            if (!PlaceShip(ships.Count, ship.Length))
+            if (!TryPlaceShip(ship))
             {
                 throw new Exception(string.Format("Unable to place ship {0} with length {1}!", ships.Count, ship.Length));
             }
+        }
 
-            ships.Add(ship);
+        public void AddShip(ShipType type, int x, int y, bool horizontal)
+        {
+            Ship ship = new Ship(type);
+
+            if (!TryPlaceShip(new Ship(type), x, y, horizontal))
+            {
+                throw new Exception(string.Format("Unable to place ship {0} with length {1}!", ships.Count, ship.Length));
+            }
         }
 
         public void Reset()

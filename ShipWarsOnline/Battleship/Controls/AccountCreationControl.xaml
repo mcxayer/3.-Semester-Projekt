@@ -17,8 +17,8 @@
         </Grid>
         <Grid x:Name="gridFooter" Margin="0" VerticalAlignment="Bottom" Height="60">
             <Rectangle Fill="Gainsboro" Margin="0"/>
-            <Button x:Name="btnCreateUser" Content="Create User" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" Click="OnCreateUserButtonClicked" Width="70"/>
-            <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Click="OnBackButtonClicked" Width="35"/>
+            <Button x:Name="btnCreateUser" Content="Create User" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" Click="OnCreateUserButtonClicked" Width="70" Height="30"/>
+            <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Click="OnBackButtonClicked" Width="35" Height="30"/>
         </Grid>
         <Label x:Name="lblTitle" Content="Account Creation" Margin="0" Background="Gainsboro" VerticalAlignment="Top">
             <Label.Effect>

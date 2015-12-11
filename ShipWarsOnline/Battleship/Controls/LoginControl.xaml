@@ -27,7 +27,7 @@
             </PasswordBox>
             <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Center" Margin="168,123,92,69" VerticalAlignment="Center" Click="OnLoginButtonClicked" Width="40"/>
             <Button x:Name="btnCreateUser" Content="Create User" HorizontalAlignment="Center" Margin="92,123,138,69" VerticalAlignment="Center" Click="OnCreateUserButtonClicked" Width="70"/>
-            <Label x:Name="lblInfo" Content="" HorizontalAlignment="Center" Margin="93,150,92,38" VerticalAlignment="Center" Width="115"/>
+            <Label x:Name="lblInfo" Content="" HorizontalAlignment="Center" Margin="10,201,10,89" VerticalAlignment="Center" Width="423" Foreground="White"/>
             <Label x:Name="label" Content="ShipWarsOnline" Margin="0" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="#FFAA3434" HorizontalContentAlignment="Center" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.IsSharedSizeScope="True" VerticalAlignment="Top" HorizontalAlignment="Center" Width="175">
                 <Label.RenderTransform>
                     <TransformGroup>
@@ -38,7 +38,7 @@
                     </TransformGroup>
                 </Label.RenderTransform>
             </Label>
-            <Label x:Name="label_Copy" Content="wow" Margin="35,152,227,32" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label x:Name="label_Copy" Content="wow" Margin="102,229,303,57" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -96,7 +96,7 @@
     />
             </Grid.ColumnDefinitions>
             <Rectangle Fill="Gainsboro" Margin="0"/>
-            <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Click="OnBackButtonClicked" Width="35"/>
+            <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Click="OnBackButtonClicked" Width="35" Height="30"/>
         </Grid>
         <Label x:Name="lblTitle" Content="Login" Margin="0" Background="Gainsboro" VerticalAlignment="Top" Padding="5">
             <Label.Effect>
