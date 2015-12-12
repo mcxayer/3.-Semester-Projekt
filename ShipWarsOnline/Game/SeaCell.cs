@@ -5,6 +5,9 @@ namespace ShipWarsOnline
 {
     public class SeaCell
     {
+        public int PosX { get; private set; }
+        public int PosY { get; private set; }
+
         private int shipIndex = -1;
         public int ShipIndex
         {
@@ -23,5 +26,11 @@ namespace ShipWarsOnline
         public CellType Type { get; set; }
 
         public bool Revealed { get; set; }
+
+        public SeaCell(int posX, int posY)
+        {
+            PosX = posX;
+            PosY = posY;
+        }
     }
 }

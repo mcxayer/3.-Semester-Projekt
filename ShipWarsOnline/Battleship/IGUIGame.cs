@@ -10,5 +10,10 @@ namespace Battleship
     public interface IGUIGame : IGUIControl
     {
         void OnGameInit();
+        void OnTurnTaken();
+
+        void OnPlayerWon();
+
+        void OnPlayerLost();
     }
 }

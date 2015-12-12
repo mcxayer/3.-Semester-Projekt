@@ -6,8 +6,6 @@ namespace ShipWarsOnline.Data
     public enum CellType
     {
         [EnumMember]
-        Unknown,
-        [EnumMember]
         Water,
         [EnumMember]
         Undamaged,

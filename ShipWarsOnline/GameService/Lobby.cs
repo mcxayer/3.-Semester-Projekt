@@ -58,7 +58,7 @@ namespace GameService
             OnPlayerDisconnected(playerSession);
             playerSession.Channel.Closed -= OnChannelClosed;
 
-            if(playerSession.state == SessionState.Matching)
+            if (playerSession.state == SessionState.Matching)
             {
                 ForceCancelMatchmaking(channel);
             }
@@ -72,7 +72,7 @@ namespace GameService
 
             foreach (Session session in activeClients.Values)
             {
-                if(session.state == SessionState.InLobby)
+                if (session.state == SessionState.InLobby)
                 {
                     lobby.Add(session.Username);
                 }
@@ -181,7 +181,7 @@ namespace GameService
                 throw new Exception("A player is not in matchmaking!");
             }
 
-            if(player1Session.Channel.State != CommunicationState.Opened
+            if (player1Session.Channel.State != CommunicationState.Opened
                 || player2Session.Channel.State != CommunicationState.Opened)
             {
                 throw new CommunicationException("A player connection is not open!");
@@ -213,6 +213,8 @@ namespace GameService
             }
 
             game.TakeTurn(x, y, playerChannel);
+
+            OnTurnTaken(game);
         }
 
         private void OnGameInitialized(Session playerSession, GameInitStateDTO initState)
@@ -263,13 +265,15 @@ namespace GameService
                 throw new ArgumentNullException("playerSession");
             }
 
-            if (playerSession.Channel.State != CommunicationState.Opened)
+            OnLobbyUpdated();
+
+            if (playerSession.Channel.State == CommunicationState.Closed
+                || playerSession.Channel.State == CommunicationState.Faulted)
             {
-                throw new CommunicationException("Player connection is not open!");
+                return;
             }
 
             playerSession.Callback.OnPlayerDisconnected();
-            OnLobbyUpdated();
         }
 
         private void OnPlayerFailedConnecting(ICallback playerCallback)
@@ -354,7 +358,59 @@ namespace GameService
             }
         }
 
-        private enum SessionState { InLobby, Matching, InGame }
+        private void OnTurnTaken(ServerGame game)
+        {
+            if (game == null)
+            {
+                throw new ArgumentNullException("game");
+            }
+
+            foreach (IContextChannel channel in game.ReadOnlyPlayerChannels)
+            {
+                Session playerSession = GetSession(channel);
+                if (playerSession == null)
+                {
+                    throw new ArgumentNullException("playerSession");
+                }
+
+                if (playerSession.state != SessionState.InGame)
+                {
+                    throw new Exception("A player is not in game!");
+                }
+
+                if (playerSession.Channel.State != CommunicationState.Opened)
+                {
+                    throw new CommunicationException("Player connection is not open!");
+                }
+
+                playerSession.Callback.OnTurnTaken(game.GetCellImpact());
+
+                GameShipDestroyedDTO shipDestroyed = game.GetDestroyedShip();
+                if (shipDestroyed != null)
+                {
+                    playerSession.Callback.OnShipDestroyed(shipDestroyed);
+                }
+
+                if(game.IsGameOver())
+                {
+                    playerSession.Callback.OnPlayerWon(game.GetWinner());
+                    playerSession.state = SessionState.PostGame;
+                }
+            }
+        }
+
+        private Session GetSession(IContextChannel channel)
+        {
+            Session session;
+            if (activeClients.TryGetValue(channel, out session))
+            {
+                return session;
+            }
+
+            return null;
+        }
+
+        private enum SessionState { InLobby, Matching, InGame, PostGame }
 
         private class Session
         {

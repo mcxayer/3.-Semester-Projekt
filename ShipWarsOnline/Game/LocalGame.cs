@@ -11,7 +11,8 @@ namespace ShipWarsOnline
     {
         private static readonly int MaxPlayerAmount = 2;
 
-        private IPlayer[] players;
+        private string[] playerNames;
+        public IReadOnlyList<string> ReadOnlyPlayerNames { get; private set; }
 
         private SeaGrid[] grids;
         private List<ReadOnlySeaGrid> readOnlyGrids;
@@ -19,12 +20,14 @@ namespace ShipWarsOnline
 
         public int CurrentPlayerTurn { get; private set; }
 
-        public LocalGame(IPlayer player1, IPlayer player2) : this(player1, player2, SeaGrid.DefaultGridSize) { }
-        public LocalGame(IPlayer player1, IPlayer player2, int gridSize)
+        public LocalGame(string playerName1, string playerName2) : this(playerName1, playerName2, SeaGrid.DefaultGridSize) { }
+        public LocalGame(string playerName1, string playerName2, int gridSize)
         {
-            players = new IPlayer[MaxPlayerAmount];
-            players[0] = player1;
-            players[1] = player2;
+            playerNames = new string[MaxPlayerAmount];
+            playerNames[0] = playerName1;
+            playerNames[1] = playerName2;
+
+            ReadOnlyPlayerNames = new List<string>(playerNames).AsReadOnly();
 
             grids = new SeaGrid[MaxPlayerAmount];
             readOnlyGrids = new List<ReadOnlySeaGrid>(MaxPlayerAmount);
@@ -46,7 +49,7 @@ namespace ShipWarsOnline
 
         public void AddShip(ShipType type, int playerIndex)
         {
-            if(playerIndex < 0 || playerIndex >= MaxPlayerAmount)
+            if(!IsPlayerValid(playerIndex))
             {
                 throw new ArgumentOutOfRangeException("playerIndex");
             }
@@ -56,7 +59,7 @@ namespace ShipWarsOnline
 
         public void AddShip(ShipType type, int playerIndex, int x, int y, bool horizontal)
         {
-            if (playerIndex < 0 || playerIndex >= MaxPlayerAmount)
+            if (!IsPlayerValid(playerIndex))
             {
                 throw new ArgumentOutOfRangeException("playerIndex");
             }
@@ -72,6 +75,61 @@ namespace ShipWarsOnline
             CurrentPlayerTurn = nextPlayerIndex;
 
             // Check winner here
+        }
+
+        public void ShowPlayerGrid(int playerIndex)
+        {
+            if (!IsPlayerValid(playerIndex))
+            {
+                throw new ArgumentOutOfRangeException("playerIndex");
+            }
+
+            grids[playerIndex].ShowAll();
+        }
+
+        public void SetCellType(int playerIndex, int x, int y, CellType type)
+        {
+            if (!IsPlayerValid(playerIndex))
+            {
+                throw new ArgumentOutOfRangeException("playerIndex");
+            }
+
+            grids[playerIndex].SetCellType(x, y, type);
+        }
+
+        public Bounds GetDestroyedShip(int playerIndex)
+        {
+            if (!IsPlayerValid(playerIndex))
+            {
+                throw new ArgumentOutOfRangeException("playerIndex");
+            }
+
+            return grids[playerIndex].DestroyedShip;
+        }
+
+        private bool IsPlayerValid(int playerIndex)
+        {
+            return playerIndex >= 0 && playerIndex < MaxPlayerAmount;
+        }
+
+        public int GetWinner()
+        {
+            int winnerIndex = -1;
+            if(grids[0].AreAllShipsSunk())
+            {
+                winnerIndex = 1;
+            }
+            else if(grids[1].AreAllShipsSunk())
+            {
+                winnerIndex = 0;
+            }
+
+            return winnerIndex;
+        }
+
+        public bool IsGameOver()
+        {
+            return grids[0].AreAllShipsSunk() || grids[1].AreAllShipsSunk();
         }
     }
 }

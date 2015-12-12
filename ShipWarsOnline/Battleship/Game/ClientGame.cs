@@ -26,6 +26,8 @@ namespace Battleship.Game
                 ShipData ship = initState.Ships[i];
                 AddShip(ship.Type, ship.PosX, ship.PosY, ship.Horizontal);
             }
+
+            game.ShowPlayerGrid(PlayerIndex);
         }
 
         private void AddShip(ShipType type)
@@ -38,9 +40,36 @@ namespace Battleship.Game
             game.AddShip(type, PlayerIndex, x, y, horizontal);
         }
 
+        public void AddDestroyedShip(Bounds shipBounds)
+        {
+            if(shipBounds == null)
+            {
+                throw new ArgumentNullException("shipBounds");
+            }
+
+            for (int i = shipBounds.MinX; i <= shipBounds.MaxX; i++)
+            {
+                for (int j = shipBounds.MinY; j <= shipBounds.MaxY; j++)
+                {
+                    game.SetCellType((PlayerIndex + 1) % 2, i, j, CellType.Sunk);
+                }
+            }
+        }
+
         public void TakeTurn(int x, int y)
         {
             game.TakeTurn(x, y);
+        }
+
+        public void TakeTurn(int x, int y, CellType type)
+        {
+            game.TakeTurn(x, y);
+            game.SetCellType(game.CurrentPlayerTurn, x, y, type);
+        }
+
+        public bool IsPlayerTurn()
+        {
+            return PlayerIndex == game.CurrentPlayerTurn;
         }
     }
 }

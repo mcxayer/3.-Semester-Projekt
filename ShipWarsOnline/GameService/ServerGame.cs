@@ -1,6 +1,7 @@
 ﻿using ShipWarsOnline;
 using ShipWarsOnline.Data;
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 
 namespace GameService
@@ -9,18 +10,29 @@ namespace GameService
     {
         private LocalGame game;
         private IContextChannel[] playerChannels;
+        public IReadOnlyList<IContextChannel> ReadOnlyPlayerChannels { get; private set; }
+
+        private GameCellImpactDTO cellImpactCache;
+        private GameShipDestroyedDTO destroyedShipCache;
+        private bool shipDestroyed;
 
         public ServerGame(IContextChannel playerChannel1, IContextChannel playerChannel2)
         {
             game = new LocalGame(null, null);
 
             // Setup for a scenario with all the ship types
-            foreach (ShipType type in Enum.GetValues(typeof(ShipType)))
-            {
-                game.AddShip(type);
-            }
+            //foreach (ShipType type in Enum.GetValues(typeof(ShipType)))
+            //{
+            //    game.AddShip(type);
+            //}
+
+            game.AddShip(ShipType.Submarine);
 
             playerChannels = new IContextChannel[] { playerChannel1, playerChannel2 };
+            ReadOnlyPlayerChannels = new List<IContextChannel>(playerChannels).AsReadOnly();
+
+            cellImpactCache = new GameCellImpactDTO();
+            destroyedShipCache = new GameShipDestroyedDTO();
         }
 
         public void TakeTurn(int x, int y, IContextChannel playerChannel)
@@ -28,15 +40,36 @@ namespace GameService
             int playerIndex = GetPlayerIndex(playerChannel);
             if (playerIndex == -1)
             {
-                throw new ArgumentException("playerChannel is not in game!", "playerChannel");
+                throw new ArgumentException("Player is not in game!", "playerChannel");
             }
 
             if (playerIndex != game.CurrentPlayerTurn)
             {
-                throw new Exception("Not players turn!");
+                throw new Exception("Not player's turn!");
             }
 
             game.TakeTurn(x, y);
+
+            int otherPlayerIndex = (playerIndex + 1) % 2;
+
+            cellImpactCache.AffectedPosX = x;
+            cellImpactCache.AffectedPosY = y;
+            cellImpactCache.PlayerIndex = playerIndex;
+            cellImpactCache.Type = game.ReadOnlyGrids[otherPlayerIndex].ReadOnlyCells[x, y].Type;
+
+            shipDestroyed = false;
+
+            Bounds destroyedShipBounds = game.GetDestroyedShip(otherPlayerIndex);
+            if(destroyedShipBounds != null)
+            {
+                destroyedShipCache.StartPosX = destroyedShipBounds.MinX;
+                destroyedShipCache.StartPosY = destroyedShipBounds.MaxY;
+                destroyedShipCache.EndPosX = destroyedShipBounds.MaxX;
+                destroyedShipCache.EndPosY = destroyedShipBounds.MinY;
+                destroyedShipCache.PlayerIndex = playerIndex;
+
+                shipDestroyed = true;
+            }
         }
 
         public GameInitStateDTO GetInitGameState(IContextChannel playerChannel)
@@ -68,7 +101,35 @@ namespace GameService
             };
         }
 
-        private int GetPlayerIndex(IContextChannel playerChannel)
+        public GameCellImpactDTO GetCellImpact()
+        {
+            return new GameCellImpactDTO
+            {
+                AffectedPosX = cellImpactCache.AffectedPosX,
+                AffectedPosY = cellImpactCache.AffectedPosY,
+                PlayerIndex = cellImpactCache.PlayerIndex,
+                Type = cellImpactCache.Type
+            };
+        }
+
+        public GameShipDestroyedDTO GetDestroyedShip()
+        {
+            if (!shipDestroyed)
+            {
+                return null;
+            }
+
+            return new GameShipDestroyedDTO()
+            {
+                StartPosX = destroyedShipCache.StartPosX,
+                StartPosY = destroyedShipCache.StartPosY,
+                EndPosX = destroyedShipCache.EndPosX,
+                EndPosY = destroyedShipCache.EndPosY,
+                PlayerIndex = destroyedShipCache.PlayerIndex
+            };
+        }
+
+        public int GetPlayerIndex(IContextChannel playerChannel)
         {
             int playerIndex = -1;
             if (playerChannel == playerChannels[0])
@@ -81,6 +142,16 @@ namespace GameService
             }
 
             return playerIndex;
+        }
+
+        public bool IsGameOver()
+        {
+            return game.IsGameOver();
+        }
+
+        public int GetWinner()
+        {
+            return game.GetWinner();
         }
     }
 }

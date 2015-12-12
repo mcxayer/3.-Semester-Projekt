@@ -1,4 +1,5 @@
-﻿using ShipWarsOnline.Data;
+﻿using ShipWarsOnline;
+using ShipWarsOnline.Data;
 using System;
 using System.Globalization;
 using System.Windows.Data;
@@ -9,15 +10,21 @@ namespace Battleship.Game
     [ValueConversion(typeof(CellType), typeof(Brush))]
     public class ColorController: IValueConverter
     {
-        public object Convert(object value, Type targetType,
-            object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            CellType type = (CellType)value;
-
-            switch (type)
+            ReadOnlySeaCell cell = value as ReadOnlySeaCell;
+            if(cell == null)
             {
-                case CellType.Unknown:
-                    return new SolidColorBrush(Colors.LightGray);
+                throw new Exception(string.Format("Object of type {0} is not valid for conversion!",value.GetType()));
+            }
+
+            if(!cell.Revealed)
+            {
+                return new SolidColorBrush(Colors.LightGray);
+            }
+
+            switch (cell.Type)
+            {
                 case CellType.Water:
                     return new SolidColorBrush(Colors.LightBlue);
                 case CellType.Undamaged:
@@ -28,7 +35,7 @@ namespace Battleship.Game
                     return new SolidColorBrush(Colors.Red);
             }
 
-            throw new Exception("fail");
+            throw new Exception("Failed to convert cell!");
         }
 
         public object ConvertBack(object value, Type targetType,

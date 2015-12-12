@@ -1,4 +1,5 @@
-﻿using ShipWarsOnline.Data;
+﻿using Game;
+using ShipWarsOnline.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ShipWarsOnline
         public static readonly int DefaultGridSize = 10;
         private static readonly int MaxLoopCount = 10000;
 
-        private Random rnd = new Random();
+        private Random rnd;
 
         public int Size { get; private set; }
 
@@ -20,6 +21,8 @@ namespace ShipWarsOnline
         private List<Ship> ships;
         private List<ReadOnlyShip> readOnlyShips;
         public IReadOnlyList<ReadOnlyShip> ReadOnlyShips { get; private set; }
+
+        public Bounds DestroyedShip { get; private set; }
 
         public SeaGrid() : this(DefaultGridSize) { }
         public SeaGrid(int size)
@@ -36,7 +39,7 @@ namespace ShipWarsOnline
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    cells[i, j] = new SeaCell();
+                    cells[i, j] = new SeaCell(i, j);
                     roCells[i, j] = new ReadOnlySeaCell(cells[i, j]);
                 }
             }
@@ -45,6 +48,8 @@ namespace ShipWarsOnline
             ships = new List<Ship>();
             readOnlyShips = new List<ReadOnlyShip>();
             ReadOnlyShips = readOnlyShips.AsReadOnly();
+
+            rnd = new Random();
 
             Reset();
         }
@@ -198,16 +203,40 @@ namespace ShipWarsOnline
 
         private void SinkShip(int shipIndex)
         {
+            int minX = 0, minY = 0, maxX = 0, maxY = 0;
             for (int i = 0; i < Size; i++)
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    SeaCell square = GetCellInternal(i, j);
-                    if (square.ShipIndex == shipIndex)
+                    SeaCell cell = GetCellInternal(i, j);
+                    if (cell.ShipIndex == shipIndex)
                     {
-                        square.Type = CellType.Sunk;
+                        if(i < minX)
+                        {
+                            minX = i;
+                        }
+                        else if(i > maxX)
+                        {
+                            maxX = i;
+                        }
+
+                        if (j < minY)
+                        {
+                            minY = j;
+                        }
+                        else if (j > maxY)
+                        {
+                            maxY = j;
+                        }
+
+                        cell.Type = CellType.Sunk;
                     }
                 }
+            }
+
+            if(minX != maxX || minY != maxY)
+            {
+                DestroyedShip = new Bounds(minX, minY, maxX, maxY);
             }
         }
 
@@ -232,6 +261,8 @@ namespace ShipWarsOnline
 
         public void AddShip(ShipType type)
         {
+            rnd = new Random();
+
             Ship ship = new Ship(type);
 
             if (!TryPlaceShip(ship))
@@ -242,12 +273,20 @@ namespace ShipWarsOnline
 
         public void AddShip(ShipType type, int x, int y, bool horizontal)
         {
+            rnd = new Random();
+
             Ship ship = new Ship(type);
 
             if (!TryPlaceShip(new Ship(type), x, y, horizontal))
             {
                 throw new Exception(string.Format("Unable to place ship {0} with length {1}!", ships.Count, ship.Length));
             }
+        }
+
+        public void SetCellType(int x, int y, CellType type)
+        {
+            SeaCell cell = GetCellInternal(x, y);
+            cell.Type = type;
         }
 
         public void Reset()
@@ -265,8 +304,10 @@ namespace ShipWarsOnline
             PlaceShips();
         }
 
-        public CellType FireAt(int x, int y)
+        public void FireAt(int x, int y)
         {
+            DestroyedShip = null;
+
             SeaCell square = GetCellInternal(x, y);
 
             if (square.Type == CellType.Undamaged)
@@ -285,12 +326,23 @@ namespace ShipWarsOnline
                 }
             }
 
-            return square.Type;
+            square.Revealed = true;
         }
 
         public bool AreAllShipsSunk()
         {
             return ships.All(ship => ship.Sunk);
+        }
+
+        public void ShowAll()
+        {
+            for (int i = 0; i < cells.GetLength(0); i++)
+            {
+                for (int j = 0; j < cells.GetLength(1); j++)
+                {
+                    cells[i, j].Revealed = true;
+                }
+            }
         }
 
         #endregion

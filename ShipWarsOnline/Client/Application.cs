@@ -138,12 +138,12 @@ namespace Client
                 throw new NotImplementedException();
             }
 
-            public void OnCellImpact(GameCellImpactDTO cellImpact)
+            public void OnTurnTaken(GameCellImpactDTO cellImpact)
             {
                 throw new NotImplementedException();
             }
 
-            public void OnShipRevealed(ShipData ship)
+            public void OnShipDestroyed(GameShipDestroyedDTO ship)
             {
                 throw new NotImplementedException();
             }

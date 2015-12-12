@@ -9,6 +9,8 @@ namespace ShipWarsOnline
     {
         private SeaCell cell;
 
+        public int PosX { get { return cell.PosX; } }
+        public int PosY { get { return cell.PosY; } }
         public int ShipIndex { get { return cell.ShipIndex; } }
         public CellType Type { get { return cell.Type; } }
         public bool Revealed { get { return cell.Revealed; } }

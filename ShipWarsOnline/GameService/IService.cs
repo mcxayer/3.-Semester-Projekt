@@ -60,10 +60,13 @@ namespace GameService
         void OnGameInit(GameInitStateDTO initState);
 
         [OperationContract(IsOneWay = true)]
-        void OnCellImpact(GameCellImpactDTO cellImpact);
+        void OnTurnTaken(GameCellImpactDTO cellImpact);
 
         [OperationContract(IsOneWay = true)]
-        void OnShipRevealed(ShipData ship);
+        void OnShipDestroyed(GameShipDestroyedDTO ship);
+
+        [OperationContract(IsOneWay = true)]
+        void OnPlayerWon(int playerIndex);
     }
 
     [DataContract]
@@ -83,10 +86,32 @@ namespace GameService
     public class GameCellImpactDTO
     {
         [DataMember]
-        public int AffectedX { get; set; }
+        public int AffectedPosX { get; set; }
 
         [DataMember]
-        public int AffectedY { get; set; }
+        public int AffectedPosY { get; set; }
+
+        [DataMember]
+        public int PlayerIndex { get; set; }
+
+        [DataMember]
+        public CellType Type { get; set; }
+    }
+
+    [DataContract]
+    public class GameShipDestroyedDTO
+    {
+        [DataMember]
+        public int StartPosX { get; set; }
+
+        [DataMember]
+        public int StartPosY { get; set; }
+
+        [DataMember]
+        public int EndPosX { get; set; }
+
+        [DataMember]
+        public int EndPosY { get; set; }
 
         [DataMember]
         public int PlayerIndex { get; set; }

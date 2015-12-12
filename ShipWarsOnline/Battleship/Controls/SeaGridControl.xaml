@@ -21,13 +21,11 @@
         </Style>
         <DataTemplate x:Key="CellTemplate">
             <Border BorderThickness="2" BorderBrush="DarkGray" CornerRadius="2" Width="20" Height="20" >
-                <Rectangle Fill ="{Binding Type,
-                    Converter={StaticResource ColorController}}"/>
+                <Rectangle x:Name="innerRect"/>  <!--Fill ="{Binding Converter={StaticResource ColorController}}"-->
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="RowTemplate">
-            <ListBox ItemsSource="{Binding}"
-                    ItemTemplate="{DynamicResource CellTemplate}">
+            <ListBox ItemsSource="{Binding}" ItemTemplate="{StaticResource CellTemplate}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -43,11 +41,11 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <!--<Grid Name="gridControl">
-            <ItemsControl ItemsSource="{Binding GridCells}" ItemTemplate="{DynamicResource RowTemplate}"/>
-        </Grid>-->
-        <ListBox Name="lstBoxCells" HorizontalContentAlignment="Center"
-                 ItemsSource="{Binding GridCells}" ItemTemplate="{DynamicResource RowTemplate}">
+        <Grid Name="gridControl">
+            <!--<ItemsControl ItemsSource="{Binding GridCells}" ItemTemplate="{StaticResource RowTemplate}"/>-->
+        </Grid>
+        <!--<ListBox Name="lstBoxCells" HorizontalContentAlignment="Center"
+                 ItemsSource="{Binding GridCells,UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{DynamicResource RowTemplate}">
             <ListBox.Style>
                 <Style>
                     <Style.Resources>
@@ -55,6 +53,6 @@
                     </Style.Resources>
                 </Style>
             </ListBox.Style>
-        </ListBox>
+        </ListBox>-->
     </StackPanel>
 </UserControl>

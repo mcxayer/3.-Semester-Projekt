@@ -1,4 +1,5 @@
 ﻿using Battleship.Game;
+using ShipWarsOnline;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Battleship
 {
     public interface ICellSelectionListener
     {
-        void OnCellSelected(SeaSquare cell);
+        void OnCellSelected(object source, ReadOnlySeaCell cell);
     }
 }

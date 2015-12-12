@@ -21,6 +21,9 @@ namespace Battleship.Game
         public event Action HandlePlayerCancelledMatchmaking;
         public event Action HandleLobbyUpdated;
         public event Action HandleGameInitialized;
+        public event Action HandleTurnTaken;
+        public event Action HandlePlayerWon;
+        public event Action HandlePlayerLost;
 
         private ClientGame clientGame;
         private ServiceFacade serviceFacade;
@@ -79,17 +82,12 @@ namespace Battleship.Game
             uiDispatcher.BeginInvoke(new Action(() => serviceFacade.CancelMatchmaking()));
         }
 
-        #endregion
-
         public void TakeTurn(int x, int y)
         {
-            if(clientGame == null)
-            {
-                throw new NullReferenceException("No game exists!");
-            }
-
-            clientGame.TakeTurn(x, y);
+            uiDispatcher.BeginInvoke(new Action(() => serviceFacade.TakeTurn(x, y)));
         }
+
+        #endregion
 
         public ReadOnly2DArray<ReadOnlySeaCell> GetPlayerCells()
         {
@@ -109,6 +107,11 @@ namespace Battleship.Game
             }
 
             return clientGame.ReadOnlyGrids[(clientGame.PlayerIndex + 1) % 2].ReadOnlyCells;
+        }
+
+        public bool IsPlayerTurn()
+        {
+            return clientGame.IsPlayerTurn();
         }
 
         private void CreateClientGame(GameInitStateDTO initState)
@@ -192,14 +195,52 @@ namespace Battleship.Game
                 }
             }
 
-            public void OnCellImpact(GameCellImpactDTO cellImpact)
+            public void OnTurnTaken(GameCellImpactDTO cellImpact)
             {
-                throw new NotImplementedException();
+                if(cellImpact.PlayerIndex == facade.clientGame.PlayerIndex)
+                {
+                    facade.clientGame.TakeTurn(cellImpact.AffectedPosX, cellImpact.AffectedPosY, cellImpact.Type);
+                }
+                else
+                {
+                    facade.clientGame.TakeTurn(cellImpact.AffectedPosX, cellImpact.AffectedPosY);
+                }
+
+                if (facade.HandleTurnTaken != null)
+                {
+                    facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandleTurnTaken()));
+                }
             }
 
-            public void OnShipRevealed(ShipData ship)
+            public void OnShipDestroyed(GameShipDestroyedDTO shipDestroyed)
             {
-                throw new NotImplementedException();
+                if (shipDestroyed.PlayerIndex == facade.clientGame.PlayerIndex)
+                {
+                    Bounds shipBounds = new Bounds(shipDestroyed.StartPosX,
+                        shipDestroyed.EndPosY,
+                        shipDestroyed.EndPosX,
+                        shipDestroyed.StartPosY);
+
+                    facade.clientGame.AddDestroyedShip(shipBounds);
+                }
+            }
+
+            public void OnPlayerWon(int playerIndex)
+            {
+                if(playerIndex == facade.clientGame.PlayerIndex)
+                {
+                    if (facade.HandlePlayerWon != null)
+                    {
+                        facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerWon()));
+                    }
+                }
+                else
+                {
+                    if (facade.HandlePlayerLost != null)
+                    {
+                        facade.uiDispatcher.BeginInvoke(new Action(() => facade.HandlePlayerLost()));
+                    }
+                }
             }
         }
     }

@@ -54,7 +54,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -75,18 +77,21 @@
     <Compile Include="Controls\AccountCreationControl.xaml.cs">
       <DependentUpon>AccountCreationControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SeaCellControl.xaml.cs">
+      <DependentUpon>SeaCellControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameContextFacade.cs" />
     <Compile Include="Controls\GameControl.xaml.cs">
       <DependentUpon>GameControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\ColorController.cs" />
     <Compile Include="Game\ClientGame.cs" />
-    <Compile Include="Game\SeaGridControl.xaml.cs">
+    <Compile Include="Controls\SeaGridControl.xaml.cs">
       <DependentUpon>SeaGridControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Game\SeaSquare.cs" />
     <Compile Include="GUIFacade.cs" />
     <Compile Include="ICellSelectionListener.cs" />
+    <Compile Include="IGUISeaGrid.cs" />
     <Compile Include="IGUIGame.cs" />
     <Compile Include="IGUILobby.cs" />
     <Compile Include="IGUILogin.cs" />
@@ -108,7 +113,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Game\SeaGridControl.xaml">
+    <Page Include="Controls\SeaCellControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SeaGridControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

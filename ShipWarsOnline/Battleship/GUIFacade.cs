@@ -35,6 +35,9 @@ namespace Battleship.GUI
 
             GameContextFacade.Instance.HandleLobbyUpdated += OnLobbyUpdated;
             GameContextFacade.Instance.HandleGameInitialized += OnGameInit;
+            GameContextFacade.Instance.HandleTurnTaken += OnTurnTaken;
+            GameContextFacade.Instance.HandlePlayerWon += OnPlayerWon;
+            GameContextFacade.Instance.HandlePlayerLost += OnPlayerLost;
         }
 
         public void Dispose()
@@ -51,6 +54,9 @@ namespace Battleship.GUI
 
                 GameContextFacade.Instance.HandleLobbyUpdated -= OnLobbyUpdated;
                 GameContextFacade.Instance.HandleGameInitialized -= OnGameInit;
+                GameContextFacade.Instance.HandleTurnTaken -= OnTurnTaken;
+                GameContextFacade.Instance.HandlePlayerWon -= OnPlayerWon;
+                GameContextFacade.Instance.HandlePlayerLost -= OnPlayerLost;
             }
             catch
             {
@@ -227,6 +233,16 @@ namespace Battleship.GUI
             return GameContextFacade.Instance.GetLobby();
         }
 
+        public bool IsPlayerTurn()
+        {
+            return GameContextFacade.Instance.IsPlayerTurn();
+        }
+
+        #region event callbacks
+        /// <summary>
+        /// Callbacks for all events invoked in GameContextFacade
+        /// </summary>
+
         private void OnPlayerConnected()
         {
             Console.WriteLine("Player connected to the game server!");
@@ -298,5 +314,37 @@ namespace Battleship.GUI
             GotoWindow(GUIWindowType.Game);
             WindowContainer.GetGameControl().OnGameInit();
         }
+
+        private void OnTurnTaken()
+        {
+            if (currentWindowType != GUIWindowType.Game)
+            {
+                return;
+            }
+
+            WindowContainer.GetGameControl().OnTurnTaken();
+        }
+
+        private void OnPlayerWon()
+        {
+            if (currentWindowType != GUIWindowType.Game)
+            {
+                return;
+            }
+
+            WindowContainer.GetGameControl().OnPlayerWon();
+        }
+
+        private void OnPlayerLost()
+        {
+            if (currentWindowType != GUIWindowType.Game)
+            {
+                return;
+            }
+
+            WindowContainer.GetGameControl().OnPlayerLost();
+        }
+
+        #endregion
     }
 }

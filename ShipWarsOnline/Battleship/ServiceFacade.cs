@@ -24,6 +24,7 @@ namespace Battleship
             }));
         }
 
+        #region general services
         public bool Login(string username, string password)
         {
             tokenId = generalService.Login(username, password);
@@ -40,6 +41,10 @@ namespace Battleship
         {
             generalService.CreateAccount(username, password, email);
         }
+
+        #endregion
+
+        #region game services
 
         public List<string> GetLobby()
         {
@@ -65,5 +70,12 @@ namespace Battleship
         {
             gameService.CancelMatchmaking();
         }
+
+        public void TakeTurn(int x, int y)
+        {
+            gameService.TakeTurn(x, y);
+        }
+
+        #endregion
     }
 }

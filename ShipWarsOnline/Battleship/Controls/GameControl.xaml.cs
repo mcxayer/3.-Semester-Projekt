@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System;
 using Battleship.GUI;
+using ShipWarsOnline;
+using System.Collections.ObjectModel;
 
 namespace Battleship
 {
@@ -12,14 +14,19 @@ namespace Battleship
     /// </summary>
     public partial class GameControl : UserControl, IGUIGame, ICellSelectionListener
     {
-        private SeaSquare selectedCell;
+        private ReadOnlySeaCell selectedCell;
+        private IGUISeaGrid playerGrid;
+        private IGUISeaGrid opponentGrid;
 
         public GameControl()
         {
             InitializeComponent();
 
-            myGrid.CellSelectionCallback = this;
-            enemyGrid.CellSelectionCallback = this;
+            playerGrid = myGrid;
+            opponentGrid = enemyGrid;
+
+            playerGrid.CellSelectionCallback = this;
+            opponentGrid.CellSelectionCallback = this;
         }
 
         private void OnEndTurnButtonClicked(object sender, RoutedEventArgs e)
@@ -29,58 +36,98 @@ namespace Battleship
                 throw new Exception("No selected cell!");
             }
 
-            GUIFacade.Instance.TakeTurn(selectedCell.Row, selectedCell.Col);
+            GUIFacade.Instance.TakeTurn(selectedCell.PosX, selectedCell.PosY);
         }
 
         public void OnGameInit()
         {
-            var roCellsPlayer = GUIFacade.Instance.GetPlayerCells();
-            List<List<SeaSquare>> cellsPlayer = new List<List<SeaSquare>>();
-            for (int i = 0; i < roCellsPlayer.GetLength(0); i++)
-            {
-                cellsPlayer.Add(new List<SeaSquare>());
+            playerGrid.GridCells = GUIFacade.Instance.GetPlayerCells();
+            opponentGrid.GridCells = GUIFacade.Instance.GetOpponentCells();
 
-                for (int j = 0; j < roCellsPlayer.GetLength(1); j++)
-                {
-                    SeaSquare square = new SeaSquare(i, j);
-                    square.Reset(roCellsPlayer[i, j].Type);
-                    cellsPlayer[i].Add(square);
-                }
-            }
+            UpdateEnabled();
+            UpdateOverlay();
+        }
 
-            var roCellsOpponent = GUIFacade.Instance.GetOpponentCells();
-            List<List<SeaSquare>> cellsOpponent = new List<List<SeaSquare>>();
-            for (int i = 0; i < roCellsOpponent.GetLength(0); i++)
-            {
-                cellsOpponent.Add(new List<SeaSquare>());
-
-                for (int j = 0; j < roCellsOpponent.GetLength(1); j++)
-                {
-                    SeaSquare square = new SeaSquare(i, j);
-                    square.Reset(roCellsOpponent[i, j].Type);
-                    cellsOpponent[i].Add(square);
-                }
-            }
-
-            myGrid.GridCells = cellsPlayer;
-            enemyGrid.GridCells = cellsOpponent;
+        private void Reset()
+        {
+            selectedCell = null;
+            btnEndTurn.IsEnabled = false;
+            UpdateEnabled();
+            UpdateOverlay();
         }
 
         public void OnSelected()
         {
-            // Nothing
+            Reset();
         }
 
-        public void OnCellSelected(SeaSquare cell)
+        public void OnCellSelected(object source, ReadOnlySeaCell cell)
         {
-            selectedCell = cell;
+            if(source != myGrid && source != enemyGrid)
+            {
+                throw new Exception("Invalid source!");
+            }
 
-            lblType.Content = cell.Type.ToString();
+            selectedCell = cell;
+            if(!selectedCell.Revealed)
+            {
+                lblType.Content = "Unknown";
+                btnEndTurn.IsEnabled = (source == enemyGrid);
+            }
+            else
+            {
+                lblType.Content = selectedCell.Type.ToString();
+            }
+
+            lblPos.Content = string.Format("X: {0}, Y: {1}", selectedCell.PosX, selectedCell.PosY);
+        }
+
+        public void OnTurnTaken()
+        {
+            playerGrid.OnTurnTaken();
+            opponentGrid.OnTurnTaken();
+
+            Reset();
+        }
+
+        public void OnPlayerWon()
+        {
+            EnableOverlay(true);
+            lblOverlayInfo.Content = "You have won!";
+            EnableControl(false);
+        }
+
+        public void OnPlayerLost()
+        {
+            EnableOverlay(true);
+            lblOverlayInfo.Content = "You have lost!";
+            EnableControl(false);
         }
 
         public FrameworkElement GetElement()
         {
             return this;
+        }
+
+        private void UpdateEnabled()
+        {
+            EnableControl(GUIFacade.Instance.IsPlayerTurn());
+        }
+
+        private void EnableControl(bool enable)
+        {
+            gridContent.IsEnabled = enable;
+            gridFooter.IsEnabled = enable;
+        }
+
+        private void UpdateOverlay()
+        {
+            EnableOverlay(!GUIFacade.Instance.IsPlayerTurn());
+        }
+
+        private void EnableOverlay(bool enable)
+        {
+            gridOverlay.Visibility = enable ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }
