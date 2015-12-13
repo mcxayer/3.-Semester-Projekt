@@ -12,8 +12,9 @@ namespace Battleship
         void OnGameInit();
         void OnTurnTaken();
 
-        void OnPlayerWon();
+        void OnShipDestroyed();
 
+        void OnPlayerWon();
         void OnPlayerLost();
     }
 }

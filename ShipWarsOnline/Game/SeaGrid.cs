@@ -1,5 +1,4 @@
-﻿using Game;
-using ShipWarsOnline.Data;
+﻿using ShipWarsOnline.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +9,6 @@ namespace ShipWarsOnline
     {
         public static readonly int DefaultGridSize = 10;
         private static readonly int MaxLoopCount = 10000;
-
-        private Random rnd;
 
         public int Size { get; private set; }
 
@@ -24,14 +21,22 @@ namespace ShipWarsOnline
 
         public Bounds DestroyedShip { get; private set; }
 
-        public SeaGrid() : this(DefaultGridSize) { }
-        public SeaGrid(int size)
+        private Random rnd;
+
+        public SeaGrid(Random rnd) : this(DefaultGridSize, rnd) { }
+        public SeaGrid(int size, Random rnd)
         {
             if (size <= 0)
             {
                 throw new ArgumentOutOfRangeException("size", "size must be greater than zero!");
             }
             Size = size;
+
+            if(rnd == null)
+            {
+                throw new ArgumentNullException("rnd");
+            }
+            this.rnd = rnd;
 
             cells = new SeaCell[Size, Size];
             ReadOnlySeaCell[,] roCells = new ReadOnlySeaCell[Size, Size];
@@ -48,8 +53,6 @@ namespace ShipWarsOnline
             ships = new List<Ship>();
             readOnlyShips = new List<ReadOnlyShip>();
             ReadOnlyShips = readOnlyShips.AsReadOnly();
-
-            rnd = new Random();
 
             Reset();
         }
@@ -203,7 +206,7 @@ namespace ShipWarsOnline
 
         private void SinkShip(int shipIndex)
         {
-            int minX = 0, minY = 0, maxX = 0, maxY = 0;
+            int minX = (Size - 1), minY = (Size - 1), maxX = 0, maxY = 0;
             for (int i = 0; i < Size; i++)
             {
                 for (int j = 0; j < Size; j++)
@@ -215,7 +218,8 @@ namespace ShipWarsOnline
                         {
                             minX = i;
                         }
-                        else if(i > maxX)
+
+                        if (i > maxX)
                         {
                             maxX = i;
                         }
@@ -224,7 +228,8 @@ namespace ShipWarsOnline
                         {
                             minY = j;
                         }
-                        else if (j > maxY)
+
+                        if (j > maxY)
                         {
                             maxY = j;
                         }
@@ -261,8 +266,6 @@ namespace ShipWarsOnline
 
         public void AddShip(ShipType type)
         {
-            rnd = new Random();
-
             Ship ship = new Ship(type);
 
             if (!TryPlaceShip(ship))
@@ -273,8 +276,6 @@ namespace ShipWarsOnline
 
         public void AddShip(ShipType type, int x, int y, bool horizontal)
         {
-            rnd = new Random();
-
             Ship ship = new Ship(type);
 
             if (!TryPlaceShip(new Ship(type), x, y, horizontal))

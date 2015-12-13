@@ -7,7 +7,7 @@ namespace GameService
     //[ServiceBehavior(InstanceContextMode= InstanceContextMode.PerSession)]
     public class Service : IService
     {
-        public void Connect(string tokenID)
+        public void ConnectLobby(string tokenID)
         {
             try
             {
@@ -20,7 +20,7 @@ namespace GameService
             }
         }
 
-        public void Disconnect()
+        public void DisconnectLobby()
         {
             try
             {

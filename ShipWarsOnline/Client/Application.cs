@@ -147,6 +147,11 @@ namespace Client
             {
                 throw new NotImplementedException();
             }
+
+            public void OnPlayerWon(int playerIndex)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 

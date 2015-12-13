@@ -13,6 +13,6 @@ namespace Battleship
     {
         ReadOnly2DArray<ReadOnlySeaCell> GridCells { get; set; }
         ICellSelectionListener CellSelectionCallback { get; set; }
-        void OnTurnTaken();
+        void UpdateGrid();
     }
 }

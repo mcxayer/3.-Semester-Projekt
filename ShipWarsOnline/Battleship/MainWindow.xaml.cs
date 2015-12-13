@@ -50,7 +50,7 @@ namespace Battleship
             return loginControl;
         }
 
-        public IGUIControl GetAccountCreationControl()
+        public IGUIAccountCreation GetAccountCreationControl()
         {
             // Lazy instantiation
             if (accountCreationControl == null)

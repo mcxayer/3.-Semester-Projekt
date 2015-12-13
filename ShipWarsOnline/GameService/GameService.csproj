@@ -58,12 +58,16 @@
   <ItemGroup>
     <Compile Include="DomainFacade.cs" />
     <Compile Include="ServerGame.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="Services\IService.cs" />
     <Compile Include="Lobby.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service.cs" />
+    <Compile Include="Services\Service.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameData\GameData.csproj">
+      <Project>{f1ea39d0-b7aa-4449-850e-710654b6ef13}</Project>
+      <Name>GameData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Game\Game.csproj">
       <Project>{1f97c08d-e9a5-4281-90ef-1be2acfec9e9}</Project>
       <Name>Game</Name>

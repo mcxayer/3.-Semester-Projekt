@@ -22,7 +22,7 @@ namespace Battleship
         void SetDataContext(FrameworkElement element);
         IGUIControl GetMainMenuControl();
         IGUILogin GetLoginControl();
-        IGUIControl GetAccountCreationControl();
+        IGUIAccountCreation GetAccountCreationControl();
         IGUILobby GetLobbyControl();
         IGUIMatchmaking GetMatchmakingControl();
         IGUIGame GetGameControl();

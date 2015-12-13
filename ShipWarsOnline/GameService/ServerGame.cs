@@ -18,15 +18,13 @@ namespace GameService
 
         public ServerGame(IContextChannel playerChannel1, IContextChannel playerChannel2)
         {
-            game = new LocalGame(null, null);
+            game = new LocalGame();
 
             // Setup for a scenario with all the ship types
-            //foreach (ShipType type in Enum.GetValues(typeof(ShipType)))
-            //{
-            //    game.AddShip(type);
-            //}
-
-            game.AddShip(ShipType.Submarine);
+            foreach (ShipType type in Enum.GetValues(typeof(ShipType)))
+            {
+                game.AddShip(type);
+            }
 
             playerChannels = new IContextChannel[] { playerChannel1, playerChannel2 };
             ReadOnlyPlayerChannels = new List<IContextChannel>(playerChannels).AsReadOnly();

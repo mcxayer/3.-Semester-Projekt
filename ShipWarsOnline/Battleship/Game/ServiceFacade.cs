@@ -25,11 +25,9 @@ namespace Battleship
         }
 
         #region general services
-        public bool Login(string username, string password)
+        public void Login(string username, string password)
         {
             tokenId = generalService.Login(username, password);
-
-            return !string.IsNullOrEmpty(tokenId);
         }
 
         public void Logout()
@@ -51,14 +49,14 @@ namespace Battleship
             return gameService.GetLobby();
         }
 
-        public void Connect()
+        public void ConnectLobby()
         {
-            gameService.Connect(tokenId);
+            gameService.ConnectLobby(tokenId);
         }
 
-        public void Disconnect()
+        public void DisconnectLobby()
         {
-            gameService.Disconnect();
+            gameService.DisconnectLobby();
         }
 
         public void Matchmake()

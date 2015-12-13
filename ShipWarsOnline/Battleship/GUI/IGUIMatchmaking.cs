@@ -9,5 +9,6 @@ namespace Battleship
     public interface IGUIMatchmaking : IGUIControl
     {
         void OnPlayerMatchmade();
+        void OnPlayerCancelledMatchmaking();
     }
 }

@@ -23,16 +23,8 @@ namespace Battleship
 
         private void OnLoginButtonClicked(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                GUIFacade.Instance.Login(tbUsername.Text, tbPassword.Password);
-                GUIFacade.Instance.Connect();
-            }
-            catch (FaultException ex)
-            {
-                lblInfo.Content = ex.Message;
-                return;
-            }
+            EnableControl(false);
+            GUIFacade.Instance.LoginAndConnectLobby(tbUsername.Text, tbPassword.Password);
         }
 
         private void OnCreateUserButtonClicked(object sender, RoutedEventArgs e)
@@ -40,9 +32,15 @@ namespace Battleship
             GUIFacade.Instance.GotoAccountCreation();
         }
 
+        public void OnPlayerConnected()
+        {
+            EnableControl(true);
+        }
+
         public void OnPlayerFailedConnecting()
         {
             lblInfo.Content = "Failed to connect!";
+            EnableControl(true);
         }
 
         public void OnSelected()
@@ -53,6 +51,12 @@ namespace Battleship
         public FrameworkElement GetElement()
         {
             return this;
+        }
+
+        private void EnableControl(bool enable)
+        {
+            gridContent.IsEnabled = enable;
+            gridFooter.IsEnabled = enable;
         }
     }
 }

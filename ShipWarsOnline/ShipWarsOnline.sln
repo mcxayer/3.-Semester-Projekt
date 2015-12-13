@@ -1,19 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralService", "GeneralService\GeneralService.csproj", "{C818B8B8-2C44-4C6B-941C-B697FE8FFF31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{4C87BFDF-5BAF-45AB-8802-CADBFBDBF184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Types", "Types\Types.csproj", "{3104F187-4E5B-444B-92EE-8EA4A17ECE82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameService", "GameService\GameService.csproj", "{2BCDDC88-00E2-46F6-BE1A-B69A3E0FD98D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleship", "Battleship\Battleship.csproj", "{5C2E408A-7840-4547-88F5-6FCC6A7BFC40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Battleship\Client.csproj", "{5C2E408A-7840-4547-88F5-6FCC6A7BFC40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{1F97C08D-E9A5-4281-90EF-1BE2ACFEC9E9}"
 EndProject
@@ -43,14 +41,6 @@ Global
 		{4C87BFDF-5BAF-45AB-8802-CADBFBDBF184}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C87BFDF-5BAF-45AB-8802-CADBFBDBF184}.Release|x86.ActiveCfg = Release|Any CPU
 		{4C87BFDF-5BAF-45AB-8802-CADBFBDBF184}.Release|x86.Build.0 = Release|Any CPU
-		{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}.Debug|x86.Build.0 = Debug|Any CPU
-		{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}.Release|x86.ActiveCfg = Release|Any CPU
-		{DAC0DFCB-A5B5-4ABE-9BE6-FFCF5032A973}.Release|x86.Build.0 = Release|Any CPU
 		{3104F187-4E5B-444B-92EE-8EA4A17ECE82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3104F187-4E5B-444B-92EE-8EA4A17ECE82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3104F187-4E5B-444B-92EE-8EA4A17ECE82}.Debug|x86.ActiveCfg = Debug|Any CPU

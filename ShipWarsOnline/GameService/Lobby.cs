@@ -113,7 +113,7 @@ namespace GameService
 
                 IContextChannel otherPlayerChannel = matchmakingQueue.First.Value;
                 matchmakingQueue.RemoveFirst();
-                if (playerChannel == null)
+                if (otherPlayerChannel == null)
                 {
                     throw new NullReferenceException("Other player does not exist!");
                 }
@@ -121,16 +121,13 @@ namespace GameService
                 Session otherPlayerSession;
                 if (!activeClients.TryGetValue(otherPlayerChannel, out otherPlayerSession))
                 {
-                    throw new NullReferenceException("Current player is not connected!");
+                    throw new NullReferenceException("Other player is not connected!");
                 }
 
                 OnPlayerMatchmade(playerSession);
                 OnPlayerMatchmade(otherPlayerSession);
 
                 CreateNetworkGame(playerSession, otherPlayerSession);
-
-                //ForceDisconnect(currentPlayer);
-                //ForceDisconnect(otherPlayer);
 
                 return;
             }
@@ -188,14 +185,22 @@ namespace GameService
             }
 
             ServerGame game = new ServerGame(player1Session.Channel, player2Session.Channel);
+
             activeGames.Add(player1Session.Channel, game);
             activeGames.Add(player2Session.Channel, game);
 
             player1Session.state = SessionState.InGame;
             player2Session.state = SessionState.InGame;
 
-            OnGameInitialized(player1Session, game.GetInitGameState(player1Session.Channel));
-            OnGameInitialized(player2Session, game.GetInitGameState(player2Session.Channel));
+            GameInitStateDTO initStatePlayer1 = game.GetInitGameState(player1Session.Channel);
+            initStatePlayer1.PlayerName = player1Session.Username;
+            initStatePlayer1.OpponentName = player2Session.Username;
+            OnGameInitialized(player1Session, initStatePlayer1);
+
+            GameInitStateDTO initStatePlayer2 = game.GetInitGameState(player2Session.Channel);
+            initStatePlayer2.PlayerName = player2Session.Username;
+            initStatePlayer2.OpponentName = player1Session.Username;
+            OnGameInitialized(player2Session, initStatePlayer2);
         }
 
         public void TakeTurn(int x, int y)

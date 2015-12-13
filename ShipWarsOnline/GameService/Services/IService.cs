@@ -10,11 +10,11 @@ namespace GameService
     {
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        void Connect(string tokenID);
+        void ConnectLobby(string tokenID);
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        void Disconnect();
+        void DisconnectLobby();
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]
@@ -80,6 +80,12 @@ namespace GameService
 
         [DataMember]
         public int PlayerIndex { get; set; }
+
+        [DataMember]
+        public string PlayerName { get; set; }
+
+        [DataMember]
+        public string OpponentName { get; set; }
     }
 
     [DataContract]

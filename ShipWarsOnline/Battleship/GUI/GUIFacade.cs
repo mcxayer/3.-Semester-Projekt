@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Battleship.GUI
 {
@@ -23,6 +24,8 @@ namespace Battleship.GUI
             set { windowContainer = value; GotoWindow(GUIWindowType.MainMenu); }
         }
 
+        private Dispatcher uiDispatcher;
+
         private GUIFacade()
         {
             GameContextFacade.Instance.HandlePlayerConnected += OnPlayerConnected;
@@ -36,8 +39,14 @@ namespace Battleship.GUI
             GameContextFacade.Instance.HandleLobbyUpdated += OnLobbyUpdated;
             GameContextFacade.Instance.HandleGameInitialized += OnGameInit;
             GameContextFacade.Instance.HandleTurnTaken += OnTurnTaken;
+            GameContextFacade.Instance.HandleShipDestroyed += OnShipDestroyed;
             GameContextFacade.Instance.HandlePlayerWon += OnPlayerWon;
             GameContextFacade.Instance.HandlePlayerLost += OnPlayerLost;
+
+            GameContextFacade.Instance.HandlePlayerAccountCreated += OnPlayerAccountCreated;
+            GameContextFacade.Instance.HandlePlayerAccountFailedCreation += OnPlayerAccountFailedCreation;
+
+            uiDispatcher = Dispatcher.CurrentDispatcher;
         }
 
         public void Dispose()
@@ -55,8 +64,12 @@ namespace Battleship.GUI
                 GameContextFacade.Instance.HandleLobbyUpdated -= OnLobbyUpdated;
                 GameContextFacade.Instance.HandleGameInitialized -= OnGameInit;
                 GameContextFacade.Instance.HandleTurnTaken -= OnTurnTaken;
+                GameContextFacade.Instance.HandleShipDestroyed -= OnShipDestroyed;
                 GameContextFacade.Instance.HandlePlayerWon -= OnPlayerWon;
                 GameContextFacade.Instance.HandlePlayerLost -= OnPlayerLost;
+
+                GameContextFacade.Instance.HandlePlayerAccountCreated -= OnPlayerAccountCreated;
+                GameContextFacade.Instance.HandlePlayerAccountFailedCreation -= OnPlayerAccountFailedCreation;
             }
             catch
             {
@@ -93,7 +106,7 @@ namespace Battleship.GUI
                     throw new System.Exception(string.Format("Window type {0} is not valid!", type));
             }
 
-            if(control != null)
+            if (control != null)
             {
                 WindowContainer.SetDataContext(control.GetElement());
                 control.OnSelected();
@@ -113,7 +126,7 @@ namespace Battleship.GUI
 
         public void GotoLogin()
         {
-            if(currentWindowType != GUIWindowType.MainMenu
+            if (currentWindowType != GUIWindowType.MainMenu
                 && currentWindowType != GUIWindowType.AccountCreation)
             {
                 throw new Exception("Invalid control!");
@@ -132,45 +145,24 @@ namespace Battleship.GUI
             GotoWindow(GUIWindowType.AccountCreation);
         }
 
-        public void Login(string username, string password)
+        public void LoginAndConnectLobby(string username, string password)
         {
             if (currentWindowType != GUIWindowType.Login)
             {
                 throw new Exception("Invalid control!");
             }
 
-            GameContextFacade.Instance.Login(username, password);
+            GameContextFacade.Instance.LoginAndConnectLobby(username, password);
         }
 
-        public void Logout()
+        public void LogoutAndDisconnectLobby()
         {
             if (currentWindowType != GUIWindowType.Lobby)
             {
                 throw new Exception("Invalid control!");
             }
 
-            GameContextFacade.Instance.Logout();
-        }
-
-        public void Connect()
-        {
-            if (currentWindowType != GUIWindowType.Login)
-            {
-                throw new Exception("Invalid control!");
-            }
-
-            GameContextFacade.Instance.Connect();
-        }
-
-        public void Disconnect()
-        {
-            if (currentWindowType != GUIWindowType.Lobby
-                && currentWindowType != GUIWindowType.Game)
-            {
-                throw new Exception("Invalid control!");
-            }
-
-            GameContextFacade.Instance.Disconnect();
+            GameContextFacade.Instance.LogoutAndDisconnectLobby();
         }
 
         public void Matchmake()
@@ -213,6 +205,16 @@ namespace Battleship.GUI
             return GameContextFacade.Instance.GetOpponentCells();
         }
 
+        public string GetPlayerName()
+        {
+            return GameContextFacade.Instance.GetPlayerName();
+        }
+
+        public string GetOpponentName()
+        {
+            return GameContextFacade.Instance.GetOpponentName();
+        }
+
         public void TakeTurn(int x, int y)
         {
             if (currentWindowType != GUIWindowType.Game)
@@ -223,14 +225,14 @@ namespace Battleship.GUI
             GameContextFacade.Instance.TakeTurn(x, y);
         }
 
-        public List<string> GetLobby()
+        public void UpdateLobby()
         {
             if (currentWindowType != GUIWindowType.Lobby)
             {
                 throw new Exception("Invalid control!");
             }
 
-            return GameContextFacade.Instance.GetLobby();
+            GameContextFacade.Instance.UpdateLobby();
         }
 
         public bool IsPlayerTurn()
@@ -245,104 +247,189 @@ namespace Battleship.GUI
 
         private void OnPlayerConnected()
         {
-            Console.WriteLine("Player connected to the game server!");
+            uiDispatcher.BeginInvoke(new Action(() =>
+            {
+                Console.WriteLine("Player connected to the game server!");
 
-            GotoWindow(GUIWindowType.Lobby);
+                if (currentWindowType != GUIWindowType.Login)
+                {
+                    return;
+                }
+
+                WindowContainer.GetLoginControl().OnPlayerConnected();
+                GotoWindow(GUIWindowType.Lobby);
+            }));
         }
 
         private void OnPlayerDisconnected()
         {
-            Console.WriteLine("Player disconnected from the game server!");
+            uiDispatcher.BeginInvoke(new Action(() =>
+            {
+                Console.WriteLine("Player disconnected from the game server!");
 
-            GotoWindow(GUIWindowType.Login);
+                GotoWindow(GUIWindowType.Login);
+            }));
         }
 
         private void OnPlayerFailedConnecting()
         {
-            Console.WriteLine("Player failed to connect to the game server!");
-
-            if(currentWindowType != GUIWindowType.Login)
+            uiDispatcher.BeginInvoke(new Action(() =>
             {
-                return;
-            }
+                Console.WriteLine("Player failed to connect to the game server!");
 
-            WindowContainer.GetLoginControl().OnPlayerFailedConnecting();
+                if (currentWindowType != GUIWindowType.Login)
+                {
+                    return;
+                }
+
+                WindowContainer.GetLoginControl().OnPlayerFailedConnecting();
+            }));
         }
 
         private void OnPlayerEnteredMatchmaking()
         {
-            Console.WriteLine("Player entered matchmaking!");
+            uiDispatcher.BeginInvoke(new Action(() =>
+            {
+                Console.WriteLine("Player entered matchmaking!");
 
-            GotoWindow(GUIWindowType.Matchmaking);
+                GotoWindow(GUIWindowType.Matchmaking);
+            }));
         }
 
         private void OnPlayerCancelledMatchmaking()
         {
-            Console.WriteLine("Player exited matchmaking!");
+            uiDispatcher.BeginInvoke(new Action(() =>
+            {
+                Console.WriteLine("Player exited matchmaking!");
 
-            GotoWindow(GUIWindowType.Lobby);
+                if (currentWindowType != GUIWindowType.Matchmaking)
+                {
+                    return;
+                }
+
+                WindowContainer.GetMatchmakingControl().OnPlayerCancelledMatchmaking();
+
+                GotoWindow(GUIWindowType.Lobby);
+            }));
         }
 
         private void OnPlayerMatchmade()
         {
-            Console.WriteLine("Matchmade to game!");
-
-            if (currentWindowType != GUIWindowType.Matchmaking)
+            uiDispatcher.BeginInvoke(new Action(() =>
             {
-                return;
-            }
+                Console.WriteLine("Matchmade to game!");
 
-            WindowContainer.GetMatchmakingControl().OnPlayerMatchmade();
+                if (currentWindowType != GUIWindowType.Matchmaking)
+                {
+                    return;
+                }
+
+                WindowContainer.GetMatchmakingControl().OnPlayerMatchmade();
+            }));
         }
 
-        private void OnLobbyUpdated()
+        private void OnLobbyUpdated(List<string> lobbyNames)
         {
-            Console.WriteLine("Lobby updated!");
-
-            if (currentWindowType != GUIWindowType.Lobby)
+            uiDispatcher.BeginInvoke(new Action(() =>
             {
-                return;
-            }
+                Console.WriteLine("Lobby updated!");
 
-            WindowContainer.GetLobbyControl().OnLobbyUpdated();
+                if (currentWindowType != GUIWindowType.Lobby)
+                {
+                    return;
+                }
+
+                WindowContainer.GetLobbyControl().OnLobbyUpdated(lobbyNames);
+            }));
         }
 
         private void OnGameInit()
         {
-            Console.WriteLine("Game has been initialized!");
+            uiDispatcher.BeginInvoke(new Action(() =>
+            {
+                Console.WriteLine("Game has been initialized!");
 
-            GotoWindow(GUIWindowType.Game);
-            WindowContainer.GetGameControl().OnGameInit();
+                GotoWindow(GUIWindowType.Game);
+                WindowContainer.GetGameControl().OnGameInit();
+            }));
         }
 
         private void OnTurnTaken()
         {
-            if (currentWindowType != GUIWindowType.Game)
+            uiDispatcher.BeginInvoke(new Action(() =>
             {
-                return;
-            }
+                if (currentWindowType != GUIWindowType.Game)
+                {
+                    return;
+                }
 
-            WindowContainer.GetGameControl().OnTurnTaken();
+                WindowContainer.GetGameControl().OnTurnTaken();
+            }));
+        }
+
+        private void OnShipDestroyed()
+        {
+            uiDispatcher.BeginInvoke(new Action(() =>
+            {
+                if (currentWindowType != GUIWindowType.Game)
+                {
+                    return;
+                }
+
+                WindowContainer.GetGameControl().OnShipDestroyed();
+            }));
         }
 
         private void OnPlayerWon()
         {
-            if (currentWindowType != GUIWindowType.Game)
+            uiDispatcher.BeginInvoke(new Action(() =>
             {
-                return;
-            }
+                if (currentWindowType != GUIWindowType.Game)
+                {
+                    return;
+                }
 
-            WindowContainer.GetGameControl().OnPlayerWon();
+                WindowContainer.GetGameControl().OnPlayerWon();
+            }));
         }
 
         private void OnPlayerLost()
         {
-            if (currentWindowType != GUIWindowType.Game)
+            uiDispatcher.BeginInvoke(new Action(() =>
             {
-                return;
-            }
+                if (currentWindowType != GUIWindowType.Game)
+                {
+                    return;
+                }
 
-            WindowContainer.GetGameControl().OnPlayerLost();
+                WindowContainer.GetGameControl().OnPlayerLost();
+            }));
+        }
+
+        private void OnPlayerAccountCreated()
+        {
+            uiDispatcher.BeginInvoke(new Action(() =>
+            {
+                if (currentWindowType != GUIWindowType.AccountCreation)
+                {
+                    return;
+                }
+
+                WindowContainer.GetAccountCreationControl().OnPlayerAccountCreated();
+            }));
+        }
+
+        private void OnPlayerAccountFailedCreation()
+        {
+            uiDispatcher.BeginInvoke(new Action(() =>
+            {
+                if (currentWindowType != GUIWindowType.AccountCreation)
+                {
+                    return;
+                }
+
+                WindowContainer.GetAccountCreationControl().OnPlayerAccountFailedCreation();
+            }));
         }
 
         #endregion

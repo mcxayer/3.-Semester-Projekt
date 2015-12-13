@@ -16,10 +16,18 @@ namespace Battleship.Game
         public int PlayerIndex { get; private set; }
         public IReadOnlyList<ReadOnlySeaGrid> ReadOnlyGrids { get { return game.ReadOnlyGrids; } }
 
+        private string[] playerNames;
+        public IReadOnlyList<string> ReadOnlyPlayerNames { get; private set; }
+
         public ClientGame(GameInitStateDTO initState)
         {
-            game = new LocalGame(null,null, initState.GridSize);
+            game = new LocalGame(initState.GridSize);
             PlayerIndex = initState.PlayerIndex;
+
+            playerNames = new string[LocalGame.MaxPlayerAmount];
+            playerNames[PlayerIndex] = initState.PlayerName;
+            playerNames[(PlayerIndex + 1) % LocalGame.MaxPlayerAmount] = initState.OpponentName;
+            ReadOnlyPlayerNames = new List<string>(playerNames).AsReadOnly();
 
             for (int i = 0; i < initState.Ships.Length; i++)
             {
@@ -65,6 +73,16 @@ namespace Battleship.Game
         {
             game.TakeTurn(x, y);
             game.SetCellType(game.CurrentPlayerTurn, x, y, type);
+        }
+
+        public string GetPlayerName()
+        {
+            return playerNames[PlayerIndex];
+        }
+
+        public string GetOpponentName()
+        {
+            return playerNames[(PlayerIndex + 1) % LocalGame.MaxPlayerAmount];
         }
 
         public bool IsPlayerTurn()

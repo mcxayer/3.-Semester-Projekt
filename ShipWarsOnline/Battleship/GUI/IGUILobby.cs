@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Battleship
 {
-    public interface IGUILogin : IGUIControl
+    public interface IGUILobby : IGUIControl
     {
-        void OnPlayerFailedConnecting();
+        void OnLobbyUpdated(List<string> lobbyNames);
     }
 }

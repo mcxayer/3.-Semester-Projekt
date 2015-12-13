@@ -7,12 +7,9 @@ namespace ShipWarsOnline
     /// <summary>
     /// Game hosted locally taking turns for both players.
     /// </summary>
-    public class LocalGame : IGame
+    public class LocalGame
     {
-        private static readonly int MaxPlayerAmount = 2;
-
-        private string[] playerNames;
-        public IReadOnlyList<string> ReadOnlyPlayerNames { get; private set; }
+        public static readonly int MaxPlayerAmount = 2;
 
         private SeaGrid[] grids;
         private List<ReadOnlySeaGrid> readOnlyGrids;
@@ -20,20 +17,16 @@ namespace ShipWarsOnline
 
         public int CurrentPlayerTurn { get; private set; }
 
-        public LocalGame(string playerName1, string playerName2) : this(playerName1, playerName2, SeaGrid.DefaultGridSize) { }
-        public LocalGame(string playerName1, string playerName2, int gridSize)
+        public LocalGame() : this(SeaGrid.DefaultGridSize) { }
+        public LocalGame(int gridSize)
         {
-            playerNames = new string[MaxPlayerAmount];
-            playerNames[0] = playerName1;
-            playerNames[1] = playerName2;
-
-            ReadOnlyPlayerNames = new List<string>(playerNames).AsReadOnly();
+            Random rnd = new Random();
 
             grids = new SeaGrid[MaxPlayerAmount];
             readOnlyGrids = new List<ReadOnlySeaGrid>(MaxPlayerAmount);
             for (int i = 0; i < grids.Length; i++)
             {
-                grids[i] = new SeaGrid(gridSize);
+                grids[i] = new SeaGrid(gridSize, rnd);
                 readOnlyGrids.Add(new ReadOnlySeaGrid(grids[i]));
             }
             ReadOnlyGrids = readOnlyGrids.AsReadOnly();
@@ -73,8 +66,6 @@ namespace ShipWarsOnline
             grids[nextPlayerIndex].FireAt(x,y);
 
             CurrentPlayerTurn = nextPlayerIndex;
-
-            // Check winner here
         }
 
         public void ShowPlayerGrid(int playerIndex)

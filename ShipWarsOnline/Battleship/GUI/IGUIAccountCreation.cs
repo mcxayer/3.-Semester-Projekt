@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Battleship
 {
-    public interface IGUILobby : IGUIControl
+    public interface IGUIAccountCreation : IGUIControl
     {
-        void OnLobbyUpdated();
+        void OnPlayerAccountCreated();
+        void OnPlayerAccountFailedCreation();
     }
 }

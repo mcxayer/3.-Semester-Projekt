@@ -18,6 +18,7 @@ namespace Battleship
 
         private void OnCancelButtonClicked(object sender, RoutedEventArgs e)
         {
+            btnCancel.IsEnabled = false;
             GUIFacade.Instance.CancelMatchmaking();
         }
 
@@ -26,9 +27,15 @@ namespace Battleship
             lblWaiting.Content = "Match found! Waiting to enter game...";
         }
 
+        public void OnPlayerCancelledMatchmaking()
+        {
+            btnCancel.IsEnabled = true;
+        }
+
         public void OnSelected()
         {
             lblWaiting.Content = "Waiting to be matched...";
+            btnCancel.IsEnabled = true;
         }
 
         public FrameworkElement GetElement()

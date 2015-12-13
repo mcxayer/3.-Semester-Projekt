@@ -19,8 +19,6 @@ namespace Battleship.Game
     /// </summary>
     public partial class SeaGridControl : UserControl, IGUISeaGrid, IDisposable
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private ReadOnly2DArray<ReadOnlySeaCell> gridCells;
         public ReadOnly2DArray<ReadOnlySeaCell> GridCells
         {
@@ -156,11 +154,6 @@ namespace Battleship.Game
             {
                 CellSelectionCallback.OnCellSelected(this, cellControl.Cell);
             }
-        }
-
-        public void OnTurnTaken()
-        {
-            UpdateGrid();
         }
     }
 }

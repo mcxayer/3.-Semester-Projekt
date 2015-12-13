@@ -44,6 +44,9 @@ namespace Battleship
             playerGrid.GridCells = GUIFacade.Instance.GetPlayerCells();
             opponentGrid.GridCells = GUIFacade.Instance.GetOpponentCells();
 
+            lblUsername1.Content = GUIFacade.Instance.GetPlayerName();
+            lblUsername2.Content = GUIFacade.Instance.GetOpponentName();
+
             UpdateEnabled();
             UpdateOverlay();
         }
@@ -84,10 +87,14 @@ namespace Battleship
 
         public void OnTurnTaken()
         {
-            playerGrid.OnTurnTaken();
-            opponentGrid.OnTurnTaken();
+            UpdateGrids();
 
             Reset();
+        }
+
+        public void OnShipDestroyed()
+        {
+            UpdateGrids();
         }
 
         public void OnPlayerWon()
@@ -112,6 +119,12 @@ namespace Battleship
         private void UpdateEnabled()
         {
             EnableControl(GUIFacade.Instance.IsPlayerTurn());
+        }
+
+        private void UpdateGrids()
+        {
+            playerGrid.UpdateGrid();
+            opponentGrid.UpdateGrid();
         }
 
         private void EnableControl(bool enable)

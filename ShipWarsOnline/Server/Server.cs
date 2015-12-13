@@ -5,7 +5,6 @@ namespace Server
 {
     public class Server
     {
-
         static void Main(string[] args)
         {
             ServiceHost generalHost = new ServiceHost(typeof(GeneralService.Service));
@@ -16,9 +15,6 @@ namespace Server
             gameHost.Open();
             Console.WriteLine("Game Services open!");
             Console.WriteLine();
-
-            // http://www.codeproject.com/Articles/37496/TCP-IP-Protocol-Design-Message-Framing
-            // http://blogs.msdn.com/b/joncole/archive/2006/03/20/simple-message-framing-sample-for-tcp-socket.aspx
 
             Console.ReadLine();
         }

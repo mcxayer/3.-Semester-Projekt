@@ -39,23 +39,14 @@ namespace Battleship
 
         public void UpdateLobbyList()
         {
-            LobbyList = GUIFacade.Instance.GetLobby();
+            btnUpdate.IsEnabled = false;
+            GUIFacade.Instance.UpdateLobby();
         }
 
         private void OnDisconnectButtonClicked(object sender, RoutedEventArgs e)
         {
-            GUIFacade.Instance.Disconnect();
-            GUIFacade.Instance.Logout();
-
-            //if (GameContextFacade.Instance.Disconnect())
-            //{
-            //    // Der skal nok også kaldes logout, så tokenID bliver expired
-            //    window.GotoMainMenu();
-            //}
-            //else
-            //{
-            //    lblInfo.Content = "Error disconnecting";
-            //}
+            EnableControl(false);
+            GUIFacade.Instance.LogoutAndDisconnectLobby();
         }
 
         private void OnUpdateButtonClicked(object sender, RoutedEventArgs e)
@@ -68,19 +59,27 @@ namespace Battleship
             GUIFacade.Instance.Matchmake();
         }
 
-        public void OnLobbyUpdated()
+        public void OnLobbyUpdated(List<string> lobbyNames)
         {
-            UpdateLobbyList();
+            LobbyList = lobbyNames;
+            btnUpdate.IsEnabled = true;
         }
 
         public void OnSelected()
         {
+            EnableControl(true);
             UpdateLobbyList();
         }
 
         public FrameworkElement GetElement()
         {
             return this;
+        }
+
+        private void EnableControl(bool enable)
+        {
+            gridContent.IsEnabled = enable;
+            gridFooter.IsEnabled = enable;
         }
     }
 }
