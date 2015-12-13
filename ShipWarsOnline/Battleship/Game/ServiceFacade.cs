@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
-using GameService;
 
 namespace Battleship
 {
@@ -18,10 +17,11 @@ namespace Battleship
             generalService = generalFactory.CreateChannel();
 
             var gameFactory = new DuplexChannelFactory<GameService.IService>(callback, "GameServiceEndpoint");
-            ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
-            {
-                gameService = gameFactory.CreateChannel();
-            }));
+            gameService = gameFactory.CreateChannel();
+            //ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
+            //{
+            //    gameService = gameFactory.CreateChannel();
+            //}));
         }
 
         #region general services

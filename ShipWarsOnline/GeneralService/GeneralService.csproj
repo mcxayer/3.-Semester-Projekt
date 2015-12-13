@@ -74,14 +74,17 @@
     <Compile Include="DomainFacade.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecurityTokenService.cs" />
     <Compile Include="Services\Service.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="packages.config" />
-    <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SecurityTokenService\SecurityTokenService.csproj">
+      <Project>{a0aeedc7-1cec-4ce8-a758-d9d8854f597e}</Project>
+      <Name>SecurityTokenService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Types\Types.csproj">
       <Project>{3104f187-4e5b-444b-92ee-8ea4a17ece82}</Project>
       <Name>Types</Name>

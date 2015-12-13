@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SecurityTokenService;
+using System;
 using System.Security.Cryptography;
+using System.ServiceModel;
 using System.Text;
 
 namespace GeneralService
@@ -10,12 +12,21 @@ namespace GeneralService
         public static DomainFacade Instance { get { return instance; } }
 
         private DatabaseFacade databaseFacade;
-        private SecurityTokenService tokenService;
+        private SecurityTokenService.IService tokenService;
 
         private DomainFacade()
         {
             databaseFacade = new DatabaseFacade();
-            tokenService = new SecurityTokenService();
+
+            try
+            {
+                var tokenFactory = new ChannelFactory<SecurityTokenService.IService>("TokenServiceEndpoint");
+                tokenService = tokenFactory.CreateChannel();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public string Login(string username, string password)
@@ -33,15 +44,13 @@ namespace GeneralService
             SHA256 sha256Encryption = SHA256.Create();
             string saltString = databaseFacade.GetSalt(username);
 
-            string usernameHash = SecurityTokenService.GetHashedString(sha256Encryption, username + saltString);
-            string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, password + saltString);
+            string usernameHash = SecurityTokenManager.GetHashedString(sha256Encryption, username + saltString);
+            string passwordHash = SecurityTokenManager.GetHashedString(sha256Encryption, password + saltString);
 
             if (!Verify(username, passwordHash))
             {
                 throw new ArgumentException("Could not login!");
             }
-
-            // Check if already logged in
 
             return tokenService.GenerateToken(username,usernameHash, passwordHash);
         }
@@ -69,8 +78,8 @@ namespace GeneralService
             }
 
             SHA256 sha256Encryption = SHA256.Create();
-            string saltString = tokenService.GenerateSaltString();
-            string passwordHash = SecurityTokenService.GetHashedString(sha256Encryption, password + saltString);
+            string saltString = SecurityTokenManager.GenerateSaltString();
+            string passwordHash = SecurityTokenManager.GetHashedString(sha256Encryption, password + saltString);
 
             if(Verify(username,passwordHash))
             {

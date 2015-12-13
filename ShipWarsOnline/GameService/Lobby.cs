@@ -10,11 +10,16 @@ namespace GameService
         private LinkedList<IContextChannel> matchmakingQueue;
         private Dictionary<IContextChannel, ServerGame> activeGames;
 
+        private SecurityTokenService.IService tokenService;
+
         public Lobby()
         {
             activeClients = new Dictionary<IContextChannel, Session>();
             matchmakingQueue = new LinkedList<IContextChannel>();
             activeGames = new Dictionary<IContextChannel, ServerGame>();
+
+            var tokenFactory = new ChannelFactory<SecurityTokenService.IService>("TokenServiceEndpoint");
+            tokenService = tokenFactory.CreateChannel();
         }
 
         public void Connect(string tokenID)
@@ -24,7 +29,7 @@ namespace GameService
                 throw new Exception("Player already connected!");
             }
 
-            string username = GeneralService.DomainFacade.Instance.UseToken(tokenID);
+            string username = tokenService.UseToken(tokenID);
             if (string.IsNullOrEmpty(username))
             {
                 OnPlayerFailedConnecting(OperationContext.Current.GetCallbackChannel<ICallback>());

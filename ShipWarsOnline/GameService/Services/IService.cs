@@ -1,4 +1,5 @@
-﻿using ShipWarsOnline.Data;
+﻿using GeneralService;
+using ShipWarsOnline.Data;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -20,8 +21,8 @@ namespace GameService
         [FaultContract(typeof(FaultException))]
         List<string> GetLobby();
 
-        [OperationContract(IsOneWay = true)]
-        //[FaultContract(typeof(FaultException))]
+        [OperationContract]
+        [FaultContract(typeof(FaultException))]
         void Matchmake();
 
         [OperationContract]

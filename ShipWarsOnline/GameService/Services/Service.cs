@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using GeneralService;
 
 namespace GameService
 {
-    //[ServiceBehavior(InstanceContextMode= InstanceContextMode.PerSession)]
     public class Service : IService
     {
         public void ConnectLobby(string tokenID)
