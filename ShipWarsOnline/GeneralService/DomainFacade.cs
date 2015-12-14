@@ -1,10 +1,10 @@
-﻿using SecurityTokenService;
+﻿using SecurityTokenServices;
 using System;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 
-namespace GeneralService
+namespace GeneralServices
 {
     public class DomainFacade
     {
@@ -12,7 +12,7 @@ namespace GeneralService
         public static DomainFacade Instance { get { return instance; } }
 
         private DatabaseFacade databaseFacade;
-        private SecurityTokenService.IService tokenService;
+        private ISecurityTokenService tokenService;
 
         private DomainFacade()
         {
@@ -20,7 +20,7 @@ namespace GeneralService
 
             try
             {
-                var tokenFactory = new ChannelFactory<SecurityTokenService.IService>("TokenServiceEndpoint");
+                var tokenFactory = new ChannelFactory<ISecurityTokenService>("TokenServiceEndpoint");
                 tokenService = tokenFactory.CreateChannel();
             }
             catch(Exception ex)

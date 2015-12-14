@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using Types;
 
-namespace GeneralService
+namespace GeneralServices
 {
     public class DatabaseFacade
     {

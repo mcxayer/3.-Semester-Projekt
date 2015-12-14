@@ -10,9 +10,9 @@ using System.Text;
 
 // http://www.codeproject.com/KB/WCF/WCFWPFChat.aspx?msg=3513805
 // http://gamedev.stackexchange.com/questions/46575/how-should-multiplayer-games-handle-authentication
-namespace GeneralService
+namespace GeneralServices
 {
-    public class Service : IService
+    public class GeneralService : IGeneralService
     {
         // http://www.codeproject.com/Articles/704865/Salted-Password-Hashing-Doing-it-Right
         // http://stackoverflow.com/questions/647172/what-are-the-pros-and-cons-of-using-an-email-address-as-a-user-id

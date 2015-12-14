@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using GeneralService;
+using GeneralServices;
 
-namespace GameService
+namespace GameServices
 {
-    public class Service : IService
+    public class GameService : IGameService
     {
         public void ConnectLobby(string tokenID)
         {

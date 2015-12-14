@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameService
+namespace GameServices
 {
     public class DomainFacade
     {

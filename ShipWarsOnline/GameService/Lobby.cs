@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 
-namespace GameService
+namespace GameServices
 {
     public class Lobby
     {
@@ -10,7 +10,7 @@ namespace GameService
         private LinkedList<IContextChannel> matchmakingQueue;
         private Dictionary<IContextChannel, ServerGame> activeGames;
 
-        private SecurityTokenService.IService tokenService;
+        private SecurityTokenServices.ISecurityTokenService tokenService;
 
         public Lobby()
         {
@@ -18,7 +18,7 @@ namespace GameService
             matchmakingQueue = new LinkedList<IContextChannel>();
             activeGames = new Dictionary<IContextChannel, ServerGame>();
 
-            var tokenFactory = new ChannelFactory<SecurityTokenService.IService>("TokenServiceEndpoint");
+            var tokenFactory = new ChannelFactory<SecurityTokenServices.ISecurityTokenService>("TokenServiceEndpoint");
             tokenService = tokenFactory.CreateChannel();
         }
 

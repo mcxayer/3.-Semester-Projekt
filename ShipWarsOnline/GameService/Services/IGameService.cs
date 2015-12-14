@@ -1,13 +1,13 @@
-﻿using GeneralService;
+﻿using GeneralServices;
 using ShipWarsOnline.Data;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace GameService
+namespace GameServices
 {
-    [ServiceContract(CallbackContract = typeof(ICallback),SessionMode = SessionMode.Required)]
-    public interface IService
+    [ServiceContract(CallbackContract = typeof(ICallback))]
+    public interface IGameService
     {
         [OperationContract]
         [FaultContract(typeof(FaultException))]

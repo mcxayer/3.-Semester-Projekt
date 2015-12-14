@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GameServices;
+using GeneralServices;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 
@@ -6,22 +8,18 @@ namespace Battleship
 {
     public class ServiceFacade
     {
-        private GeneralService.IService generalService;
-        private GameService.IService gameService;
+        private IGeneralService generalService;
+        private IGameService gameService;
 
         private string tokenId;
 
-        public ServiceFacade(GameService.ICallback callback)
+        public ServiceFacade(GameServices.ICallback callback)
         {
-            var generalFactory = new ChannelFactory<GeneralService.IService>("GeneralServiceEndpoint");
+            var generalFactory = new ChannelFactory<IGeneralService>("GeneralServiceEndpoint");
             generalService = generalFactory.CreateChannel();
 
-            var gameFactory = new DuplexChannelFactory<GameService.IService>(callback, "GameServiceEndpoint");
+            var gameFactory = new DuplexChannelFactory<IGameService>(callback, "GameServiceEndpoint");
             gameService = gameFactory.CreateChannel();
-            //ThreadPool.QueueUserWorkItem(new WaitCallback((obj) =>
-            //{
-            //    gameService = gameFactory.CreateChannel();
-            //}));
         }
 
         #region general services
