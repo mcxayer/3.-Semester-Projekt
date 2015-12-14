@@ -400,8 +400,8 @@ namespace Battleship.Game
 
         #endregion
 
-        //[CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
-        private class CallbackHandler : GameServices.IGameServiceCallback
+        [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
+        private class CallbackHandler : IGameServiceCallback
         {
             private GameContextFacade facade;
 

@@ -6,7 +6,7 @@ using System.ServiceModel;
 
 namespace GameServices
 {
-    [ServiceContract(CallbackContract = typeof(IGameServiceCallback),SessionMode = SessionMode.Required)]
+    [ServiceContract(CallbackContract = typeof(IGameServiceCallback))]
     public interface IGameService
     {
         [OperationContract]

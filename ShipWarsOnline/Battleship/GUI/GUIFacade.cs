@@ -46,7 +46,7 @@ namespace Battleship.GUI
             GameContextFacade.Instance.HandlePlayerAccountCreated += OnPlayerAccountCreated;
             GameContextFacade.Instance.HandlePlayerAccountFailedCreation += OnPlayerAccountFailedCreation;
 
-            uiDispatcher = Dispatcher.CurrentDispatcher;
+            uiDispatcher = Application.Current.Dispatcher;
         }
 
         public void Dispose()

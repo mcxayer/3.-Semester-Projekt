@@ -38,56 +38,6 @@
                     </TransformGroup>
                 </Label.RenderTransform>
             </Label>
-            <Label x:Name="label_Copy" Content="wow" Margin="102,229,303,57" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform AngleX="0.542"/>
-                        <RotateTransform Angle="20.423"/>
-                        <TranslateTransform X="0.166"/>
-                    </TransformGroup>
-                </Label.RenderTransform>
-            </Label>
-            <Label x:Name="label_Copy1" Content="cool" Margin="0,0,33,13" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="Cyan" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="42">
-                <Label.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform AngleX="0.542"/>
-                        <RotateTransform Angle="-3.245"/>
-                        <TranslateTransform X="0.166"/>
-                    </TransformGroup>
-                </Label.RenderTransform>
-            </Label>
-            <Label x:Name="label_Copy2" Content="much battle" Margin="175,31,8,0" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="18.667" RenderTransformOrigin="0.5,0.5" Foreground="#FFDBFD00" Background="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <Label.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform AngleX="0.542" AngleY="-0.727"/>
-                        <RotateTransform Angle="10.806"/>
-                        <TranslateTransform X="0.231" Y="-0.524"/>
-                    </TransformGroup>
-                </Label.RenderTransform>
-            </Label>
-            <Label x:Name="label_Copy3" Content="such game" Margin="217,128,27,63" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Foreground="#FFFD5C00" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform AngleX="0.542" AngleY="-0.727"/>
-                        <RotateTransform Angle="-2.585"/>
-                        <TranslateTransform X="0.231" Y="-0.524"/>
-                    </TransformGroup>
-                </Label.RenderTransform>
-            </Label>
-            <Image x:Name="image" HorizontalAlignment="Right" Height="100" Margin="0,95,-40,122" VerticalAlignment="Center" Width="100" RenderTransformOrigin="0.5,0.5" Source="http://i.imgur.com/g7TUsLv.png">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-55.822"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-            </Image>
         </Grid>
         <Grid VerticalAlignment="Bottom" x:Name="gridFooter" Margin="0" Height="60">
             <Grid.ColumnDefinitions

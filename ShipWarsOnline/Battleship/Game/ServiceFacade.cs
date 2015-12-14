@@ -13,7 +13,7 @@ namespace Battleship
 
         private string tokenId;
 
-        public ServiceFacade(IGameServiceCallback callback)
+        public ServiceFacade(GameServices.IGameServiceCallback callback)
         {
             var generalFactory = new ChannelFactory<IGeneralService>("GeneralServiceEndpoint");
             generalService = generalFactory.CreateChannel();
