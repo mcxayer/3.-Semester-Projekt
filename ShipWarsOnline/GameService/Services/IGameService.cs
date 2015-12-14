@@ -1,13 +1,13 @@
-﻿using GeneralService;
+﻿using GeneralServices;
 using ShipWarsOnline.Data;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace GameService
+namespace GameServices
 {
-    [ServiceContract(CallbackContract = typeof(ICallback),SessionMode = SessionMode.Required)]
-    public interface IService
+    [ServiceContract(CallbackContract = typeof(IGameServiceCallback),SessionMode = SessionMode.Required)]
+    public interface IGameService
     {
         [OperationContract]
         [FaultContract(typeof(FaultException))]
@@ -34,7 +34,7 @@ namespace GameService
         void TakeTurn(int x, int y);
     }
 
-    public interface ICallback
+    public interface IGameServiceCallback
     {
         [OperationContract(IsOneWay = true)]
         void OnPlayerConnected();

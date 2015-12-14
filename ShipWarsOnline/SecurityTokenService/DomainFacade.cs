@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 
-namespace SecurityTokenService
+namespace SecurityTokenServices
 {
     public class DomainFacade
     {

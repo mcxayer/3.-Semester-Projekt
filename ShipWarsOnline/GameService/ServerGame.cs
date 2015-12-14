@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 
-namespace GameService
+namespace GameServices
 {
     public class ServerGame
     {

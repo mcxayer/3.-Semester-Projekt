@@ -1,10 +1,10 @@
-﻿using SecurityTokenService;
+﻿using SecurityTokenServices;
 using System;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 
-namespace GeneralService
+namespace GeneralServices
 {
     public class DomainFacade
     {
@@ -12,7 +12,7 @@ namespace GeneralService
         public static DomainFacade Instance { get { return instance; } }
 
         private DatabaseFacade databaseFacade;
-        private SecurityTokenService.IService tokenService;
+        private ISecurityTokenService tokenService;
 
         private DomainFacade()
         {
@@ -20,7 +20,7 @@ namespace GeneralService
 
             try
             {
-                var tokenFactory = new ChannelFactory<SecurityTokenService.IService>("TokenServiceEndpoint");
+                var tokenFactory = new ChannelFactory<ISecurityTokenService>("TokenServiceEndpoint");
                 tokenService = tokenFactory.CreateChannel();
             }
             catch(Exception ex)
@@ -42,17 +42,17 @@ namespace GeneralService
             }
 
             SHA256 sha256Encryption = SHA256.Create();
-            string saltString = databaseFacade.GetSalt(username);
+            string saltString = databaseFacade.GetUserSalt(username);
 
-            string usernameHash = SecurityTokenManager.GetHashedString(sha256Encryption, username + saltString);
-            string passwordHash = SecurityTokenManager.GetHashedString(sha256Encryption, password + saltString);
+            string saltedUsernameHash = SecurityTokenManager.GetHashedString(sha256Encryption, username + saltString);
+            string saltedPasswordHash = SecurityTokenManager.GetHashedString(sha256Encryption, password + saltString);
 
-            if (!Verify(username, passwordHash))
+            if (!VerifyUser(username, saltedPasswordHash))
             {
                 throw new ArgumentException("Could not login!");
             }
 
-            return tokenService.GenerateToken(username,usernameHash, passwordHash);
+            return tokenService.GenerateToken(username,saltedUsernameHash, saltedPasswordHash);
         }
 
         public void Logout(string tokenId)
@@ -81,7 +81,7 @@ namespace GeneralService
             string saltString = SecurityTokenManager.GenerateSaltString();
             string passwordHash = SecurityTokenManager.GetHashedString(sha256Encryption, password + saltString);
 
-            if(Verify(username,passwordHash))
+            if(VerifyUser(username,passwordHash))
             {
                 throw new Exception("Username already taken!");
             }
@@ -89,7 +89,7 @@ namespace GeneralService
             databaseFacade.CreateAccount(username, Encoding.UTF8.GetBytes(passwordHash), email, Encoding.UTF8.GetBytes(saltString));
         }
 
-        bool Verify(string username, string passwordHash)
+        bool VerifyUser(string username, string passwordHash)
         {
             if (string.IsNullOrEmpty(username))
             {
@@ -101,7 +101,7 @@ namespace GeneralService
                 throw new ArgumentException("password hash can not be null or empty!");
             }
 
-            return databaseFacade.Verify(username, Encoding.UTF8.GetBytes(passwordHash));
+            return databaseFacade.VerifyUser(username, Encoding.UTF8.GetBytes(passwordHash));
         }
 
         public string UseToken(string tokenID)

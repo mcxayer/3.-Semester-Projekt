@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 
-namespace GameService
+namespace GameServices
 {
     public class Lobby
     {
@@ -10,7 +10,7 @@ namespace GameService
         private LinkedList<IContextChannel> matchmakingQueue;
         private Dictionary<IContextChannel, ServerGame> activeGames;
 
-        private SecurityTokenService.IService tokenService;
+        private SecurityTokenServices.ISecurityTokenService tokenService;
 
         public Lobby()
         {
@@ -18,7 +18,7 @@ namespace GameService
             matchmakingQueue = new LinkedList<IContextChannel>();
             activeGames = new Dictionary<IContextChannel, ServerGame>();
 
-            var tokenFactory = new ChannelFactory<SecurityTokenService.IService>("TokenServiceEndpoint");
+            var tokenFactory = new ChannelFactory<SecurityTokenServices.ISecurityTokenService>("TokenServiceEndpoint");
             tokenService = tokenFactory.CreateChannel();
         }
 
@@ -32,12 +32,12 @@ namespace GameService
             string username = tokenService.UseToken(tokenID);
             if (string.IsNullOrEmpty(username))
             {
-                OnPlayerFailedConnecting(OperationContext.Current.GetCallbackChannel<ICallback>());
+                OnPlayerFailedConnecting(OperationContext.Current.GetCallbackChannel<IGameServiceCallback>());
                 return;
             }
 
             Session session = new Session(OperationContext.Current.Channel,
-                OperationContext.Current.GetCallbackChannel<ICallback>(),
+                OperationContext.Current.GetCallbackChannel<IGameServiceCallback>(),
                 username);
 
             session.Channel.Closed += OnChannelClosed;
@@ -186,7 +186,9 @@ namespace GameService
             if (player1Session.Channel.State != CommunicationState.Opened
                 || player2Session.Channel.State != CommunicationState.Opened)
             {
-                throw new CommunicationException("A player connection is not open!");
+                ForceCancelMatchmaking(player1Session.Channel);
+                ForceCancelMatchmaking(player2Session.Channel);
+                return;
             }
 
             ServerGame game = new ServerGame(player1Session.Channel, player2Session.Channel);
@@ -241,7 +243,7 @@ namespace GameService
 
             if (playerSession.Channel.State != CommunicationState.Opened)
             {
-                throw new CommunicationException("Player connection is not open!");
+                return;
             }
 
             playerSession.Callback.OnGameInit(initState);
@@ -261,7 +263,8 @@ namespace GameService
 
             if (playerSession.Channel.State != CommunicationState.Opened)
             {
-                throw new CommunicationException("Player connection is not open!");
+                ForceDisconnect(playerSession.Channel);
+                return;
             }
 
             playerSession.Callback.OnPlayerConnected();
@@ -286,7 +289,7 @@ namespace GameService
             playerSession.Callback.OnPlayerDisconnected();
         }
 
-        private void OnPlayerFailedConnecting(ICallback playerCallback)
+        private void OnPlayerFailedConnecting(IGameServiceCallback playerCallback)
         {
             if (playerCallback == null)
             {
@@ -305,7 +308,7 @@ namespace GameService
 
             if (playerSession.Channel.State != CommunicationState.Opened)
             {
-                throw new CommunicationException("Player connection is not open!");
+                return;
             }
 
             playerSession.Callback.OnPlayerMatchmade();
@@ -320,7 +323,8 @@ namespace GameService
 
             if (playerSession.Channel.State != CommunicationState.Opened)
             {
-                throw new CommunicationException("Player connection is not open!");
+                ForceCancelMatchmaking(playerSession.Channel);
+                return;
             }
 
             playerSession.Callback.OnPlayerEnteredMatchmaking();
@@ -336,7 +340,7 @@ namespace GameService
 
             if (playerSession.Channel.State != CommunicationState.Opened)
             {
-                throw new CommunicationException("Player connection is not open!");
+                return;
             }
 
             playerSession.Callback.OnPlayerCancelledMatchmaking();
@@ -425,12 +429,12 @@ namespace GameService
         private class Session
         {
             public IContextChannel Channel { get; private set; }
-            public ICallback Callback { get; private set; }
+            public IGameServiceCallback Callback { get; private set; }
             public string Username { get; private set; }
 
             public SessionState state { get; set; }
 
-            public Session(IContextChannel channel, ICallback callback, string username)
+            public Session(IContextChannel channel, IGameServiceCallback callback, string username)
             {
                 Channel = channel;
                 Callback = callback;

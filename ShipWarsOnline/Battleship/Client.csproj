@@ -191,17 +191,17 @@
       <Project>{f1ea39d0-b7aa-4449-850e-710654b6ef13}</Project>
       <Name>GameData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameService\GameService.csproj">
+    <ProjectReference Include="..\GameService\GameServices.csproj">
       <Project>{2bcddc88-00e2-46f6-be1a-b69a3e0fd98d}</Project>
-      <Name>GameService</Name>
+      <Name>GameServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Game\Game.csproj">
       <Project>{1f97c08d-e9a5-4281-90ef-1be2acfec9e9}</Project>
       <Name>Game</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GeneralService\GeneralService.csproj">
+    <ProjectReference Include="..\GeneralService\GeneralServices.csproj">
       <Project>{c818b8b8-2c44-4c6b-941c-b697fe8fff31}</Project>
-      <Name>GeneralService</Name>
+      <Name>GeneralServices</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

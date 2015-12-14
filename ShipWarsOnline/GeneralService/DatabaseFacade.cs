@@ -3,18 +3,18 @@ using System.Linq;
 using System.Text;
 using Types;
 
-namespace GeneralService
+namespace GeneralServices
 {
     public class DatabaseFacade
     {
-        public void CreateAccount(string username, byte[] passwordHash, string email, byte[] salt)
+        public void CreateAccount(string username, byte[] saltedPasswordHash, string email, byte[] salt)
         {
             if(string.IsNullOrEmpty(username))
             {
                 throw new ArgumentException("username can not be null or empty!");
             }
 
-            if (passwordHash == null)
+            if (saltedPasswordHash == null)
             {
                 throw new ArgumentNullException("passwordHash");
             }
@@ -31,7 +31,7 @@ namespace GeneralService
                 Account account = new Account()
                 {
                     Username = username,
-                    Password = passwordHash,
+                    Password = saltedPasswordHash,
                     Email = email,
                     Salt = salt
                 };
@@ -41,12 +41,12 @@ namespace GeneralService
             }
         }
 
-        public bool Verify(string username, byte[] passwordHash)
+        public bool VerifyUser(string username, byte[] saltedPasswordHash)
         {
             // https://rmanimaran.wordpress.com/2010/06/24/creating-and-using-c-web-service-over-https-%E2%80%93-ssl-2/
             // https://msdn.microsoft.com/en-us/library/vstudio/bfsktky3(v=vs.100).aspx
 
-            if(string.IsNullOrEmpty(username) || passwordHash == null)
+            if(string.IsNullOrEmpty(username) || saltedPasswordHash == null)
             {
                 return false;
             }
@@ -54,7 +54,7 @@ namespace GeneralService
             using (DataModelContainer db = new DataModelContainer())
             {
                 var accounts = from a in db.AccountSet
-                               where a.Username.Equals(username) && a.Password.Equals(passwordHash)
+                               where a.Username.Equals(username) && a.Password.Equals(saltedPasswordHash)
                                select a;
 
                 if(accounts.Count() == 0)
@@ -66,7 +66,7 @@ namespace GeneralService
             return true;
         }
 
-        public string GetSalt(string username)
+        public string GetUserSalt(string username)
         {
             if (string.IsNullOrEmpty(username))
             {

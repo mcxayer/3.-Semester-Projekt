@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SecurityTokenService
+namespace SecurityTokenServices
 {
     public class SecurityTokenManager
     {

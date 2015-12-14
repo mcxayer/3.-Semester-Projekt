@@ -8,9 +8,9 @@ using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 
-namespace SecurityTokenService
+namespace SecurityTokenServices
 {
-    public class Service : IService
+    public class SecurityTokenService : ISecurityTokenService
     {
         public string GenerateToken(string username, string saltedUsername, string saltedPassword)
         {

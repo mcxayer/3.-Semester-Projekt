@@ -1,4 +1,4 @@
-﻿using GameService;
+﻿using GameServices;
 using ShipWarsOnline;
 using ShipWarsOnline.Data;
 using System;
@@ -401,7 +401,7 @@ namespace Battleship.Game
         #endregion
 
         //[CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
-        private class CallbackHandler : GameService.ICallback
+        private class CallbackHandler : GameServices.IGameServiceCallback
         {
             private GameContextFacade facade;
 

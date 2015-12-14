@@ -1,4 +1,4 @@
-﻿using GameService;
+﻿using GameServices;
 using ShipWarsOnline;
 using ShipWarsOnline.Data;
 using System;

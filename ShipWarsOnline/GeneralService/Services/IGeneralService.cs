@@ -1,20 +1,20 @@
 ﻿using System.ServiceModel;
 
-namespace SecurityTokenService
+namespace GeneralServices
 {
     [ServiceContract]
-    public interface IService
+    public interface IGeneralService
     {
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        string GenerateToken(string username, string saltedUsername, string saltedPassword);
+        string Login(string username, string password);
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        void ExpireToken(string tokenID);
+        void Logout(string tokenId);
 
         [OperationContract]
         [FaultContract(typeof(FaultException))]
-        string UseToken(string tokenID);
+        void CreateAccount(string username, string password, string email);
     }
 }
