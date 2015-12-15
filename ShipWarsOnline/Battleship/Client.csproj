@@ -89,6 +89,12 @@
     <Compile Include="GUI\Controls\SeaGridControl.xaml.cs">
       <DependentUpon>SeaGridControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\DialogMessageBox.xaml.cs">
+      <DependentUpon>DialogMessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\DialogTextBox.xaml.cs">
+      <DependentUpon>DialogTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GUIFacade.cs" />
     <Compile Include="GUI\ICellSelectionListener.cs" />
     <Compile Include="GUI\IGUIAccountCreation.cs" />
@@ -131,6 +137,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\Controls\MainMenuControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\DialogMessageBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GUI\DialogTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

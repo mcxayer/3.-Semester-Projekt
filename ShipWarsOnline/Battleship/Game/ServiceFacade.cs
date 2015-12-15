@@ -1,5 +1,7 @@
-﻿using GameServices;
+﻿using Battleship.GUI;
+using GameServices;
 using GeneralServices;
+using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
@@ -13,13 +15,37 @@ namespace Battleship
 
         private string tokenId;
 
-        public ServiceFacade(GameServices.IGameServiceCallback callback)
+        public bool CreateConnection(IGameServiceCallback callback)
         {
+            return CreateConnection(callback,"localhost");
+        }
+
+        public bool CreateConnection(IGameServiceCallback callback, string ipAddress)
+        {
+            if(callback == null)
+            {
+                throw new ArgumentNullException("callback");
+            }
+
+            if(ipAddress == null)
+            {
+                throw new ArgumentNullException("ipAddress");
+            }
+
+            if(ipAddress.Equals(string.Empty))
+            {
+                return false;
+            }
+
             var generalFactory = new ChannelFactory<IGeneralService>("GeneralServiceEndpoint");
+            generalFactory.Endpoint.Address = new EndpointAddress(string.Format("http://{0}:8001/GeneralService", ipAddress));
             generalService = generalFactory.CreateChannel();
 
             var gameFactory = new DuplexChannelFactory<IGameService>(callback, "GameServiceEndpoint");
+            generalFactory.Endpoint.Address = new EndpointAddress(string.Format("net.tcp://{0}:8002/GameService", ipAddress));
             gameService = gameFactory.CreateChannel();
+
+            return true;
         }
 
         #region general services

@@ -35,7 +35,12 @@ namespace Battleship.Game
 
         private GameContextFacade()
         {
-            serviceFacade = new ServiceFacade(new CallbackHandler(this));
+            serviceFacade = new ServiceFacade();
+        }
+
+        public bool CreateConnection(string ipAddress)
+        {
+            return serviceFacade.CreateConnection(new CallbackHandler(this), ipAddress);
         }
 
         #region general services
@@ -48,7 +53,7 @@ namespace Battleship.Game
                 {
                     serviceFacade.Login(username, password);
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to log in!");
                 }
@@ -63,7 +68,7 @@ namespace Battleship.Game
                 {
                     serviceFacade.Logout();
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to log out!");
                 }
@@ -79,7 +84,7 @@ namespace Battleship.Game
                     serviceFacade.CreateAccount(username, password, email);
                     OnPlayerAccountCreated();
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to create account!");
                     OnPlayerAccountFailedCreation();
@@ -100,7 +105,7 @@ namespace Battleship.Game
                     serviceFacade.Login(username, password);
                     serviceFacade.ConnectLobby();
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to login and connect to lobby!");
                     OnPlayerFailedConnecting();
@@ -117,7 +122,7 @@ namespace Battleship.Game
                     serviceFacade.DisconnectLobby();
                     serviceFacade.Logout();
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to logout and disconnect from lobby!");
                 }
@@ -132,7 +137,7 @@ namespace Battleship.Game
                 {
                     serviceFacade.ConnectLobby();
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to connect to lobby!");
                 }
@@ -147,7 +152,7 @@ namespace Battleship.Game
                 {
                     serviceFacade.DisconnectLobby();
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to disconnect to lobby!");
                 }
@@ -163,7 +168,7 @@ namespace Battleship.Game
                     List<string> list = serviceFacade.GetLobby();
                     OnLobbyUpdated(list);
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to get lobby!");
                 }
@@ -178,7 +183,7 @@ namespace Battleship.Game
                 {
                     serviceFacade.Matchmake();
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to matchmake!");
                 }
@@ -193,7 +198,7 @@ namespace Battleship.Game
                 {
                     serviceFacade.CancelMatchmaking();
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to cancel matchmaking!");
                 }
@@ -208,7 +213,7 @@ namespace Battleship.Game
                 {
                     serviceFacade.TakeTurn(x, y);
                 }
-                catch (FaultException)
+                catch
                 {
                     Console.WriteLine("Failed to take turn!");
                 }

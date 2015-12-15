@@ -47,6 +47,19 @@ namespace Battleship.GUI
             GameContextFacade.Instance.HandlePlayerAccountFailedCreation += OnPlayerAccountFailedCreation;
 
             uiDispatcher = Application.Current.Dispatcher;
+
+            DialogTextBox tb = new DialogTextBox();
+            tb.Title = "Server IP address";
+            tb.Information = "Input the server IP address.";
+            tb.ResponseValue = "localhost";
+
+            if (tb.ShowDialog() == false || !GameContextFacade.Instance.CreateConnection(tb.ResponseValue))
+            {
+                DialogMessageBox mb = new DialogMessageBox();
+                mb.Title = "Failed to connect!";
+                mb.Information = "Failed to create connection!";
+                tb.ShowDialog();
+            }
         }
 
         public void Dispose()
