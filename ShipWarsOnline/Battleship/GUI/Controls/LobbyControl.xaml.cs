@@ -39,7 +39,6 @@ namespace Battleship
 
         public void UpdateLobbyList()
         {
-            btnUpdate.IsEnabled = false;
             GUIFacade.Instance.UpdateLobby();
         }
 
@@ -47,11 +46,6 @@ namespace Battleship
         {
             EnableControl(false);
             GUIFacade.Instance.LogoutAndDisconnectLobby();
-        }
-
-        private void OnUpdateButtonClicked(object sender, RoutedEventArgs e)
-        {
-            UpdateLobbyList();
         }
 
         private void OnFindMatchButtonClicked(object sender, RoutedEventArgs e)
@@ -62,7 +56,6 @@ namespace Battleship
         public void OnLobbyUpdated(List<string> lobbyNames)
         {
             LobbyList = lobbyNames;
-            btnUpdate.IsEnabled = true;
         }
 
         public void OnSelected()

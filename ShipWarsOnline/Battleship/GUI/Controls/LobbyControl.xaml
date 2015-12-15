@@ -22,8 +22,15 @@
                     </LinearGradientBrush>
                 </Button.Background>
             </Button>
-            <Button x:Name="btnUpdate" Content="Update" Margin="0" Click="OnUpdateButtonClicked" VerticalAlignment="Center" HorizontalAlignment="Center" Width="50" Height="30"/>
-            <Button x:Name="btnFindMatch" Content="Find Match" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" Width="91" Click="OnFindMatchButtonClicked" Height="30"/>
+            <Button x:Name="btnFindMatch" Content="Find Match" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" Width="91" Click="OnFindMatchButtonClicked" Height="30" Foreground="Black">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFF1F1F1"/>
+                        <GradientStop Color="#FFC9C9C9" Offset="1"/>
+                        <GradientStop Color="White" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
         </Grid>
         <Label x:Name="lblTitle" Content="Lobby" Margin="0" Background="Gainsboro" VerticalAlignment="Top">
             <Label.Effect>
