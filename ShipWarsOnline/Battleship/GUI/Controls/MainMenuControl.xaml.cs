@@ -1,9 +1,7 @@
-﻿using Battleship.GUI;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System;
 
-namespace Battleship
+namespace Client.GUI.Controls
 {
     /// <summary>
     /// Interaction logic for MainMenuPage.xaml

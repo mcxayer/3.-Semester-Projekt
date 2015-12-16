@@ -1,11 +1,11 @@
-﻿using ShipWarsOnline;
-using ShipWarsOnline.Data;
+﻿using Game.ReadOnly;
+using GameData;
 using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Battleship.Game
+namespace Client.GUI
 {
     [ValueConversion(typeof(CellType), typeof(Brush))]
     public class ColorController: IValueConverter

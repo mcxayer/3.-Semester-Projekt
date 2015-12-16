@@ -24,8 +24,6 @@ namespace GeneralServices
                 throw new ArgumentException("email can not be null or empty!");
             }
 
-            // Tjek længden af byte arrays, hvis begrænsning sættes på i databasen.
-
             using (DataModelContainer db = new DataModelContainer())
             {
                 Account account = new Account()
@@ -43,9 +41,6 @@ namespace GeneralServices
 
         public bool VerifyUser(string username, byte[] saltedPasswordHash)
         {
-            // https://rmanimaran.wordpress.com/2010/06/24/creating-and-using-c-web-service-over-https-%E2%80%93-ssl-2/
-            // https://msdn.microsoft.com/en-us/library/vstudio/bfsktky3(v=vs.100).aspx
-
             if(string.IsNullOrEmpty(username) || saltedPasswordHash == null)
             {
                 return false;

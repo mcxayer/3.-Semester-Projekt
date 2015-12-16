@@ -1,8 +1,7 @@
-﻿using Battleship.GUI;
+﻿using Client.GUI.Controls;
 using System.Windows;
-using System;
 
-namespace Battleship
+namespace Client.GUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

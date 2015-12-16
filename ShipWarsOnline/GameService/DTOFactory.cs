@@ -1,8 +1,9 @@
-﻿using ShipWarsOnline.Data;
+﻿using Game.ReadOnly;
+using GameData;
 using System;
 using System.Collections.Generic;
 
-namespace ShipWarsOnline
+namespace GameServices
 {
     public static class DTOFactory
     {

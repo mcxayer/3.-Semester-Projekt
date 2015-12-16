@@ -7,8 +7,8 @@
     <ProjectGuid>{2BCDDC88-00E2-46F6-BE1A-B69A3E0FD98D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GameService</RootNamespace>
-    <AssemblyName>GameService</AssemblyName>
+    <RootNamespace>GameServices</RootNamespace>
+    <AssemblyName>GameServices</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

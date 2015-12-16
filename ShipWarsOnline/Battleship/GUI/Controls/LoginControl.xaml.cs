@@ -1,10 +1,7 @@
-﻿using Battleship.Game;
-using Battleship.GUI;
-using System.ServiceModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Battleship
+namespace Client.GUI.Controls
 {
     /// <summary>
     /// Interaction logic for LoginPage.xaml

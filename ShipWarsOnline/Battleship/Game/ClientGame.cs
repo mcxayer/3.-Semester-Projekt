@@ -1,10 +1,11 @@
 ﻿using GameServices;
-using ShipWarsOnline;
-using ShipWarsOnline.Data;
+using Game;
 using System;
 using System.Collections.Generic;
+using Game.ReadOnly;
+using GameData;
 
-namespace Battleship.Game
+namespace Client.Game
 {
     /// <summary>
     /// Client game mimicking a hosted local game on a server. It only takes turns for one player.

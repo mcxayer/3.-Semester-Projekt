@@ -1,7 +1,7 @@
-﻿using ShipWarsOnline.Data;
+﻿using Game.Data;
 using System;
 
-namespace ShipWarsOnline
+namespace Game
 {
     public class SeaCell
     {

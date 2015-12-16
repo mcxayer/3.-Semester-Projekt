@@ -1,5 +1,4 @@
-﻿using GeneralServices;
-using ShipWarsOnline.Data;
+﻿using GameData;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;

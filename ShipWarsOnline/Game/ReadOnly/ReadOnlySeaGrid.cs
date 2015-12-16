@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ShipWarsOnline
+namespace Game.ReadOnly
 {
     /// <summary>
     /// Read-only wrapper of SeaGrid to be used outside the game context

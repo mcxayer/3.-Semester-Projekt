@@ -1,13 +1,9 @@
-﻿using Battleship.Game;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System;
-using Battleship.GUI;
-using ShipWarsOnline;
-using System.Collections.ObjectModel;
+using Game;
 
-namespace Battleship
+namespace Client.GUI.Controls
 {
     /// <summary>
     /// Interaction logic for GameControl.xaml

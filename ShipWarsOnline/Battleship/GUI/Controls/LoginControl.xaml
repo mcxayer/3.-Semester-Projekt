@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Battleship"
-             xmlns:Game="clr-namespace:Battleship.Game" x:Class="Battleship.LoginControl"
+             x:Class="Client.GUI.Controls.LoginControl"
              mc:Ignorable="d" d:DesignWidth="443.233" d:DesignHeight="401.872">
     <Grid Background="#FF464646">
         <Grid.RowDefinitions>

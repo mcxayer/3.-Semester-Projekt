@@ -1,35 +1,30 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.ServiceModel;
-using System.Text;
-
-namespace SecurityTokenServices
+﻿namespace SecurityTokenServices
 {
     public class DomainFacade
     {
         private static readonly DomainFacade instance = new DomainFacade();
         public static DomainFacade Instance { get { return instance; } }
 
-        private SecurityTokenManager tokenService;
+        private SecurityTokenManager tokenManager;
 
         private DomainFacade()
         {
-            tokenService = new SecurityTokenManager();
+            tokenManager = new SecurityTokenManager();
         }
 
         public string GenerateToken(string username, string saltedUsername, string saltedPassword)
         {
-            return tokenService.GenerateToken(username, saltedUsername, saltedPassword);
+            return tokenManager.GenerateToken(username, saltedUsername, saltedPassword);
         }
 
         public void ExpireToken(string tokenID)
         {
-            tokenService.ExpireToken(tokenID);
+            tokenManager.ExpireToken(tokenID);
         }
 
         public string UseToken(string tokenID)
         {
-            return tokenService.UseToken(tokenID);
+            return tokenManager.UseToken(tokenID);
         }
     }
 }

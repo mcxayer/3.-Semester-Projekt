@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.IdentityModel.Tokens;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Cryptography;
-using System.ServiceModel;
-using System.Text;
+﻿using System.ServiceModel;
 
-// http://www.codeproject.com/KB/WCF/WCFWPFChat.aspx?msg=3513805
-// http://gamedev.stackexchange.com/questions/46575/how-should-multiplayer-games-handle-authentication
 namespace GeneralServices
 {
     public class GeneralService : IGeneralService
     {
-        // http://www.codeproject.com/Articles/704865/Salted-Password-Hashing-Doing-it-Right
-        // http://stackoverflow.com/questions/647172/what-are-the-pros-and-cons-of-using-an-email-address-as-a-user-id
         public string Login(string username, string password)
         {
             try

@@ -1,9 +1,11 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:Battleship"
-        xmlns:view="clr-namespace:Battleship.Game"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Battleship.MainWindow" d:DesignWidth="416.083" d:DesignHeight="376.692" WindowStartupLocation="CenterScreen" Width="500" Height="500">
+        xmlns:local="clr-namespace:Client.GUI.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d" x:Class="Client.GUI.MainWindow" 
+        d:DesignWidth="416.083" d:DesignHeight="376.692" WindowStartupLocation="CenterScreen" Width="500" Height="500">
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:MainMenuControl}">
             <local:MainMenuControl/>

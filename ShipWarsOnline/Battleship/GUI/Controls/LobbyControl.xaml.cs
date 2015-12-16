@@ -1,12 +1,9 @@
-﻿using Battleship.Game;
-using Battleship.GUI;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Battleship
+namespace Client.GUI.Controls
 {
     /// <summary>
     /// Interaction logic for LobbyWindow.xaml

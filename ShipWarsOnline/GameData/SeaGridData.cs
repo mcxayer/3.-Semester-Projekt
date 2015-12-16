@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ShipWarsOnline.Data
+namespace GameData
 {
     [DataContract]
     public class SeaGridData

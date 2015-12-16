@@ -1,18 +1,12 @@
-﻿using Battleship.GUI;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System;
-using ShipWarsOnline;
-using System.Windows.Data;
 using System.Windows;
-using ShipWarsOnline.Data;
+using Game.ReadOnly;
+using GameData;
 
-namespace Battleship.Game
+namespace Client.GUI.Controls
 {
     /// <summary>
     /// Interaction logic for SeaGridControl.xaml

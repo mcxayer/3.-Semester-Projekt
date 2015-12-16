@@ -1,13 +1,12 @@
 ﻿using GameServices;
-using ShipWarsOnline;
-using ShipWarsOnline.Data;
+using Game;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
-using System.Windows.Threading;
+using Game.ReadOnly;
 
-namespace Battleship.Game
+namespace Client.Game
 {
     public class GameContextFacade
     {

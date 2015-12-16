@@ -1,9 +1,10 @@
-﻿using ShipWarsOnline.Data;
+﻿using GameData;
+using Game.ReadOnly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ShipWarsOnline
+namespace Game
 {
     public class SeaGrid
     {

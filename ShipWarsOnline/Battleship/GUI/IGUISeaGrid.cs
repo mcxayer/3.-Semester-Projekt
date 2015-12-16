@@ -1,13 +1,6 @@
-﻿using Battleship.Game;
-using ShipWarsOnline;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Game.ReadOnly;
 
-namespace Battleship
+namespace Client.GUI
 {
     public interface IGUISeaGrid
     {
