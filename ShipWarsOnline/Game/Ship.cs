@@ -1,8 +1,8 @@
-﻿using ShipWarsOnline.Data;
+﻿using GameData;
 using System;
 using System.Collections.Generic;
 
-namespace ShipWarsOnline
+namespace Game
 {
     public class Ship
     {

@@ -1,6 +1,6 @@
-﻿using ShipWarsOnline.Data;
+﻿using GameData;
 
-namespace ShipWarsOnline
+namespace Game.ReadOnly
 {
     /// <summary>
     /// Read-only wrapper of Ship to be used outside the game context

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShipWarsOnline
+namespace Game.ReadOnly
 {
     /// <summary>
     /// Read-only wrapper of a generic 2d array to be used outside the game context

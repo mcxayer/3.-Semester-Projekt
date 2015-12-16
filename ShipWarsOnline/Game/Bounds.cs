@@ -1,4 +1,4 @@
-﻿namespace ShipWarsOnline
+﻿namespace Game
 {
     public class Bounds
     {

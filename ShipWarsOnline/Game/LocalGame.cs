@@ -1,8 +1,9 @@
-﻿using ShipWarsOnline.Data;
+﻿using Game.ReadOnly;
+using GameData;
 using System;
 using System.Collections.Generic;
 
-namespace ShipWarsOnline
+namespace Game
 {
     /// <summary>
     /// Game hosted locally taking turns for both players.

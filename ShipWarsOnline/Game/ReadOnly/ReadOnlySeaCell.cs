@@ -1,6 +1,6 @@
-﻿using ShipWarsOnline.Data;
+﻿using GameData;
 
-namespace ShipWarsOnline
+namespace Game.ReadOnly
 {
     /// <summary>
     /// Read-only wrapper of SeaCell to be used outside the game context

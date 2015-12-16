@@ -1,9 +1,10 @@
-﻿using ShipWarsOnline.Data;
+﻿using GameData;
+using Game.ReadOnly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ShipWarsOnline
+namespace Game
 {
     public class SeaGrid
     {
@@ -98,7 +99,7 @@ namespace ShipWarsOnline
                 }
             }
 
-            placement = new ShipPlacement(startY, startY, horizontal);
+            placement = new ShipPlacement(startX, startY, horizontal);
             return true;
         }
 
@@ -113,7 +114,7 @@ namespace ShipWarsOnline
                 return false;
             }
 
-            placement = new ShipPlacement(startY, startY, horizontal);
+            placement = new ShipPlacement(startX, startY, horizontal);
             return true;
         }
 
