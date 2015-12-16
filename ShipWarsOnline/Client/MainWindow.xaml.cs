@@ -1,4 +1,5 @@
 ﻿using Client.GUI.Controls;
+using System;
 using System.Windows;
 
 namespace Client.GUI
@@ -19,7 +20,18 @@ namespace Client.GUI
         {
             InitializeComponent();
 
-            GUIFacade.Instance.WindowContainer = this;
+            try
+            {
+                GUIFacade.Instance.WindowContainer = this;
+            }
+            catch(Exception ex)
+            {
+                DialogMessageBox mb = new DialogMessageBox();
+                mb.Title = "Error!";
+                mb.Information = ex.Message;
+                mb.ShowDialog();
+                Close();
+            }
         }
 
         public void SetDataContext(FrameworkElement element)
@@ -29,7 +41,6 @@ namespace Client.GUI
 
         public IGUIControl GetMainMenuControl()
         {
-            // Lazy instantiation
             if (mainMenuControl == null)
             {
                 mainMenuControl = new MainMenuControl();
@@ -40,7 +51,6 @@ namespace Client.GUI
 
         public IGUILogin GetLoginControl()
         {
-            // Lazy instantiation
             if (loginControl == null)
             {
                 loginControl = new LoginControl();
@@ -51,7 +61,6 @@ namespace Client.GUI
 
         public IGUIAccountCreation GetAccountCreationControl()
         {
-            // Lazy instantiation
             if (accountCreationControl == null)
             {
                 accountCreationControl = new AccountCreationControl();
@@ -62,7 +71,6 @@ namespace Client.GUI
 
         public IGUILobby GetLobbyControl()
         {
-            // Lazy instantiation
             if (lobbyControl == null)
             {
                 lobbyControl = new LobbyControl();
@@ -73,7 +81,6 @@ namespace Client.GUI
 
         public IGUIMatchmaking GetMatchmakingControl()
         {
-            // Lazy instantiation
             if (matchmakingControl == null)
             {
                 matchmakingControl = new MatchmakingControl();
@@ -84,7 +91,6 @@ namespace Client.GUI
 
         public IGUIGame GetGameControl()
         {
-            // Lazy instantiation
             if (gameControl == null)
             {
                 gameControl = new GameControl();

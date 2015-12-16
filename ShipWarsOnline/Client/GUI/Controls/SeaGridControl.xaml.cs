@@ -56,12 +56,6 @@ namespace Client.GUI.Controls
                 gridControl.ColumnDefinitions.Add(columns[i]);
             }
 
-            DataTemplate dataTemplate = FindResource("CellTemplate") as DataTemplate;
-            if(dataTemplate == null)
-            {
-                throw new Exception("No cell template found!");
-            }
-
             GridCellControls = new SeaCellControl[rows.Length,columns.Length];
             for (int i = 0; i < GridCells.GetLength(0); i++)
             {

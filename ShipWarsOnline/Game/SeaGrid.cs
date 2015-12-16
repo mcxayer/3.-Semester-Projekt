@@ -99,7 +99,7 @@ namespace Game
                 }
             }
 
-            placement = new ShipPlacement(startY, startY, horizontal);
+            placement = new ShipPlacement(startX, startY, horizontal);
             return true;
         }
 
@@ -114,7 +114,7 @@ namespace Game
                 return false;
             }
 
-            placement = new ShipPlacement(startY, startY, horizontal);
+            placement = new ShipPlacement(startX, startY, horizontal);
             return true;
         }
 

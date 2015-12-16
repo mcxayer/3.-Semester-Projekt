@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralServices", "GeneralService\GeneralServices.csproj", "{C818B8B8-2C44-4C6B-941C-B697FE8FFF31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralServices", "GeneralServices\GeneralServices.csproj", "{C818B8B8-2C44-4C6B-941C-B697FE8FFF31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{4C87BFDF-5BAF-45AB-8802-CADBFBDBF184}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Types", "Types\Types.csproj", "{3104F187-4E5B-444B-92EE-8EA4A17ECE82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServices", "GameService\GameServices.csproj", "{2BCDDC88-00E2-46F6-BE1A-B69A3E0FD98D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServices", "GameServices\GameServices.csproj", "{2BCDDC88-00E2-46F6-BE1A-B69A3E0FD98D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Battleship\Client.csproj", "{5C2E408A-7840-4547-88F5-6FCC6A7BFC40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{5C2E408A-7840-4547-88F5-6FCC6A7BFC40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{1F97C08D-E9A5-4281-90EF-1BE2ACFEC9E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameData", "GameData\GameData.csproj", "{F1EA39D0-B7AA-4449-850E-710654B6EF13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityTokenServices", "SecurityTokenService\SecurityTokenServices.csproj", "{A0AEEDC7-1CEC-4CE8-A758-D9D8854F597E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityTokenServices", "SecurityTokenServices\SecurityTokenServices.csproj", "{A0AEEDC7-1CEC-4CE8-A758-D9D8854F597E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

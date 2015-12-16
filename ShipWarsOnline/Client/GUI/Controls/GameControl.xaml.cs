@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System;
-using Game;
+using Game.ReadOnly;
 
 namespace Client.GUI.Controls
 {

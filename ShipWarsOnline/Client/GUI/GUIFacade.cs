@@ -52,10 +52,7 @@ namespace Client.GUI
 
             if (tb.ShowDialog() == false || !GameContextFacade.Instance.CreateConnection(tb.ResponseValue))
             {
-                DialogMessageBox mb = new DialogMessageBox();
-                mb.Title = "Failed to connect!";
-                mb.Information = "Failed to create connection!";
-                tb.ShowDialog();
+                throw new Exception("Failed to create connection!");
             }
         }
 

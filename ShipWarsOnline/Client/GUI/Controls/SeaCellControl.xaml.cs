@@ -1,4 +1,4 @@
-﻿using Game;
+﻿using Game.ReadOnly;
 using System.Windows.Controls;
 
 namespace Client.GUI.Controls

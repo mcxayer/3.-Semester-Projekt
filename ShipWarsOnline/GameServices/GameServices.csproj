@@ -73,11 +73,11 @@
       <Project>{1f97c08d-e9a5-4281-90ef-1be2acfec9e9}</Project>
       <Name>Game</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GeneralService\GeneralServices.csproj">
+    <ProjectReference Include="..\GeneralServices\GeneralServices.csproj">
       <Project>{c818b8b8-2c44-4c6b-941c-b697fe8fff31}</Project>
       <Name>GeneralServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SecurityTokenService\SecurityTokenServices.csproj">
+    <ProjectReference Include="..\SecurityTokenServices\SecurityTokenServices.csproj">
       <Project>{a0aeedc7-1cec-4ce8-a758-d9d8854f597e}</Project>
       <Name>SecurityTokenServices</Name>
     </ProjectReference>

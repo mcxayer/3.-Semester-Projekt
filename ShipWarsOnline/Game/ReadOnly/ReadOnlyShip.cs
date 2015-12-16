@@ -1,4 +1,4 @@
-﻿using Game.Data;
+﻿using GameData;
 
 namespace Game.ReadOnly
 {

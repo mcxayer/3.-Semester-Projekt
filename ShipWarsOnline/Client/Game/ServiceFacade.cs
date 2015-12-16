@@ -2,6 +2,7 @@
 using GeneralServices;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.ServiceModel;
 
 namespace Client.Game
@@ -28,6 +29,12 @@ namespace Client.Game
             if(ipAddress == null)
             {
                 throw new ArgumentNullException("ipAddress");
+            }
+
+            IPAddress parsedIPAddress;
+            if(!ipAddress.Equals("localhost") && !IPAddress.TryParse(ipAddress, out parsedIPAddress))
+            {
+                throw new FormatException("The provided IP address is not valid!");
             }
 
             if(ipAddress.Equals(string.Empty))

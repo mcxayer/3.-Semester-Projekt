@@ -61,15 +61,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameService\GameServices.csproj">
+    <ProjectReference Include="..\GameServices\GameServices.csproj">
       <Project>{2bcddc88-00e2-46f6-be1a-b69a3e0fd98d}</Project>
       <Name>GameServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GeneralService\GeneralServices.csproj">
+    <ProjectReference Include="..\GeneralServices\GeneralServices.csproj">
       <Project>{c818b8b8-2c44-4c6b-941c-b697fe8fff31}</Project>
       <Name>GeneralServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SecurityTokenService\SecurityTokenServices.csproj">
+    <ProjectReference Include="..\SecurityTokenServices\SecurityTokenServices.csproj">
       <Project>{a0aeedc7-1cec-4ce8-a758-d9d8854f597e}</Project>
       <Name>SecurityTokenServices</Name>
     </ProjectReference>

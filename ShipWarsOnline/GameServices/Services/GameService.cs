@@ -47,15 +47,16 @@ namespace GameServices
 
         public void Matchmake()
         {
-            try
-            {
-                DomainFacade.Instance.Matchmake();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw new FaultException("Could not start matchmaking!");
-            }
+            DomainFacade.Instance.Matchmake();
+            //try
+            //{
+            //    DomainFacade.Instance.Matchmake();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //    throw new FaultException("Could not start matchmaking!");
+            //}
         }
 
         public void CancelMatchmaking()
