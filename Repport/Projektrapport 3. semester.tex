@@ -1,6 +1,9 @@
-\documentclass[10pt, a4paper, oneside]{report}
+\documentclass[10pt, a4paper, oneside]{scrbook}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+\usepackage{graphicx}
+
+\graphicspath{ {./img/} }
 
 \title{Shipwars Online}
 \author{Group 4}
@@ -9,8 +12,8 @@
 % Redefine the plain page style
 \fancypagestyle{plain}{%
   \fancyhf{}%
-  \fancyfoot[L]{University of Southern Denmark\\3. semester, Software Engineering}
-  \fancyfoot[R]{Project group 4\\11/9 - 2015}
+  \fancyhead[L]{University of Southern Denmark\\3. semester, Software Engineering}
+  \fancyhead[R]{Project group 4\\11/9 - 2015}
   \fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}%
   \renewcommand{\headrulewidth}{0.2pt}% Line at the header visible
   \renewcommand{\footrulewidth}{0.2pt}% Line at the footer visible
@@ -26,21 +29,21 @@
 
 \input{tex/abstract}
 
-%\input{tex/læsevejledning}
+\input{tex/preface}
 
 %\input{tex/redaktionelt}
 
 \mainmatter
 
-%\input{tex/indledning}
+%\input{tex/project_introduction}
 
 %\input{tex/baggrund}
 
-%\input{tex/problemanalyse}
+\input{tex/requirements}
 
 \include{tex/tools}
 
-%\input{tex/metoder}
+\input{tex/methods}
 
 %\input{tex/arkitektur}
 
@@ -55,6 +58,8 @@
 %\input{tex/diskussion}
 
 %\input{tex/konklusion}
+
+\backmatter
 
 %\input{tex/appendiks}
 
