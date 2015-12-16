@@ -12,11 +12,10 @@ namespace ShipWarsOnline
         public int Health { get; private set; }
         public ShipType Type { get; private set; }
 
-        public int PosX { get; set; }
-        public int PosY { get; set; }
-        public bool Horizontal { get; set; }
+        public int PosX { get; private set; }
+        public int PosY { get; private set; }
+        public bool Horizontal { get; private set; }
 
-        // Maybe ship factory and immutable object
         private static readonly Dictionary<ShipType, int> shipLengths = new Dictionary<ShipType, int>()
         {
             {ShipType.Carrier, 5},
@@ -26,10 +25,13 @@ namespace ShipWarsOnline
             {ShipType.PatrolBoat, 2}
         };
 
-        public Ship(ShipType type)
+        public Ship(ShipType type, int posX, int posY, bool horizontal)
         {
             Type = type;
-            Health = shipLengths[type];
+            Health = GetShipLength(type);
+            PosX = posX;
+            PosY = posY;
+            Horizontal = horizontal;
         }
 
         public void Damage()
@@ -42,9 +44,17 @@ namespace ShipWarsOnline
             Health--;
         }
 
-        public void Destroy()
+        public static int GetShipLength(ShipType type)
         {
-            Health = 0;
+            switch(type)
+            {
+                case ShipType.Carrier: return 5;
+                case ShipType.Battleship: return 4;
+                case ShipType.Destroyer: return 3;
+                case ShipType.Submarine: return 3;
+                case ShipType.PatrolBoat: return 2;
+                default: throw new Exception("Failed to match type with length!");
+            }
         }
     }
 }

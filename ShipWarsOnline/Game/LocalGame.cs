@@ -95,7 +95,7 @@ namespace ShipWarsOnline
                 throw new ArgumentOutOfRangeException("playerIndex");
             }
 
-            return grids[playerIndex].DestroyedShip;
+            return grids[playerIndex].DestroyedShipBounds;
         }
 
         private bool IsPlayerValid(int playerIndex)

@@ -28,12 +28,12 @@
             <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Center" Margin="168,123,92,69" VerticalAlignment="Center" Click="OnLoginButtonClicked" Width="40"/>
             <Button x:Name="btnCreateUser" Content="Create User" HorizontalAlignment="Center" Margin="92,123,138,69" VerticalAlignment="Center" Click="OnCreateUserButtonClicked" Width="70"/>
             <Label x:Name="lblInfo" Content="" HorizontalAlignment="Center" Margin="10,201,10,89" VerticalAlignment="Center" Width="423" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <Label x:Name="label" Content="ShipWarsOnline" Margin="0" FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="#FF2BCF1B" Background="#FFAA3434" HorizontalContentAlignment="Center" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.IsSharedSizeScope="True" VerticalAlignment="Top" HorizontalAlignment="Center" Width="175">
+            <Label x:Name="label" Content="Ship Wars Online" Margin="132.221,32.907,135.779,0" FontWeight="Bold" FontFamily="Consolas" FontSize="14.667" RenderTransformOrigin="0.5,0.5" Foreground="White" Background="#FFAA3434" HorizontalContentAlignment="Center" UseLayoutRounding="False" VerticalContentAlignment="Center" Grid.IsSharedSizeScope="True" VerticalAlignment="Top" HorizontalAlignment="Center" Width="175">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
                         <SkewTransform AngleX="0.542"/>
-                        <RotateTransform Angle="-9.726"/>
+                        <RotateTransform/>
                         <TranslateTransform X="0.166"/>
                     </TransformGroup>
                 </Label.RenderTransform>

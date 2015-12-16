@@ -19,7 +19,7 @@ namespace ShipWarsOnline
         private List<ReadOnlyShip> readOnlyShips;
         public IReadOnlyList<ReadOnlyShip> ReadOnlyShips { get; private set; }
 
-        public Bounds DestroyedShip { get; private set; }
+        public Bounds DestroyedShipBounds { get; private set; }
 
         private Random rnd;
 
@@ -53,24 +53,11 @@ namespace ShipWarsOnline
             ships = new List<Ship>();
             readOnlyShips = new List<ReadOnlyShip>();
             ReadOnlyShips = readOnlyShips.AsReadOnly();
-
-            Reset();
         }
 
         #region private methods
 
-        private void PlaceShips()
-        {
-            for (int i = 0; i < ships.Count; ++i)
-            {
-                if (!TryPlaceShip(ships[i]))
-                {
-                    throw new Exception(string.Format("Unable to place ship {0} with length {1}!", i, ships[i].Length));
-                }
-            }
-        }
-
-        private bool TryPlaceShip(Ship ship)
+        private bool CanPlaceShip(int shipLength, out ShipPlacement placement)
         {
             bool horizontal = false;
             bool validPlacement = false;
@@ -80,11 +67,11 @@ namespace ShipWarsOnline
             {
                 horizontal = rnd.Next(2) == 0;
 
-                startX = rnd.Next(horizontal ? Size - ship.Length : Size);
-                startY = rnd.Next(horizontal ? Size : Size - ship.Length);
+                startX = rnd.Next(horizontal ? Size - shipLength : Size);
+                startY = rnd.Next(horizontal ? Size : Size - shipLength);
 
-                endX = horizontal ? startX + (ship.Length - 1) : startX;
-                endY = horizontal ? startY : startY - (ship.Length - 1);
+                endX = horizontal ? startX + (shipLength - 1) : startX;
+                endY = horizontal ? startY : startY - (shipLength - 1);
 
                 for (int j = 0; j < Size - endX; j++)
                 {
@@ -106,35 +93,33 @@ namespace ShipWarsOnline
 
                 if (i == MaxLoopCount - 1)
                 {
+                    placement = null;
                     return false;
                 }
             }
 
-            PlaceShip(ship, startX, startY, horizontal);
-
+            placement = new ShipPlacement(startY, startY, horizontal);
             return true;
         }
 
-        private bool TryPlaceShip(Ship ship, int startX, int startY, bool horizontal)
+        private bool CanPlaceShip(int shipLength, int startX, int startY, bool horizontal, out ShipPlacement placement)
         {
-            int endX = horizontal ? startX + (ship.Length - 1) : startX;
-            int endY = horizontal ? startY : startY - (ship.Length - 1);
+            int endX = horizontal ? startX + (shipLength - 1) : startX;
+            int endY = horizontal ? startY : startY - (shipLength - 1);
 
             if (!IsPlacementValid(startX, startY, endX, endY))
             {
+                placement = null;
                 return false;
             }
 
-            PlaceShip(ship, startX, startY, horizontal);
-
+            placement = new ShipPlacement(startY, startY, horizontal);
             return true;
         }
 
-        private void PlaceShip(Ship ship, int startX, int startY, bool horizontal)
+        private void PlaceShip(ShipType type, ShipPlacement placement)
         {
-            ship.PosX = startX;
-            ship.PosY = startY;
-            ship.Horizontal = horizontal;
+            Ship ship = new Ship(type, placement.StartX, placement.StartY, placement.Horizontal);
 
             int shipIndex = ships.Count;
             ships.Add(ship);
@@ -142,9 +127,9 @@ namespace ShipWarsOnline
 
             for (int j = 0; j < ship.Length; j++)
             {
-                SeaCell square = horizontal
-                    ? GetCellInternal(startX + j, startY)
-                    : GetCellInternal(startX, startY - j);
+                SeaCell square = ship.Horizontal
+                    ? GetCellInternal(ship.PosX + j, ship.PosY)
+                    : GetCellInternal(ship.PosX, ship.PosY - j);
 
                 square.Type = CellType.Undamaged;
                 square.ShipIndex = shipIndex;
@@ -241,7 +226,7 @@ namespace ShipWarsOnline
 
             if(minX != maxX || minY != maxY)
             {
-                DestroyedShip = new Bounds(minX, minY, maxX, maxY);
+                DestroyedShipBounds = new Bounds(minX, minY, maxX, maxY);
             }
         }
 
@@ -266,21 +251,27 @@ namespace ShipWarsOnline
 
         public void AddShip(ShipType type)
         {
-            Ship ship = new Ship(type);
-
-            if (!TryPlaceShip(ship))
+            ShipPlacement placement;
+            if (CanPlaceShip(Ship.GetShipLength(type), out placement))
             {
-                throw new Exception(string.Format("Unable to place ship {0} with length {1}!", ships.Count, ship.Length));
+                PlaceShip(type, placement);
+            }
+            else
+            {
+                throw new Exception(string.Format("Unable to place ship {0} with length {1}!", ships.Count, Ship.GetShipLength(type)));
             }
         }
 
         public void AddShip(ShipType type, int x, int y, bool horizontal)
         {
-            Ship ship = new Ship(type);
-
-            if (!TryPlaceShip(new Ship(type), x, y, horizontal))
+            ShipPlacement placement;
+            if (CanPlaceShip(Ship.GetShipLength(type), x, y, horizontal, out placement))
             {
-                throw new Exception(string.Format("Unable to place ship {0} with length {1}!", ships.Count, ship.Length));
+                PlaceShip(type, placement);
+            }
+            else
+            {
+                throw new Exception(string.Format("Unable to place ship {0} with length {1}!", ships.Count, Ship.GetShipLength(type)));
             }
         }
 
@@ -290,24 +281,9 @@ namespace ShipWarsOnline
             cell.Type = type;
         }
 
-        public void Reset()
-        {
-            for (int i = 0; i < Size; ++i)
-            {
-                for (int j = 0; j < Size; ++j)
-                {
-                    SeaCell square = GetCellInternal(i, j);
-                    square.Type = CellType.Water;
-                    square.ShipIndex = -1;
-                }
-            }
-
-            PlaceShips();
-        }
-
         public void FireAt(int x, int y)
         {
-            DestroyedShip = null;
+            DestroyedShipBounds = null;
 
             SeaCell square = GetCellInternal(x, y);
 
@@ -347,5 +323,19 @@ namespace ShipWarsOnline
         }
 
         #endregion
+
+        private class ShipPlacement
+        {
+            public int StartX { get; private set; }
+            public int StartY { get; private set; }
+            public bool Horizontal { get; private set; }
+
+            public ShipPlacement(int startX, int startY, bool horizontal)
+            {
+                StartX = startX;
+                StartY = startY;
+                Horizontal = horizontal;
+            }
+        }
     }
 }

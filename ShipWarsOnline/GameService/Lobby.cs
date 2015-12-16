@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecurityTokenServices;
+using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 
@@ -10,7 +11,7 @@ namespace GameServices
         private LinkedList<IContextChannel> matchmakingQueue;
         private Dictionary<IContextChannel, ServerGame> activeGames;
 
-        private SecurityTokenServices.ISecurityTokenService tokenService;
+        private ISecurityTokenService tokenService;
 
         public Lobby()
         {
@@ -18,7 +19,7 @@ namespace GameServices
             matchmakingQueue = new LinkedList<IContextChannel>();
             activeGames = new Dictionary<IContextChannel, ServerGame>();
 
-            var tokenFactory = new ChannelFactory<SecurityTokenServices.ISecurityTokenService>("TokenServiceEndpoint");
+            var tokenFactory = new ChannelFactory<ISecurityTokenService>("TokenServiceEndpoint");
             tokenService = tokenFactory.CreateChannel();
         }
 
@@ -52,10 +53,10 @@ namespace GameServices
             ForceDisconnect(OperationContext.Current.Channel);
         }
 
-        private void ForceDisconnect(IContextChannel channel)
+        private void ForceDisconnect(IContextChannel playerChannel)
         {
             Session playerSession;
-            if (!activeClients.TryGetValue(channel, out playerSession))
+            if (!activeClients.TryGetValue(playerChannel, out playerSession))
             {
                 throw new Exception("Player not connected!");
             }
@@ -63,12 +64,12 @@ namespace GameServices
             OnPlayerDisconnected(playerSession);
             playerSession.Channel.Closed -= OnChannelClosed;
 
-            if (playerSession.state == SessionState.Matching)
+            if (playerSession.State == SessionState.Matching)
             {
-                ForceCancelMatchmaking(channel);
+                ForceCancelMatchmaking(playerChannel);
             }
 
-            activeClients.Remove(channel);
+            activeClients.Remove(playerChannel);
         }
 
         public List<string> GetLobbyClients()
@@ -77,7 +78,7 @@ namespace GameServices
 
             foreach (Session session in activeClients.Values)
             {
-                if (session.state == SessionState.InLobby)
+                if (session.State == SessionState.InLobby)
                 {
                     lobby.Add(session.Username);
                 }
@@ -86,9 +87,9 @@ namespace GameServices
             return lobby;
         }
 
-        public bool HasActiveClient(IContextChannel channel)
+        private bool HasActiveClient(IContextChannel playerChannel)
         {
-            return activeClients.ContainsKey(OperationContext.Current.Channel);
+            return activeClients.ContainsKey(playerChannel);
         }
 
         public void Matchmake()
@@ -105,12 +106,12 @@ namespace GameServices
                 return;
             }
 
-            if (playerSession.state != SessionState.InLobby)
+            if (playerSession.State != SessionState.InLobby)
             {
                 return;
             }
 
-            playerSession.state = SessionState.Matching;
+            playerSession.State = SessionState.Matching;
 
             if (matchmakingQueue.Count > 0)
             {
@@ -146,27 +147,27 @@ namespace GameServices
             ForceCancelMatchmaking(OperationContext.Current.Channel);
         }
 
-        private void ForceCancelMatchmaking(IContextChannel channel)
+        private void ForceCancelMatchmaking(IContextChannel playerChannel)
         {
-            if (channel == null)
+            if (playerChannel == null)
             {
                 throw new NullReferenceException("Player does not exist!");
             }
 
             Session playerSession;
-            if (!activeClients.TryGetValue(channel, out playerSession))
+            if (!activeClients.TryGetValue(playerChannel, out playerSession))
             {
                 return;
             }
 
-            if (playerSession.state != SessionState.Matching)
+            if (playerSession.State != SessionState.Matching)
             {
                 return;
             }
 
-            playerSession.state = SessionState.InLobby;
+            playerSession.State = SessionState.InLobby;
 
-            matchmakingQueue.Remove(channel);
+            matchmakingQueue.Remove(playerChannel);
             OnPlayerCancelledMatchmaking(playerSession);
         }
 
@@ -177,8 +178,8 @@ namespace GameServices
                 throw new NullReferenceException("A player does not exist!");
             }
 
-            if (player1Session.state != SessionState.Matching
-                || player2Session.state != SessionState.Matching)
+            if (player1Session.State != SessionState.Matching
+                || player2Session.State != SessionState.Matching)
             {
                 throw new Exception("A player is not in matchmaking!");
             }
@@ -196,8 +197,8 @@ namespace GameServices
             activeGames.Add(player1Session.Channel, game);
             activeGames.Add(player2Session.Channel, game);
 
-            player1Session.state = SessionState.InGame;
-            player2Session.state = SessionState.InGame;
+            player1Session.State = SessionState.InGame;
+            player2Session.State = SessionState.InGame;
 
             GameInitStateDTO initStatePlayer1 = game.GetInitGameState(player1Session.Channel);
             initStatePlayer1.PlayerName = player1Session.Username;
@@ -236,7 +237,7 @@ namespace GameServices
                 throw new ArgumentNullException("playerSession");
             }
 
-            if (playerSession.state != SessionState.InGame)
+            if (playerSession.State != SessionState.InGame)
             {
                 throw new Exception("Player is not in game!");
             }
@@ -256,7 +257,7 @@ namespace GameServices
                 throw new ArgumentNullException("playerSession");
             }
 
-            if (playerSession.state != SessionState.InLobby)
+            if (playerSession.State != SessionState.InLobby)
             {
                 throw new Exception("Player is not in lobby!");
             }
@@ -362,7 +363,7 @@ namespace GameServices
         {
             foreach (Session session in activeClients.Values)
             {
-                if (session.state != SessionState.InLobby
+                if (session.State != SessionState.InLobby
                     || session.Channel.State != CommunicationState.Opened)
                 {
                     continue;
@@ -387,7 +388,7 @@ namespace GameServices
                     throw new ArgumentNullException("playerSession");
                 }
 
-                if (playerSession.state != SessionState.InGame)
+                if (playerSession.State != SessionState.InGame)
                 {
                     throw new Exception("A player is not in game!");
                 }
@@ -408,15 +409,15 @@ namespace GameServices
                 if(game.IsGameOver())
                 {
                     playerSession.Callback.OnPlayerWon(game.GetWinner());
-                    playerSession.state = SessionState.PostGame;
+                    playerSession.State = SessionState.PostGame;
                 }
             }
         }
 
-        private Session GetSession(IContextChannel channel)
+        private Session GetSession(IContextChannel playerChannel)
         {
             Session session;
-            if (activeClients.TryGetValue(channel, out session))
+            if (activeClients.TryGetValue(playerChannel, out session))
             {
                 return session;
             }
@@ -432,7 +433,7 @@ namespace GameServices
             public IGameServiceCallback Callback { get; private set; }
             public string Username { get; private set; }
 
-            public SessionState state { get; set; }
+            public SessionState State { get; set; }
 
             public Session(IContextChannel channel, IGameServiceCallback callback, string username)
             {

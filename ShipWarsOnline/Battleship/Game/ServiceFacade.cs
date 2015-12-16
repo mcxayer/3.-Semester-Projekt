@@ -1,10 +1,8 @@
-﻿using Battleship.GUI;
-using GameServices;
+﻿using GameServices;
 using GeneralServices;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using System.Threading;
 
 namespace Battleship
 {
@@ -13,7 +11,7 @@ namespace Battleship
         private IGeneralService generalService;
         private IGameService gameService;
 
-        private string tokenId;
+        private string tokenID;
 
         public bool CreateConnection(IGameServiceCallback callback)
         {
@@ -51,12 +49,12 @@ namespace Battleship
         #region general services
         public void Login(string username, string password)
         {
-            tokenId = generalService.Login(username, password);
+            tokenID = generalService.Login(username, password);
         }
 
         public void Logout()
         {
-            generalService.Logout(tokenId);
+            generalService.Logout(tokenID);
         }
 
         public void CreateAccount(string username, string password, string email)
@@ -75,7 +73,7 @@ namespace Battleship
 
         public void ConnectLobby()
         {
-            gameService.ConnectLobby(tokenId);
+            gameService.ConnectLobby(tokenID);
         }
 
         public void DisconnectLobby()
