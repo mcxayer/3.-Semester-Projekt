@@ -1,19 +1,36 @@
-\documentclass[10pt, a4paper]{report}
+\documentclass[10pt, a4paper, oneside]{report}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
 
 \title{Shipwars Online}
 \author{Group 4}
 \date{December 2015, 3. Semester}
+
+% Redefine the plain page style
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[L]{University of Southern Denmark\\3. semester, Software Engineering}
+  \fancyfoot[R]{Project group 4\\11/9 - 2015}
+  \fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}%
+  \renewcommand{\headrulewidth}{0.2pt}% Line at the header visible
+  \renewcommand{\footrulewidth}{0.2pt}% Line at the footer visible
+}
+
 \begin{document}
+
 \maketitle
+
 \frontmatter
 \tableofcontents
 \listoffigures
 
-\mainmatter
+\input{tex/abstract}
 
 %\input{tex/læsevejledning}
 
 %\input{tex/redaktionelt}
+
+\mainmatter
 
 %\input{tex/indledning}
 
@@ -21,7 +38,7 @@
 
 %\input{tex/problemanalyse}
 
-%\input{tex/tools}
+\include{tex/tools}
 
 %\input{tex/metoder}
 
@@ -38,8 +55,6 @@
 %\input{tex/diskussion}
 
 %\input{tex/konklusion}
-
-\input{tex/abstract}
 
 %\input{tex/appendiks}
 
