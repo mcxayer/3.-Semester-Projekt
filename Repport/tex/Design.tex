@@ -25,7 +25,7 @@ classes when used, by providing a collection of methods for common tasks,
 The way this design pattern was used, it closely aligns to the Controller pattern in GRASP.
 \\
 \\
-\textbs{Server}
+\textbf{Server}
 \\
 The server makes use of the DomainFacade in GeneralServices, whenever the
 client needs to access it. It only includes the necessary methods such as
@@ -35,13 +35,13 @@ login, create account etc. Whereas a lot of the data is handled elsewhere,
   but will instead go through this DomainFacade.
 \\
 \\
-\textbs{Database}
+\textbf{Database}
 \\
 The database uses DatabaseFacade in GeneralServices, and includes simple
 methods that holds the database code.
 \\
 \\
-\textbs{Game Mechanics}
+\textbf{Game Mechanics}
 \\
 The lobby uses DomainFacade in GameServices, and includes only the methods
 the client would need to navigate the game once logged in, such as connect
@@ -49,7 +49,7 @@ and disconnect to the lobby, start matchmaking and take turn placing
  coordinates. The code that happens in between and after, is handled elsewhere.
 \\
 \\
-\textbs{GUI}
+\textbf{GUI}
 \\
 The GUI uses GUIFacade in the Client, which holds all the methods to
 display events on the screen, such as placing a coordinate or changing the page.
@@ -59,8 +59,6 @@ This pattern has been used on most of the facades to ensure that all access
  in the system uses the same instances. An exception is the DatabaseFacade,
   since the access happens through the DomainFacade, so only a singleton
 	 pattern on this facade is necessary.
-\\
-\\
 For instance, the DomainFacade in GameServices, uses a singleton pattern
 to ensure that the same lobby is used by all clients, and the GUIFacade uses
  it to ensure that only the clients’ own window is changed. The DomainFacade
@@ -76,7 +74,7 @@ We chose to go with an easy to use graphical user interface, and only with the
 	\caption{Shows the Login and Account creation  page}
 \end{figure}
 \\
-\textbs{Login page}
+\textbf{Login page}
 \\
 The user will also be notified if the data is incorrect or missing, by
  displaying a label that describes the error when the button ‘Login’ has
@@ -86,7 +84,7 @@ The user will also be notified if the data is incorrect or missing, by
 	  an account.
 \\
 \\
-\textbs{Account creation page}
+\textbf{Account creation page}
 \\
 When the user clicks the ‘Create User’ button, an account will be created
 and a label will be displayed saying that an account has successfully been
@@ -97,7 +95,7 @@ and a label will be displayed saying that an account has successfully been
 	\caption{Shows the Login and Account creation  page}
 \end{figure}
 \\
-\textbs{Lobby page}
+\textbf{Lobby page}
 \\
 From here the user becomes a player, and is displayed in a list with all
  the other players by their accounts usernames. This serves as a function to
@@ -110,7 +108,7 @@ From here the user becomes a player, and is displayed in a list with all
 		  matchmaking page.
 \\
 \\
-\textbs{Matchmaking page}
+\textbf{Matchmaking page}
 \\
 This page has not been made, and the player is instead transferred directly
  to waiting page. The original plan was to make a matchmaking page, where the
@@ -129,7 +127,7 @@ of a message system would have been needed. The message system would be there
  choose to respond with a yes or no, instead of being forced to play.
 \\
 \\
-\textbs{Waiting page}
+\textbf{Waiting page}
 \\
 This page is here to let the player know that the system is trying to find
 an opponent, even though the page doesn’t have any functionality other than
@@ -137,7 +135,7 @@ an opponent, even though the page doesn’t have any functionality other than
   player back to the find match page.
 \\
 \\
-\textbs{Game page}
+\textbf{Game page}
 \\
 When another player is available, the matchmaking system takes those two
  players and creates a game room, where the actual game is played. From here

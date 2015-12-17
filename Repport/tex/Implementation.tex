@@ -81,7 +81,7 @@ IGeneralService (see~\ref{fig:implementation1}) is used to define the
    to return exceptions of the type ‘FaultException’ if needed.
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation1}}
+\centerline{\includegraphics[scale=0.5]{Implementation1}}
 \caption {IGeneralService service contract}
 \label {fig:implementation1}
 \end{figure}
@@ -106,7 +106,7 @@ duplex service contract requires a specified call-back interface, it is
     to players when certain events occur, like when a turn has been taken.
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation2}}
+\centerline{\includegraphics[scale=0.5]{Implementation2}}
 \caption {IGameService duplex service contract}
 \label {fig:implementation2}
 \end{figure}
@@ -117,7 +117,7 @@ needs to be configured on both ends via the App.config file in each project.
   (here client) a client is configured.
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation3}}
+\centerline{\includegraphics[scale=0.5]{Implementation3}}
 \caption {Configuration of IGameService as service}
 \label {fig:implementation3}
 \end{figure}
@@ -128,7 +128,7 @@ After configuration the client can create proxies to the services
    through the contract interface.
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation4}}
+\centerline{\includegraphics[scale=0.5]{Implementation4}}
 \caption {Creating proxies for service access}
 \label {fig:implementation4}
 \end{figure}
@@ -160,7 +160,7 @@ by calling services, which may or may not have a considerable delay with
   terminate.\footnote{Microsoft 6}
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation5}}
+\centerline{\includegraphics[scale=0.5]{Implementation5}}
 \caption {Queuing the ThreadPool}
 \label {fig:implementation5}
 \end{figure}
@@ -175,7 +175,7 @@ When call-backs are made to the client, the client invokes events.
       to continue without waiting for the GUI update.\footnote{Microsoft 7}
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation6}}
+\centerline{\includegraphics[scale=0.5]{Implementation6}}
 \caption {Invoking the UI dispatcherl}
 \label {fig:implementation6}
 \end{figure}
@@ -234,7 +234,7 @@ transfer objects, serving the purpose of sending data without behaviour
   ‘DataMember’ attribute.
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation7}}
+\centerline{\includegraphics[scale=0.5]{Implementation7}}
 \caption {DataContract for cell impact callbacks}
 \label {fig:implementation7}
 \end{figure}
@@ -287,7 +287,7 @@ ready-to-go database based on the entity model. Using the entity model
   information (See~\ref{fig:implementation8}).
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation8}}
+\centerline{\includegraphics[scale=0.5]{Implementation8}}
 \caption {Using entity model container}
 \label {fig:implementation8}
 \end{figure}
@@ -298,7 +298,7 @@ As of now only user accounts are stored in the database
   service, contacting the entity model.
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation9}}
+\centerline{\includegraphics[scale=0.35]{Implementation9}}
 \caption {Account entity}
 \label {fig:implementation9}
 \end{figure}
@@ -315,7 +315,7 @@ salt (see~\ref{fig:implementation10}), where both the hashed password with
      be returned.
 
 \begin{figure}[h]
-\centerline{\includegraphics[scale=0.65]{Implementation10}}
+\centerline{\includegraphics[scale=0.5]{Implementation10}}
 \caption {Hashed salt of password}
 \label {fig:implementation10}
 \end{figure}

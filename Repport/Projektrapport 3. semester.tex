@@ -3,6 +3,7 @@
 \usepackage{lastpage}
 \usepackage{graphicx}
 \usepackage{pdfpages}
+\usepackage{csquotes}
 \usepackage[margin=1 in]{geometry}
 
 \graphicspath{ {./img/} }
@@ -20,24 +21,16 @@ Niels Bonde Nielsen - Nieni14@student.sdu.dk - Eksam Nr. 409455}
 \fancyhf{}
 \fancyhead[L]{University of Southern Denmark\\3. semester, Software Engineering}
 \fancyhead[R]{Project group 4\\11/9 - 2015}
-\fancyfoot[C]{Page \thepage\ of }
-\renewcommand{\headrulewidth}{0.2pt}
-\renewcommand{\footrulewidth}{0.2pt}
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
 }
 
-
 \begin{document}
-\pagestyle{empty}
-\maketitle
-
+\includepdf[pages=-]{./img/Frontpage.pdf}
 \newpage
 \pagestyle{derp}
-
 \renewcommand\thesection{\roman{section}}
 \renewcommand\thesubsection{\thesection.\roman{subsection}}
-\setcounter{page}{1}
-\pagenumbering{arabic}
-
+\pagenumbering{roman}
 \tableofcontents
 \newpage
 \listoffigures
@@ -48,11 +41,9 @@ Niels Bonde Nielsen - Nieni14@student.sdu.dk - Eksam Nr. 409455}
 \newpage
 \input{tex/editorial}
 \newpage
-
 \renewcommand\thesection{\arabic{section}}
 \renewcommand\thesubsection{\thesection.\arabic{subsection}}
-%\pagenumbering{arabic}
-
+\pagenumbering{arabic}
 \input{tex/project_introduction}
 \newpage
 \input{tex/background}
@@ -79,11 +70,9 @@ Niels Bonde Nielsen - Nieni14@student.sdu.dk - Eksam Nr. 409455}
 \newpage
 \input{tex/bibliography}
 \newpage
+\setcounter{section}{0}
 
-\renewcommand\thesection{\alph{section}}
-\renewcommand\thesubsection{\thesection.\alph{subsection}}
-%\pagenumbering{alph}
+\renewcommand\thesection{}
+\renewcommand\thesubsection{\Alph{section}.\alph{subsection}}
 \input{tex/appendix}
-\newpage
-%\pagenumbering{arabic}
 \end{document}
