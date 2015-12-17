@@ -1,0 +1,58 @@
+
+\chapter{Test}
+	In this section all test done on the project will be described.
+  Due to time constraints, we were not able to complete any real testing.
+   Instead we have described how we plan to test the elements of the software.
+		\section{Test - Code}
+Normally we should have done unit testing to make sure our code is working
+ and its behavior is expected, but because we learned about Test-driven
+ development very late in the semester, we did not have the time to implement
+ it. Instead we relied on software testing by running our code, then checking
+  if the behavior is what we expected when navigating the GUI. This is not
+  optimal, since with unit testing we can keep track of which parts have been
+   tested. Also once a test is written it is much faster to run the test again,
+    than having to run the code each time to check if the problem was fixed.
+    This would have saved us a lot of resources in the projects, so if not
+    because of the late introduction to unit testing, we might had saved
+    some time.
+\\
+\\
+Another way to test the code would be to crudely follow the sequence of events
+ for the use cases, and verify if the code matches the expected behaviour,
+  as well as pre- and post conditions.
+		\section{Test - Server}
+Since the game is a multiplayer, we need to make sure that our server can
+ hold that many clients accessing the server. We would test our server’s load
+ and performance by stress testing it. This is done by creating a lot of
+  virtual users creating an account, logging in, searching for matches and
+  makes moves in the games. Simultaneously we would create virtual users
+  that log in and out, and have others that just stay in the lobby.
+\\
+\\
+This test will simulate how the game will be used by users, and the server
+ should therefore be able to handle such load, or else we need to optimize
+  our server performance.
+		\section{Test - Game}
+The purpose for this test is more for the functionality and general feel for
+ the game, and should be tested with real users doing user acceptance testing.
+\\
+\\
+We could go about this in different ways:
+	\begin{enumerate}
+		\item Getting different focus groups to play the game and after that
+    interview them.
+		\item Publish the game prematurely to a fixed amount of users, then get
+    as much feedback as possible. Also known as alpha/beta testing.
+		\item Publish the game prematurely to all users, while still developing
+    the game. Feedback will be collected from users that voluntarily chooses
+    to do so. Also known as “Early access” and is a form of alpha/beta testing.
+		\item A combination of test 1 and 2. First do test 1, then test 2 if the
+    feedback was great.
+	\end{enumerate}
+Another test of the game is to test the game for bugs, which could be done
+together with test case 1 and 2 stated above, or just during development since
+ our game is quite small. It would still be possible with 3, but is not
+ desired since the general public will play it, and the game should therefore
+  be kept to a version that is stable. Test 4 could be desired if we were
+   developing a major game, but since not, we would probably go with test
+    1 as our test case.

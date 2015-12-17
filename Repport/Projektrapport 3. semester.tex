@@ -2,65 +2,75 @@
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage[margin=1 in]{geometry}
 
 \graphicspath{ {./img/} }
 
 \title{Shipwars Online}
-\author{Group 4}
+\author{Group 4\\Klaus Reche Riisom - Klrii14@student.sdu.dk - Eksam Nr. 65376824\\
+Rasmus Lassen - Ralas14@student.sdu.dk - Eksam Nr. 411187\\
+Martin Fabricius - Mfabr14@student.sdk.dk - Eksam Nr. 64754120\\
+Martin Slusarczyk Hubel - mahub14@student.sdu.dk - Eksam Nr. 411321\\
+Niels Bonde Nielsen - Nieni14@student.sdu.dk - Eksam Nr. 409455}
 \date{December 2015, 3. Semester}
 
-% Redefine the plain page style
-\fancypagestyle{plain}{%
-  \fancyhf{}%
-  \fancyhead[L]{University of Southern Denmark\\3. semester, Software Engineering}
-  \fancyhead[R]{Project group 4\\11/9 - 2015}
-  \fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}%
-  \renewcommand{\headrulewidth}{0.2pt}% Line at the header visible
-  \renewcommand{\footrulewidth}{0.2pt}% Line at the footer visible
+
+\fancypagestyle{derp}{%
+\fancyhf{}
+\fancyhead[L]{University of Southern Denmark\\3. semester, Software Engineering}
+\fancyhead[R]{Project group 4\\11/9 - 2015}
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0.2pt}
 }
+
 
 \begin{document}
 
 \maketitle
-
+\newpage
+\pagestyle{derp}
 \frontmatter
+
 \tableofcontents
+
 \listoffigures
 
 \input{tex/abstract}
 
 \input{tex/preface}
 
-%\input{tex/redaktionelt}
+\input{tex/editorial}
 
 \mainmatter
+\input{tex/project_introduction}
 
-%\input{tex/project_introduction}
-
-%\input{tex/baggrund}
+\input{tex/background}
 
 \input{tex/requirements}
 
-\include{tex/tools}
+\input{tex/tools}
 
 \input{tex/methods}
 
-%\input{tex/arkitektur}
+\input{tex/market_analysis}
 
-%\input{tex/design}
+\input{tex/software_architecture}
 
-%\input{tex/implementation}
+\input{tex/design}
 
-%\input{tex/test}
+\input{tex/implementation}
 
-%\input{tex/markedsanalyse}
+\input{tex/test}
 
-%\input{tex/diskussion}
+\input{tex/discussion}
 
-%\input{tex/konklusion}
+\input{tex/konklusion}
 
-\backmatter
+\input{tex/bibliography}
 
-%\input{tex/appendiks}
+\appendix
+\input{tex/appendix}
 
 \end{document}

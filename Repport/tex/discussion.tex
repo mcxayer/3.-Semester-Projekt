@@ -1,0 +1,102 @@
+\chapter{Discussion}
+	In this chapter we will briefly go over our accomplishments in the project
+   period and what we think could have been done differently. There will also
+    be a short description on how we used the courses of the semester in the
+     project.
+	\\
+	\\
+	We started out with the idea of making an online multiplayer turn based
+   game which had the functionality of battling against each other. Through
+    the semester we have expanded the project with the knowledge we learned
+     from our courses.
+	\\
+	\section{Did we reach our personal goals?}
+	We did manage to develop a simple online game where multiple people can play
+   against each other. We would have liked to get more graphical in our game,
+    but this was not in the requirements so we made a simple GUI instead of
+    going after an advanced one, so we could get more of our use cases
+     implemented.
+	\\
+	\\
+One of the major things we wanted to learn while making this game, was how
+ to use the programming language C\#, and how it was different from Java.
+ We all learned to varying degrees to code in C\#. This is a great benefit
+ for our future, as it is a language that is often used and therefore very
+ a useful skill to have.
+	\\
+	\section{Did we reach the goal for our semester?}
+	In terms of distribution and networking, we successfully implemented a
+  distributed product, allowing connections between client and server, and
+   server and database.
+We tried our best to integrate the different courses into our project. Our
+ plan was to implement encryption between the client and server, but due to
+  time constraints we couldn’t. So now we only have a token system that
+   verifies the user connecting to the server, but the password is send as
+    a plain text file over the network, instead of being encrypted. We
+    integrated CCM in the form of our market analysis. OPN was integrated
+     as our code, and was fulfilled since we managed to create a distributed
+     system. Finally DES was integrated as a guideline for our architecture
+     where we split the code up into three main layers: Client, Server and
+     Database. It made more sense to the group and made it so we had a good
+      view of the code.
+	\\
+	\section{Did we follow SOLID and GRASP?}
+	We did not quite follow the guidelines from SOLID and some of the patterns
+   from GRASP, which we should change if we were to continue working on the
+    game. The reason we lost sight of using them, might be because most of
+    us had not used C\#,  WCF, or WPF before. So our focus was instead to
+    try and implement a working distributed system.
+	\\
+	\section{Could we sell the game as it is now?}
+	If we want to sell the game ourselves then no, but we would be able to
+  sell the game if we fixed the things mentioned above. It is hard to say
+   if we could sell the game on the international market, since our market
+    analysis does not go into great detail how the international market
+     would respond to such a game. If we were to go on the international
+     market, it would be wise to make a new analysis that looks into how
+     the market would respond and whether or not it would be viable for us
+      to do so. This would imply that we would have to maintain the server
+       and the cost would have to be covered by the sale of the game. However,
+        as our market analysis shows if we use Steam we could reach an
+         international audience, but we do not know if it would sell.
+	\section{Project Problems}
+	During this project there has been some issues that the group have had to
+   deal with. One was that the group chose to write the code in C\#, which is
+    a programming language that most of the group had not worked with before.
+    The reason the group chose to write in C\# was to expand the skillset of
+     the group, but it caused the development of code to be slow since the
+     group had to learn the differences between Java and C\#. One of these
+      differences was that the group was taught how to network in Java and
+      that it would be perfect for client-server interaction. Because of that
+      the group tried to find C\# equivalents, which WCF was, culminating in
+       the use of this in the project.
+	\\
+	\\
+	The distribution of the system is not currently across multiple machines but
+   rather only locally. This is due to several issues with compatibility of
+   certain technologies and time involved. The provided Linux server can not
+    directly use .NET without some intermediary. The mono framework can be
+    used to replace .NET, but we did not have time to get this installed, as
+    we were still trying to figure out .NET. In terms of the database, the
+     provided one used PostgresSQL, which requires additional setup in Visual
+      Studio in order to get to work with the ADO.NET entity model framework.
+       We did initially work with a PostgresSQL library to create a connection
+       to the database and work directly with SQL queries, but it quickly
+       became time-consuming. In the end we settled with keeping it locally,
+        but still open for change in terms of connectivity.
+	\\
+	\section{Project successes}
+	On the other side there were also some things that the group did very well.
+   In this project the group have worked very well together without any
+   problems in the group, and everyone have done their share. Also the use
+    of Kanban made the development of the software very structured and easy
+     to keep an overview on.
+	\\
+	\\
+If there was anything the group should have done differently it might be to
+ make sure the entire group had studied more on the new programming language.
+  There were a few in the group that had worked with it before, but the rest
+  had never touched it. If those that had never touched it had studied it more
+   diligently then maybe there would not have been the problem of slow code
+    development. Otherwise we should have written either server or client in
+    java, and the other in C\#.

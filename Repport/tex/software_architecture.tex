@@ -1,0 +1,180 @@
+
+\chapter{Software Architecture}
+In this section the group will describe how it used software architecture
+ in the project, the different choices the group made to ensure that the
+  system runs according to the specifications, defined by the group, and
+   how the work was planned, executed and then possibly changed so it would
+    work better. It will also describe the structure of the system and how
+    the system has been distributed.
+\\
+\section{Architecture}
+As told earlier in the report the group has chosen to make an online version
+of the game Battleship. With this in mind the group generated several
+requirements in the form of use cases, these use cases are listed in the
+Requirements chapter and in that section it is also shown how they were
+prioritized by the group. The requirements were split into groups based
+on what part of the system they dealt with, and prioritized using MoSCoW
+as explained in the section.
+\\
+\subsection{Client-Server}
+The main goal of the project was to make a distributed system. This the group
+accomplished by separating the system into three distinct components, the
+client, the server and the database. These three components run on different
+ computers, the client and server are two standalone applications.
+\\
+\\
+A distributed system is a collection of independent computers. Each computer
+has its own processor and memory. This allows each computer to work
+independently of each other. In order to utilise the resources of each
+computer, the computers are connected via various communication architectures.
+ Examples of such a communication architecture include buses and wireless
+  connections.\footnote{Silberschatz et al. 2010, p. 719}
+\\
+\\
+One way to set up the computers is through a client-server architecture. A
+computer acts as a server, whilst other computers act as clients or other
+servers, such as a database server. The benefits of this setup are resource
+sharing, computation partitioning, connection-reliability and communication
+capabilities.\footnote{Silberschatz et al. 2010, pp. 720-721}
+\\
+\\
+Since the group decided to make a game, a client-server pattern was the
+obvious choice, especially when the system had to be distributed, the client
+was separated so it could run as a stand-alone application. The pattern also
+makes the server accessible from different places at once, and allows the
+player to play against each other online.
+\\
+\\
+In relation to games, distributed systems allows multiple player clients to
+connect to a centralised server, working as an interface for all client
+requests. Examples of client requests include verifying account information,
+updating the game state, or communicating with other player clients.
+\\
+\\
+One of the major problems with the client-server architecture is the strain
+on the server bandwidth. In MMORPGs such as World of Warcraft or EVE Online
+thousands of concurrent player clients connect to a server. This is possible
+by utilising multiple servers in their own distributed system. This allows
+the servers to distribute the computation load to multiple
+servers.\footnote{Winn et al. 2013, pp. 3-4}
+\\
+\subsection{Layer}
+The group chose a layered approach to ensure maintainability and to make it
+so that the game easily could be separated into its components. The group
+chose to make it a 3-layer architecture pattern where the game was split
+into 3 parts: (1) Presentation layer, (2) Business layer and (3) Data layer.
+\\
+\\
+\textbf{Presentation layer:} : In this layer the interface is located.
+It is here that the group developed the GUI and made use of facades.
+This was to ensure maintainability since it means that the GUI or any
+other part is relatively easy to change out, as there is no direct
+connection between the layers. As long as the facades remain the same
+the system does not care how the GUI looks or how it works.
+\\
+\\
+\textbf{Business layer:} Here is where all the logic of the game is
+located. This is where the game functionality lies and how it does it
+is defined. How the connection between the server and the clients worked
+ will be explained in the Service-Oriented sub section.
+\\
+\\
+\textbf{Data layer:} This is where the database is located, again
+accessible by a facade to make maintainability easy and separate concerns.
+ This is a separate component in this system as the database is is not in
+ the same place as the server or any of the clients. The database is where
+  all the reusable information is stored. Information like user-information,
+  usernames, e-mails, passwords etc. is stored in the database. The data is
+   sent over a secure connection and the information is encrypted to make sure
+    that none of the information given by the users can be stolen.
+\\
+\subsection{Service-Oriented}
+The server follows a service-oriented architecture (SOA), allowing client
+ and server to communicate through a common interface.
+ The service-orientation works by making interfaces that act as facades
+  for logic. As explained earlier this is to ensure that the logic can
+   be maintained easily on the server, and easily on the client by developers
+    without server knowledge.
+\\
+\\
+The advantages of SOA is distributing a reusable, loosely coupled and
+ standardized service, allowing anonymous access from clients, where
+  messages can be either synchronous or asynchronous. It is defined by
+  a contract and a concrete implementation, where the client uses the
+  contract to access the
+  implementation.\footnote{Vogel et al. 2011. pp. 206-207}
+\\
+\subsection{Security}
+In order for a user to be authorized and authenticated in the game,
+they first need to login. This is done using a single sign-on (SSO)
+architecture, where a token is created and provided to the client upon
+successful login.\footnote{Vogel et al. 2011. p. 220} The server tracks
+the session of the token and controls how it is used. The client now does
+not need to login again, but simply use the provided token. In this project,
+this token can be used to connect to the game service in order to start
+ playing against others. This has the advantage of allowing a client to
+  use any service that supports the token after logging in. The disadvantage,
+   though, is that all services supporting the token need a connection to
+   the service verifying the token.
+\\
+\section{View Model}
+There are several different architectural view models, but the group decided
+to work with the 4+1 architectural view model, as this model revolves around
+ the use of use cases, which is a main point of the group’s Scrum/Kanban
+ development approach. The model contains six views: (1) Use case view, (2)
+  Logical view, (3) Implementation view, (4) Data view, (5) Process view,
+  (6) Deployment view. Looking through the project, the group has primarily
+   been working with the Logical and Implementation views but have used most
+   of them to various degrees. Most of the project have been spent on the
+    implementation of the system and during that time, the group mostly look
+    at it from the Implementation view. During the planning of the project
+     it was mostly looked at from the Logical view, though many of the
+     requirements were defined as use cases it is clear that the Use case
+     view was used. Moreover since the system is distributed it has also
+     been looked at from the Process view.
+\\
+\\
+\textbf{Use case view:}
+\\
+This is the basis for the 4+1 view model, it is from this view that all the
+ other views make their architectural decisions. To show all the use cases
+ and how they interact with each other and the user, the group has made a use
+  case diagram, this diagram has already been shown in the Requirements chapter.
+\\
+\\
+\textbf{Logical view:}
+\\
+This view looks at how the use cases will be implemented. It is used to get
+ an overview of the the code is going to look, how the different classes will
+  work together, and what methods and attributes the classes will contain. The
+   group made a class diagram for each package in the project. They can be
+    seen in the appendix \ref{appendix:class_diagrams}
+\\
+\\
+\textbf{Data view:}
+\\
+This view is used to describe the data models and how they interact with the
+ system. Since the group used ADO.NET to make the database, an entity model
+ was created and from this, the database was automatically created. The entity
+  model can be seen and is explained in the chapter Implementation.
+\\
+\\
+\textbf{Process view:}
+\\
+This view focuses on the behaviour of the system while it is running, and
+how the different use cases cause different classes to interact with each
+other and how. To show this the group developed some sequence diagrams, but
+ after the first few sprints it was decided that they were not used enough
+ to warrant the time spend on creating them.
+\\
+\\
+\textbf{Deployment view:}
+\\
+This view describes how the static artefacts are deployed in the physical
+world. This the group has shown by making a deployment diagram, which shows
+how the system is separated into three parts, and how they connect to each
+other. Here is the deployment diagram shown:
+\begin{figure}
+\centerline{\includegraphics[scale=0.65]{Deployment} }
+\caption{Deployment Diagram}
+\end{figure}
