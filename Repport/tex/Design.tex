@@ -1,10 +1,10 @@
 
-\chapter{Design}
+\section{Design}
 This section describes which object-oriented design approach we chose,
  what they are and which design patterns were used. The design for the
  Graphical User Interface (GUI) will also be covered.
 
-		\section{Object-Oriented Design}
+		\subsection{Object-Oriented Design}
 We chose to use both SOLID and GRASP as a guideline for object-oriented
  design. The reason behind using both, was due to public opinion that using
   one or the other was not
@@ -13,11 +13,11 @@ We chose to use both SOLID and GRASP as a guideline for object-oriented
   SOLID did not help, GRASP just might and vice versa. Another reason
    was that the patterns of GRASP was used to assign responsibility to
     objects, whereas SOLID consist of programming principles that would
-    help prevent bad code. SOLID and GRASP are described in the appendix \ref{appendix:SOLID}.
-		\section{Design patterns}
+    help prevent bad code. SOLID and GRASP are described in the appendix \ref{appendix:SOLID} and \ref{appendix:GRASP}.
+		\subsection{Design patterns}
 In this subsection the most frequently used design patterns will be described.
  A design pattern is a reusable solution to a common problem.
-			\subsection{Facades}
+			\subsubsection{Facades}
 Facade design patterns help to simplify the communication between multiple
 classes when used, by providing a collection of methods for common tasks,
  which also helps to make a complex system easier to understand. This pattern
@@ -25,7 +25,7 @@ classes when used, by providing a collection of methods for common tasks,
 The way this design pattern was used, it closely aligns to the Controller pattern in GRASP.
 \\
 \\
-\subsubsection{Server}
+\textbs{Server}
 \\
 The server makes use of the DomainFacade in GeneralServices, whenever the
 client needs to access it. It only includes the necessary methods such as
@@ -35,13 +35,13 @@ login, create account etc. Whereas a lot of the data is handled elsewhere,
   but will instead go through this DomainFacade.
 \\
 \\
-\subsubsection{Database}
+\textbs{Database}
 \\
 The database uses DatabaseFacade in GeneralServices, and includes simple
 methods that holds the database code.
 \\
 \\
-\subsubsection{Game Mechanics}
+\textbs{Game Mechanics}
 \\
 The lobby uses DomainFacade in GameServices, and includes only the methods
 the client would need to navigate the game once logged in, such as connect
@@ -49,11 +49,11 @@ and disconnect to the lobby, start matchmaking and take turn placing
  coordinates. The code that happens in between and after, is handled elsewhere.
 \\
 \\
-\subsubsection{GUI}
+\textbs{GUI}
 \\
 The GUI uses GUIFacade in the Client, which holds all the methods to
 display events on the screen, such as placing a coordinate or changing the page.
-			\subsection{Singleton}
+			\subsubsection{Singleton}
 The singleton design pattern ensures a class has only one instance.
 This pattern has been used on most of the facades to ensure that all access
  in the system uses the same instances. An exception is the DatabaseFacade,
@@ -65,7 +65,7 @@ For instance, the DomainFacade in GameServices, uses a singleton pattern
 to ensure that the same lobby is used by all clients, and the GUIFacade uses
  it to ensure that only the clients’ own window is changed. The DomainFacade
   in GeneralServices uses it to ensure that the same SecurityTokenService access is used.
-		\section{Graphical User Interface}
+		\subsection{Graphical User Interface}
 We chose to go with an easy to use graphical user interface, and only with the
  tools provided for the WPF windows such as buttons, listViews, labels etc. To
  make the GUI easy to use, the labels will clear when the user wants to input
@@ -76,7 +76,7 @@ We chose to go with an easy to use graphical user interface, and only with the
 	\caption{Shows the Login and Account creation  page}
 \end{figure}
 \\
-\subsubsection{Login page}
+\textbs{Login page}
 \\
 The user will also be notified if the data is incorrect or missing, by
  displaying a label that describes the error when the button ‘Login’ has
@@ -86,7 +86,7 @@ The user will also be notified if the data is incorrect or missing, by
 	  an account.
 \\
 \\
-\subsubsection{Account creation page}
+\textbs{Account creation page}
 \\
 When the user clicks the ‘Create User’ button, an account will be created
 and a label will be displayed saying that an account has successfully been
@@ -97,7 +97,7 @@ and a label will be displayed saying that an account has successfully been
 	\caption{Shows the Login and Account creation  page}
 \end{figure}
 \\
-\subsubsection{Lobby page}
+\textbs{Lobby page}
 \\
 From here the user becomes a player, and is displayed in a list with all
  the other players by their accounts usernames. This serves as a function to
@@ -110,7 +110,7 @@ From here the user becomes a player, and is displayed in a list with all
 		  matchmaking page.
 \\
 \\
-\subsubsection{Matchmaking page}
+\textbs{Matchmaking page}
 \\
 This page has not been made, and the player is instead transferred directly
  to waiting page. The original plan was to make a matchmaking page, where the
@@ -129,7 +129,7 @@ of a message system would have been needed. The message system would be there
  choose to respond with a yes or no, instead of being forced to play.
 \\
 \\
-\subsubsection{Waiting page}
+\textbs{Waiting page}
 \\
 This page is here to let the player know that the system is trying to find
 an opponent, even though the page doesn’t have any functionality other than
@@ -137,7 +137,7 @@ an opponent, even though the page doesn’t have any functionality other than
   player back to the find match page.
 \\
 \\
-\subsubsection{Game page}
+\textbs{Game page}
 \\
 When another player is available, the matchmaking system takes those two
  players and creates a game room, where the actual game is played. From here

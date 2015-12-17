@@ -1,10 +1,10 @@
-\chapter {Implementation}
+\section {Implementation}
 This section describes the technical implementation of the system.
 The topic of distribution, parallelism and data handling will be covered.
  Throughout the subsections, fragments of the implementation of two use cases,
   ConnectLobby and TakeTurn, will be provided as examples.
 
-\section {Overview}
+\subsection {Overview}
 
 The overall project solution comprises of a client, server, database and game.
  The client contains the gui and connections to the server. The server hosts
@@ -21,11 +21,11 @@ The database itself lies externally to the implementation, but the SQL code
   have each their wrapper classes to dictate how the local game is
    controlled and simulated.
 
-\section {Distribution}
+\subsection {Distribution}
 In this subsection the topic of distribution with focus on a client-server
  environment will be described.
 
-\subsection {Communication Protocol}
+\subsubsection {Communication Protocol}
 The communication protocols between server and client are usually either
  Transmission Control Protocol (TCP) or User Datagram Protocol (UDP).
  TCP being a reliable connection-based protocol, whilst UDP is
@@ -39,13 +39,13 @@ The communication protocols between server and client are usually either
         should be chosen, as it can be customized to act as a TCP
          when necessary.
 
-\subsection {Connectivity}
+\subsubsection {Connectivity}
 Depending on the requirements of the system, the way messages are
 handled across computers will be different. Some systems require
 multiple servers to distribute computation and management, whilst
 others require a simple TCP-connection to a single server.
 
-\subsection {Networking Technologies}
+\subsubsection {Networking Technologies}
 In this project, the .NET framework was utilized to both create the
  client and server. The database was created externally. .NET offers
   several technologies to communicate between computers and processes,
@@ -71,7 +71,7 @@ service-oriented architecture (SOA) where services send and receive based
   flexibility of WCF makes it ideal as a choice for networking, which is
   why we have chosen this framework.
 
-\subsection {WCF Communication}
+\subsubsection {WCF Communication}
 In the use case ConnectLobby, the service contract for
 IGeneralService (see~\ref{fig:implementation1}) is used to define the
  interface for communication between client and server. The attribute
@@ -138,7 +138,7 @@ The solution also uses inter-service communication with the security
   used for on-machine communication, which is used to create and verify
   tokens in the general service and game service.\footnote{Microsoft 5}
 
-\subsection {Authentication and tracking}
+\subsubsection {Authentication and tracking}
 In order to keep track of the various connections to the game service,
  the IContextChannel - tied to a unique connection - was stored. This
  would then also be used to verify incoming requests to avoid requests
@@ -146,11 +146,11 @@ In order to keep track of the various connections to the game service,
   unexpectedly. The channel would also be needed in order to get the
    matching call-back connection to the client.
 
-\section {Parallelism}
+\subsection {Parallelism}
 In this subsection the topic of parallelism with focus on threading and
 concurrency will be described.
 
-\subsection {Threading}
+\subsubsection {Threading}
 The major concerns in terms of threading is avoiding freezing up the GUI
 by calling services, which may or may not have a considerable delay with
  its return. Therefore, all calls to the services are threaded using
@@ -180,7 +180,7 @@ When call-backs are made to the client, the client invokes events.
 \label {fig:implementation6}
 \end{figure}
 
-\subsection {Concurrency}
+\subsubsection {Concurrency}
 As any number of clients could potentially connect to the services, the
 service is required to be thread-safe to ensure a stable internal state.
 WCF by default marks services as having a concurrency mode of ‘Single’,
@@ -215,11 +215,11 @@ While the service itself is thread-safe, the resources it accesses are not by
    since strings are immutable it should already be thread-safe, as the
     internal state doesn’t change.
 
-\section {Data Handling}
+\subsection {Data Handling}
 In this subsection the topic of data handling with focus on serialized
 objects, data protection and the database will be described.
 
-\subsection {Serialized Objects}
+\subsubsection {Serialized Objects}
 All primitive and most common types are automatically supported for
 serialization in WCF when they are used for return values or
 arguments\footnote{Microsoft 9}. In order to serialize custom data
@@ -227,7 +227,7 @@ structures, however, a data contract must be defined, so that both
 the host (service) and consumer (client) understands the interface
 language.\footnote{Microsoft 10}
 
-\subsubsection {Data Transfer Object (DTO)}
+\textbf {Data Transfer Object (DTO)}
 The data contracts (see~\ref{fig:implementation7}) act as data
 transfer objects, serving the purpose of sending data without behaviour
  or logic. They are defined by the ‘DataContract’ attribute and
@@ -239,7 +239,7 @@ transfer objects, serving the purpose of sending data without behaviour
 \label {fig:implementation7}
 \end{figure}
 
-\subsection {Data Protection}
+\subsubsection {Data Protection}
 Protecting data comes in various degrees, where some are more
 vulnerable than others if accessed by the wrong people or processes.
  In order to ensure secure transmission of data, two major areas
@@ -249,7 +249,7 @@ vulnerable than others if accessed by the wrong people or processes.
 	\item Data storage
 \end{enumerate}
 
-\subsubsection {Sensitive Data}
+\textbf {Sensitive Data}
 Sensitive data, such as credentials, send through the communication
  channel between client and server needs to be handled sensitively.
   Sending credentials as plain text will allow anyone listening to
@@ -270,7 +270,7 @@ Using a technology such as SSL or TLS will provide message integrity
   that the messages stay privately known while
   transferring.\footnote{Microsoft 12}
 
-\subsubsection {Tokens}
+\textbf {Tokens}
 Once a secure channel has been created, the user can send their
 credentials to the target server. The login server then responds
  by providing the user with a token from the security token service.
@@ -280,7 +280,7 @@ credentials to the target server. The login server then responds
   initial requests to services using this login system to verify the user
    and lock the token in place.
 
-\subsubsection {Database}
+\textbf {Database}
 The database was created using ADO.NET Entity Model, which can create a
 ready-to-go database based on the entity model. Using the entity model
  makes it easy to add new data in the database or extract
@@ -303,7 +303,7 @@ As of now only user accounts are stored in the database
 \label {fig:implementation9}
 \end{figure}
 
-\subsubsection {Hashing and Salting}
+\textbf {Hashing and Salting}
 Storing sensitive data as plain text in the database would allow
 anyone with access to the database to read and potentially exploit
 each entry. Therefore all passwords get hashed with a

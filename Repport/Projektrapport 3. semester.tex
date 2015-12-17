@@ -1,4 +1,4 @@
-\documentclass[10pt, a4paper, oneside]{scrbook}
+\documentclass[10pt, a4paper, oneside]{article}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{graphicx}
@@ -20,57 +20,70 @@ Niels Bonde Nielsen - Nieni14@student.sdu.dk - Eksam Nr. 409455}
 \fancyhf{}
 \fancyhead[L]{University of Southern Denmark\\3. semester, Software Engineering}
 \fancyhead[R]{Project group 4\\11/9 - 2015}
-\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+\fancyfoot[C]{Page \thepage\ of }
 \renewcommand{\headrulewidth}{0.2pt}
 \renewcommand{\footrulewidth}{0.2pt}
 }
 
 
 \begin{document}
-
+\pagestyle{empty}
 \maketitle
+
 \newpage
 \pagestyle{derp}
-\frontmatter
+
+\renewcommand\thesection{\roman{section}}
+\renewcommand\thesubsection{\thesection.\roman{subsection}}
+\setcounter{page}{1}
+\pagenumbering{arabic}
 
 \tableofcontents
-
+\newpage
 \listoffigures
-
+\newpage
 \input{tex/abstract}
-
+\newpage
 \input{tex/preface}
-
+\newpage
 \input{tex/editorial}
+\newpage
 
-\mainmatter
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+%\pagenumbering{arabic}
+
 \input{tex/project_introduction}
-
+\newpage
 \input{tex/background}
-
+\newpage
 \input{tex/requirements}
-
+\newpage
 \input{tex/tools}
-
+\newpage
 \input{tex/methods}
-
+\newpage
 \input{tex/market_analysis}
-
+\newpage
 \input{tex/software_architecture}
-
+\newpage
 \input{tex/design}
-
+\newpage
 \input{tex/implementation}
-
+\newpage
 \input{tex/test}
-
+\newpage
 \input{tex/discussion}
-
+\newpage
 \input{tex/konklusion}
-
+\newpage
 \input{tex/bibliography}
+\newpage
 
-\appendix
+\renewcommand\thesection{\alph{section}}
+\renewcommand\thesubsection{\thesection.\alph{subsection}}
+%\pagenumbering{alph}
 \input{tex/appendix}
-
+\newpage
+%\pagenumbering{arabic}
 \end{document}

@@ -1,5 +1,5 @@
 
-\chapter{Software Architecture}
+\section{Software Architecture}
 In this section the group will describe how it used software architecture
  in the project, the different choices the group made to ensure that the
   system runs according to the specifications, defined by the group, and
@@ -7,7 +7,7 @@ In this section the group will describe how it used software architecture
     work better. It will also describe the structure of the system and how
     the system has been distributed.
 \\
-\section{Architecture}
+\subsection{Architecture}
 As told earlier in the report the group has chosen to make an online version
 of the game Battleship. With this in mind the group generated several
 requirements in the form of use cases, these use cases are listed in the
@@ -16,7 +16,7 @@ prioritized by the group. The requirements were split into groups based
 on what part of the system they dealt with, and prioritized using MoSCoW
 as explained in the section.
 \\
-\subsection{Client-Server}
+\subsubsection{Client-Server}
 The main goal of the project was to make a distributed system. This the group
 accomplished by separating the system into three distinct components, the
 client, the server and the database. These three components run on different
@@ -58,7 +58,7 @@ by utilising multiple servers in their own distributed system. This allows
 the servers to distribute the computation load to multiple
 servers.\footnote{Winn et al. 2013, pp. 3-4}
 \\
-\subsection{Layer}
+\subsubsection{Layer}
 The group chose a layered approach to ensure maintainability and to make it
 so that the game easily could be separated into its components. The group
 chose to make it a 3-layer architecture pattern where the game was split
@@ -88,7 +88,7 @@ accessible by a facade to make maintainability easy and separate concerns.
    sent over a secure connection and the information is encrypted to make sure
     that none of the information given by the users can be stolen.
 \\
-\subsection{Service-Oriented}
+\subsubsection{Service-Oriented}
 The server follows a service-oriented architecture (SOA), allowing client
  and server to communicate through a common interface.
  The service-orientation works by making interfaces that act as facades
@@ -104,7 +104,7 @@ The advantages of SOA is distributing a reusable, loosely coupled and
   contract to access the
   implementation.\footnote{Vogel et al. 2011. pp. 206-207}
 \\
-\subsection{Security}
+\subsubsection{Security}
 In order for a user to be authorized and authenticated in the game,
 they first need to login. This is done using a single sign-on (SSO)
 architecture, where a token is created and provided to the client upon
@@ -117,7 +117,7 @@ this token can be used to connect to the game service in order to start
    though, is that all services supporting the token need a connection to
    the service verifying the token.
 \\
-\section{View Model}
+\subsection{View Model}
 There are several different architectural view models, but the group decided
 to work with the 4+1 architectural view model, as this model revolves around
  the use of use cases, which is a main point of the group’s Scrum/Kanban
@@ -165,7 +165,7 @@ This view focuses on the behaviour of the system while it is running, and
 how the different use cases cause different classes to interact with each
 other and how. To show this the group developed some sequence diagrams, but
  after the first few sprints it was decided that they were not used enough
- to warrant the time spend on creating them.
+ to warrant the time spend on creating them. But those that have been made can be seen in appendix \ref{appendix:sequence_diagrams}.
 \\
 \\
 \textbf{Deployment view:}

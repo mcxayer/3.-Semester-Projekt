@@ -1,12 +1,12 @@
 
-\chapter{Requirements}
+\section{Requirements}
 
 This chapter is used to explain the thoughts on the requirements that
  were made for the project. This covers analyzing what is involved in creating
   a game. The scope for the project will be covered and finally the use cases
    for the project will be introduced and explained.
 
-\section{Game Development Analysis}
+\subsection{Game Development Analysis}
 
 The following analysis covers games and gaming split into two parts.
 The first part covers the concept of games. The second part covers the
@@ -32,7 +32,7 @@ Developing a game can bring certain issues. One of those issues is
       the game is unplayable because of inefficiencies, or stability issues,
        the player may not even want to play the game.
 
-\section{Scope}
+\subsection{Scope}
 
 The game will contain an online access functionality that utilizes
  a client-server structure connecting with a database, as the game will
@@ -47,7 +47,7 @@ The game will be very limited in graphics and aesthetics, since the
     board game Battleship. The group decided to make the game multiplayer
      to fulfill the distributed system part of the project.
 
-\subsection{The Board Game}
+\subsubsection{The Board Game}
 
 The board game “Battleships” is build up around a basic turn based game,
 with a grid size of 10x10. Before the game starts each player chooses the
@@ -61,7 +61,7 @@ with a grid size of 10x10. Before the game starts each player chooses the
         down. When one of the players have lowered all the opponent's
          ships, they win.
 
-\subsection{The Computer Game}
+\subsubsection{The Computer Game}
 
 The computer game will incorporate the board game’s functionality,
  and make most of it automated. In the first round each player places
@@ -74,14 +74,14 @@ The computer game will incorporate the board game’s functionality,
         be marked in red, if not the tile will be marked in gray. A player
          has won when all of the opponent's ships have been fully revealed.
 
-\section{Use Case Diagram}
+\subsection{Use Case Diagram}
 
 The use cases made for the project were assigned a category in order to
  differentiate between them. The categories were assigned after where the
   use cases’ functionality were most prevalent. UC means the code made for
    the client layer, US for server and lastly UD for database.
 
-\subsection{Actors}
+\subsubsection{Actors}
 
 Player: Will be interacting with the system though the client.\\
 Client: Software part that is responsible for the GUI and the connection
@@ -96,7 +96,7 @@ Database: Here the data will be stored.
 \end{figure}
 \clearpage
 
-\section{Use Case Priority}
+\subsection{Use Case Priority}
 
 In order to prioritize our use cases, the group focused on three factors:
  First the amount we were going to learn from realizing the functionality
@@ -112,7 +112,7 @@ In order to prioritize our use cases, the group focused on three factors:
 \caption{Usecase priority}
 \end{figure}
 
-\section{Use Case Description}
+\subsection{Use Case Description}
 
 The report will be focusing on 2 use cases to show an idea of the thoughts
  behind the process.\clearpage
@@ -132,4 +132,5 @@ Second one is when the game is started and the player makes a turn.\\
 \centering
 \includegraphics[scale=0.8]{usetak}
 \caption{Usecase description for UC06}
-\end{figure}
+\end{figure}\\
+The remaning can be found in the appendix \ref{appendix:useCase_specification}
