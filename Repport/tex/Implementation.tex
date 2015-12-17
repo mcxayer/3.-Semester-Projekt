@@ -137,7 +137,7 @@ The solution also uses inter-service communication with the security
  token service. The security token service uses a net named pipe binding
   used for on-machine communication, which is used to create and verify
   tokens in the general service and game service.\footnote{Microsoft 5}
-
+\newpage
 \subsubsection {Authentication and tracking}
 In order to keep track of the various connections to the game service,
  the IContextChannel - tied to a unique connection - was stored. This
@@ -176,7 +176,7 @@ When call-backs are made to the client, the client invokes events.
 
 \begin{figure}[h]
 \centerline{\includegraphics[scale=0.5]{Implementation6}}
-\caption {Invoking the UI dispatcherl}
+\caption {Invoking the UI dispatcher}
 \label {fig:implementation6}
 \end{figure}
 
@@ -226,7 +226,8 @@ arguments\footnote{Microsoft 9}. In order to serialize custom data
 structures, however, a data contract must be defined, so that both
 the host (service) and consumer (client) understands the interface
 language.\footnote{Microsoft 10}
-
+\\
+\\
 \textbf {Data Transfer Object (DTO)}
 The data contracts (see~\ref{fig:implementation7}) act as data
 transfer objects, serving the purpose of sending data without behaviour
@@ -248,7 +249,6 @@ vulnerable than others if accessed by the wrong people or processes.
 	\item Communication channel
 	\item Data storage
 \end{enumerate}
-
 \textbf {Sensitive Data}
 Sensitive data, such as credentials, send through the communication
  channel between client and server needs to be handled sensitively.

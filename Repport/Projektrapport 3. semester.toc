@@ -12,7 +12,7 @@
 \contentsline {subsection}{\numberline {6.3}Use Case Diagram}{4}
 \contentsline {subsubsection}{\numberline {6.3.1}Actors}{4}
 \contentsline {subsection}{\numberline {6.4}Use Case Priority}{6}
-\contentsline {subsection}{\numberline {6.5}Use Case Description}{6}
+\contentsline {subsection}{\numberline {6.5}Use Case Description}{7}
 \contentsline {section}{\numberline {7}Tools}{9}
 \contentsline {subsection}{\numberline {7.1}Development tools}{9}
 \contentsline {subsubsection}{\numberline {7.1.1}Git}{9}
@@ -54,7 +54,7 @@
 \contentsline {subsubsection}{\numberline {12.2.2}Connectivity}{20}
 \contentsline {subsubsection}{\numberline {12.2.3}Networking Technologies}{20}
 \contentsline {subsubsection}{\numberline {12.2.4}WCF Communication}{21}
-\contentsline {subsubsection}{\numberline {12.2.5}Authentication and tracking}{21}
+\contentsline {subsubsection}{\numberline {12.2.5}Authentication and tracking}{22}
 \contentsline {subsection}{\numberline {12.3}Parallelism}{22}
 \contentsline {subsubsection}{\numberline {12.3.1}Threading}{22}
 \contentsline {subsubsection}{\numberline {12.3.2}Concurrency}{22}
@@ -70,17 +70,17 @@
 \contentsline {subsection}{\numberline {14.2}Did we reach the goal for our semester?}{27}
 \contentsline {subsection}{\numberline {14.3}Did we follow SOLID and GRASP?}{27}
 \contentsline {subsection}{\numberline {14.4}Could we sell the game as it is now?}{27}
-\contentsline {subsection}{\numberline {14.5}Project Problems}{27}
+\contentsline {subsection}{\numberline {14.5}Project Problems}{28}
 \contentsline {subsection}{\numberline {14.6}Project successes}{28}
 \contentsline {section}{\numberline {15}Conclusion}{29}
 \contentsline {section}{\numberline {16}Bibliography}{30}
 \contentsline {subsection}{\numberline {16.1}Printed Works}{30}
 \contentsline {subsection}{\numberline {16.2}Online References}{30}
-\contentsline {section}{\numberline {}A Appendix}{31}
-\contentsline {subsection}{\numberline {A.a}Class Diagrams}{31}
-\contentsline {subsection}{\numberline {A.b}SOLID}{37}
-\contentsline {subsection}{\numberline {A.c}GRASP}{38}
-\contentsline {subsection}{\numberline {A.d}UseCase Specification}{38}
-\contentsline {subsection}{\numberline {A.e}Collaboration Agreement}{49}
-\contentsline {subsection}{\numberline {A.f}Advisor Agreement}{50}
-\contentsline {subsection}{\numberline {A.g}Sequence Diagrams}{50}
+\contentsline {section}{\numberline {1}Appendix}{31}
+\contentsline {subsection}{\numberline {1.1}Class Diagrams}{31}
+\contentsline {subsection}{\numberline {1.2}SOLID}{37}
+\contentsline {subsection}{\numberline {1.3}GRASP}{38}
+\contentsline {subsection}{\numberline {1.4}UseCase Specification}{38}
+\contentsline {subsection}{\numberline {1.5}Collaboration Agreement}{49}
+\contentsline {subsection}{\numberline {1.6}Advisor Agreement}{50}
+\contentsline {subsection}{\numberline {1.7}Sequence Diagrams}{50}

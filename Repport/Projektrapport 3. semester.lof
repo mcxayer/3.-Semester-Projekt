@@ -12,11 +12,11 @@
 \contentsline {figure}{\numberline {12}{\ignorespaces Configuration of IGameService as service}}{22}
 \contentsline {figure}{\numberline {13}{\ignorespaces Creating proxies for service access}}{23}
 \contentsline {figure}{\numberline {14}{\ignorespaces Queuing the ThreadPool}}{23}
-\contentsline {figure}{\numberline {15}{\ignorespaces Invoking the UI dispatcherl}}{24}
+\contentsline {figure}{\numberline {15}{\ignorespaces Invoking the UI dispatcher}}{24}
 \contentsline {figure}{\numberline {16}{\ignorespaces DataContract for cell impact callbacks}}{24}
 \contentsline {figure}{\numberline {17}{\ignorespaces Using entity model container}}{25}
 \contentsline {figure}{\numberline {18}{\ignorespaces Account entity}}{25}
-\contentsline {figure}{\numberline {19}{\ignorespaces Hashed salt of password}}{25}
+\contentsline {figure}{\numberline {19}{\ignorespaces Hashed salt of password}}{26}
 \contentsline {figure}{\numberline {20}{\ignorespaces Client diagram}}{31}
 \contentsline {figure}{\numberline {21}{\ignorespaces Game Data diagram}}{32}
 \contentsline {figure}{\numberline {22}{\ignorespaces Game diagram}}{33}
