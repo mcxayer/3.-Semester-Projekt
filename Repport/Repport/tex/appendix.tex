@@ -30,11 +30,11 @@
 \centerline{\includegraphics[scale=0.43]{SecurityTokenServicesProject} }
 \caption{Security Token Services diagram}
 \end{figure}
-\newpage
 \begin{figure}[h]
 \centerline{\includegraphics[scale=0.36]{ServerProject} }
 \caption{Server diagram}
 \end{figure}
+\newpage
 
 \subsection{SOLID}
 \label{appendix:SOLID}
@@ -131,12 +131,17 @@ a change/variation in the software will or would cause the software to be unstab
 \\
 If the Information Expert fails the Pure Fabrication pattern steps in. This is done by creating a class that does not represent the domain concepts. In other words, if the responsibility assigned by the Information Expert does not meet the high cohesion, create a separate class and assign responsibility to it, so that it results in high cohesion.
 
-
-
+\newpage
 \subsection {UseCase Specification}
 \label{appendix:useCase_specification}
-
-\includepdf[pages=-]{./img/UseCaseSpecification.pdf}
+\multido{\i=1+1}{10}{%
+  \begin{frame}
+    \centering
+    \includegraphics[width=.9\linewidth]{usecase\i}
+  \end{frame}
+\newpage
+}
+\newpage
 
 \subsection{Collaboration Agreement}
 \textbf{Academic goals}

@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{pdfpages}
 \usepackage{csquotes}
+\usepackage{multido}
 \usepackage[margin=1 in]{geometry}
 
 \graphicspath{ {./img/} }
@@ -69,7 +70,6 @@ Niels Bonde Nielsen - Nieni14@student.sdu.dk - Eksam Nr. 409455}
 \newpage
 \input{tex/bibliography}
 \newpage
-
-\setcounter{section}{0}
+\renewcommand\thesubsection{\Alph{subsection}}
 \input{tex/appendix}
 \end{document}
