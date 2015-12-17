@@ -1,28 +1,28 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces Usecase diagram}}{5}
-\contentsline {figure}{\numberline {2}{\ignorespaces Usecase priority}}{6}
-\contentsline {figure}{\numberline {3}{\ignorespaces Usecase description for UC09}}{7}
-\contentsline {figure}{\numberline {4}{\ignorespaces Usecase description for UC06}}{8}
-\contentsline {figure}{\numberline {5}{\ignorespaces Steam chart of users playing}}{12}
-\contentsline {figure}{\numberline {6}{\ignorespaces Deployment Diagram}}{16}
-\contentsline {figure}{\numberline {7}{\ignorespaces Shows the Login and Account creation page}}{18}
-\contentsline {figure}{\numberline {8}{\ignorespaces Shows the Login and Account creation page}}{18}
-\contentsline {figure}{\numberline {9}{\ignorespaces Shows the game GUI}}{19}
-\contentsline {figure}{\numberline {10}{\ignorespaces IGeneralService service contract}}{21}
-\contentsline {figure}{\numberline {11}{\ignorespaces IGameService duplex service contract}}{22}
-\contentsline {figure}{\numberline {12}{\ignorespaces Configuration of IGameService as service}}{22}
-\contentsline {figure}{\numberline {13}{\ignorespaces Creating proxies for service access}}{23}
-\contentsline {figure}{\numberline {14}{\ignorespaces Queuing the ThreadPool}}{23}
-\contentsline {figure}{\numberline {15}{\ignorespaces Invoking the UI dispatcher}}{24}
-\contentsline {figure}{\numberline {16}{\ignorespaces DataContract for cell impact callbacks}}{24}
-\contentsline {figure}{\numberline {17}{\ignorespaces Using entity model container}}{25}
-\contentsline {figure}{\numberline {18}{\ignorespaces Account entity}}{25}
-\contentsline {figure}{\numberline {19}{\ignorespaces Hashed salt of password}}{26}
-\contentsline {figure}{\numberline {20}{\ignorespaces Client diagram}}{32}
-\contentsline {figure}{\numberline {21}{\ignorespaces Game Data diagram}}{33}
-\contentsline {figure}{\numberline {22}{\ignorespaces Game diagram}}{34}
-\contentsline {figure}{\numberline {23}{\ignorespaces Game Services diagram}}{35}
-\contentsline {figure}{\numberline {24}{\ignorespaces General Services diagram}}{36}
-\contentsline {figure}{\numberline {25}{\ignorespaces Security Token Services diagram}}{37}
-\contentsline {figure}{\numberline {26}{\ignorespaces Server diagram}}{37}
-\contentsline {figure}{\numberline {27}{\ignorespaces Connect to Lobby Sequence Diagram}}{51}
-\contentsline {figure}{\numberline {28}{\ignorespaces Take Turn Sequence Diagram}}{52}
+\contentsline {figure}{\numberline {1}{\ignorespaces Usecase diagram}}{4}
+\contentsline {figure}{\numberline {2}{\ignorespaces Usecase priority}}{5}
+\contentsline {figure}{\numberline {3}{\ignorespaces Usecase description for UC09}}{6}
+\contentsline {figure}{\numberline {4}{\ignorespaces Usecase description for UC06}}{7}
+\contentsline {figure}{\numberline {5}{\ignorespaces Steam chart of users playing}}{11}
+\contentsline {figure}{\numberline {6}{\ignorespaces Deployment Diagram}}{15}
+\contentsline {figure}{\numberline {7}{\ignorespaces Shows the Login and Account creation page}}{17}
+\contentsline {figure}{\numberline {8}{\ignorespaces Shows the Login and Account creation page}}{17}
+\contentsline {figure}{\numberline {9}{\ignorespaces Shows the game GUI}}{18}
+\contentsline {figure}{\numberline {10}{\ignorespaces IGeneralService service contract}}{20}
+\contentsline {figure}{\numberline {11}{\ignorespaces IGameService duplex service contract}}{21}
+\contentsline {figure}{\numberline {12}{\ignorespaces Configuration of IGameService as service}}{21}
+\contentsline {figure}{\numberline {13}{\ignorespaces Creating proxies for service access}}{22}
+\contentsline {figure}{\numberline {14}{\ignorespaces Queuing the ThreadPool}}{22}
+\contentsline {figure}{\numberline {15}{\ignorespaces Invoking the UI dispatcher}}{23}
+\contentsline {figure}{\numberline {16}{\ignorespaces DataContract for cell impact callbacks}}{23}
+\contentsline {figure}{\numberline {17}{\ignorespaces Using entity model container}}{24}
+\contentsline {figure}{\numberline {18}{\ignorespaces Account entity}}{24}
+\contentsline {figure}{\numberline {19}{\ignorespaces Hashed salt of password}}{25}
+\contentsline {figure}{\numberline {20}{\ignorespaces Client diagram}}{31}
+\contentsline {figure}{\numberline {21}{\ignorespaces Game Data diagram}}{32}
+\contentsline {figure}{\numberline {22}{\ignorespaces Game diagram}}{33}
+\contentsline {figure}{\numberline {23}{\ignorespaces Game Services diagram}}{34}
+\contentsline {figure}{\numberline {24}{\ignorespaces General Services diagram}}{35}
+\contentsline {figure}{\numberline {25}{\ignorespaces Security Token Services diagram}}{36}
+\contentsline {figure}{\numberline {26}{\ignorespaces Server diagram}}{36}
+\contentsline {figure}{\numberline {27}{\ignorespaces Connect to Lobby Sequence Diagram}}{52}
+\contentsline {figure}{\numberline {28}{\ignorespaces Take Turn Sequence Diagram}}{53}
